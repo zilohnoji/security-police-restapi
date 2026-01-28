@@ -9,4 +9,8 @@ public abstract class BaseEntity
     [Column("id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; private set; }
+
+    protected BaseEntity()
+    {
+    }
 }
