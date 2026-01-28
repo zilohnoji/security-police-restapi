@@ -1,0 +1,17 @@
+﻿services:
+  db:
+    container_name: security-police-server
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: mg-police-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - '5432:5432'
+    networks:
+      - security-police-network
+
+networks:
+  security-police-network:
+    driver: bridge

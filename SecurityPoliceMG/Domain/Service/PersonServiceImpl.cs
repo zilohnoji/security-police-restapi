@@ -1,0 +1,29 @@
+﻿using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Domain.Entity;
+using SecurityPoliceMG.Domain.Mapper;
+using SecurityPoliceMG.Dto.Person.Request;
+using SecurityPoliceMG.Repository;
+using SecurityPoliceMG.Service;
+
+namespace SecurityPoliceMG.Domain.Service;
+
+public class PersonServiceImpl : IPersonService
+{
+    private readonly IPersonRepository _repository;
+
+    public PersonServiceImpl(IPersonRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public CreatePersonResponseDto Create(CreatePersonRequestDto requestDto)
+    {
+        Person entity = _repository.Create(PersonMapper.ToEntity(requestDto));
+        return PersonMapper.ToDto(entity);
+    }
+
+    public List<CreatePersonResponseDto> FindAll()
+    {
+        return _repository.FindAll().Select(dto => PersonMapper.ToDto(dto)).ToList();
+    }
+}
