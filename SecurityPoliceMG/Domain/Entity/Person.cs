@@ -5,13 +5,8 @@ using SecurityPoliceMG.Application.Builder.Entity;
 namespace SecurityPoliceMG.Domain.Entity;
 
 [Table("person")]
-public sealed class Person
+public sealed class Person : BaseEntity
 {
-    [Key]
-    [Column("id")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; private set; }
-
     [Required]
     [MaxLength(200)]
     [Column("name", TypeName = "varchar(200)")]
@@ -38,7 +33,6 @@ public sealed class Person
 
     private Person()
     {
-        Id = Guid.Empty;
         Name = string.Empty;
         BirthDate = DateTime.Now;
         Gender = string.Empty;
@@ -63,12 +57,6 @@ public sealed class Person
         public Person Build()
         {
             return _entity;
-        }
-
-        public IPersonFluentBuilder Id(Guid id)
-        {
-            _entity.Id = id;
-            return this;
         }
 
         public IPersonFluentBuilder Name(string name)

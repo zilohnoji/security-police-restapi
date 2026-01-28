@@ -9,9 +9,9 @@ namespace SecurityPoliceMG.Domain.Service;
 
 public class PersonServiceImpl : IPersonService
 {
-    private readonly IPersonRepository _repository;
+    private readonly IRepository<Person> _repository;
 
-    public PersonServiceImpl(IPersonRepository repository)
+    public PersonServiceImpl(IRepository<Person> repository)
     {
         _repository = repository;
     }
