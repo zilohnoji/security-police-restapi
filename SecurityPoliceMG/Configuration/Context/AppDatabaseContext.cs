@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SecurityPoliceMG.Domain.Entity;
 
-namespace SecurityPoliceMG.Domain.Entity.Context;
+namespace SecurityPoliceMG.Configuration.Context;
 
 public sealed class AppDatabaseContext : DbContext
 {

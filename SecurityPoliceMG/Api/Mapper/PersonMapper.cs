@@ -1,15 +1,11 @@
 ﻿using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Domain.Entity;
-using SecurityPoliceMG.Dto.Person.Request;
+using SecurityPoliceMG.Api.Dto.Person.Request;
 
-namespace SecurityPoliceMG.Domain.Mapper;
+namespace SecurityPoliceMG.Api.Mapper;
 
-public sealed class PersonMapper
+public static class PersonMapper 
 {
-    private PersonMapper()
-    {
-    }
-
     public static Person ToEntity(CreatePersonRequestDto requestDto)
     {
         return Person.PersonBuilder.Builder()
@@ -35,8 +31,7 @@ public sealed class PersonMapper
 
     private static DateTime PaseDateTime(string date)
     {
-        DateTime parsedDate;
-        if (!TryParse(date, out parsedDate))
+        if (!TryParse(date, out DateTime parsedDate))
         {
             throw new ArgumentException("Data de nascimento inválida!");
         }

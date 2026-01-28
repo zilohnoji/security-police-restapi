@@ -1,4 +1,5 @@
-﻿using SecurityPoliceMG.Application.Builder.Dto.Response;
+﻿using System.Text.Json.Serialization;
+using SecurityPoliceMG.Application.Builder.Dto.Response;
 
 namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
@@ -6,10 +7,11 @@ public sealed class CreatePersonResponseDto
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public DateTime BirthDate { get; private set; }
     public string Gender { get; private set; }
-    public string MotherName { get; private set; }
-    public string DaddyName { get; private set; }
+
+    [JsonPropertyName("birth_date")] public DateTime BirthDate { get; private set; }
+    [JsonPropertyName("mother_name")] public string MotherName { get; private set; }
+    [JsonPropertyName("daddy_name")] public string DaddyName { get; private set; }
 
     private CreatePersonResponseDto()
     {
@@ -23,7 +25,7 @@ public sealed class CreatePersonResponseDto
 
     public sealed class PersonDtoBuilder : ICreatePersonResponseDtoFluentBuilder
     {
-        private CreatePersonResponseDto _dto;
+        private readonly CreatePersonResponseDto _dto;
 
         private PersonDtoBuilder()
         {

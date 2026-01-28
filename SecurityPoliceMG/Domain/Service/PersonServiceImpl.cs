@@ -1,7 +1,7 @@
 ﻿using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Domain.Entity;
-using SecurityPoliceMG.Domain.Mapper;
-using SecurityPoliceMG.Dto.Person.Request;
+using SecurityPoliceMG.Api.Mapper;
+using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Repository;
 using SecurityPoliceMG.Service;
 

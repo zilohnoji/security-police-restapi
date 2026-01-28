@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SecurityPoliceMG.Domain.Entity.Context;
+using SecurityPoliceMG.Configuration.Context;
 
 namespace SecurityPoliceMG.Configuration;
 

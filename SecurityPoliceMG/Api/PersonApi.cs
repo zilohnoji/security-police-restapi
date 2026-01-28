@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SecurityPoliceMG.Api.Dto.Person.Response;
-using SecurityPoliceMG.Dto.Person.Request;
+using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
