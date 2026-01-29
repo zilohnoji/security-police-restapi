@@ -1,4 +1,4 @@
-﻿using SecurityPoliceMG.Domain.Entity;
+﻿using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Application.Builder.Entity;
 

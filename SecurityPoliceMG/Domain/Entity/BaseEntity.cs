@@ -6,7 +6,7 @@ namespace SecurityPoliceMG.Domain.Entity;
 public abstract class BaseEntity
 {
     [Key]
-    [Column("id")]
+    [Column("id", TypeName = "uuid")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; private set; }
 

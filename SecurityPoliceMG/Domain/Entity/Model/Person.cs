@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using SecurityPoliceMG.Application.Builder.Entity;
 
-namespace SecurityPoliceMG.Domain.Entity;
+namespace SecurityPoliceMG.Domain.Entity.Model;
 
 [Table("person")]
 public sealed class Person : BaseEntity

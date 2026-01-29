@@ -15,6 +15,22 @@
           }
         }
       },
+      "Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.AspNetCore.OpenApi/10.0.2": {
         "type": "package",
         "dependencies": {
@@ -694,6 +710,21 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions/10.0.0": {
+      "sha512": "UrFSHmwJJSql9rvcErEuS3k/BH86UbR6AsZ6Rz9AVO4L1LxzQZIpqvGP92it2ur7V25X8iLCuCDHxac3LH1SKw==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.mvc.formatters.xml.extensions/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net10.0/Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions.dll",
+        "lib/net10.0/Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions.xml",
+        "microsoft.aspnetcore.mvc.formatters.xml.extensions.10.0.0.nupkg.sha512",
+        "microsoft.aspnetcore.mvc.formatters.xml.extensions.nuspec"
       ]
     },
     "Microsoft.AspNetCore.OpenApi/10.0.2": {
@@ -2231,6 +2262,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions >= 10.0.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.2",
       "Microsoft.EntityFrameworkCore >= 10.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.2",
@@ -2282,6 +2314,10 @@
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions": {
+            "target": "Package",
+            "version": "[10.0.0, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[10.0.2, )"
