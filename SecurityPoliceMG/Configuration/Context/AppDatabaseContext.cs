@@ -13,5 +13,9 @@ public sealed class AppDatabaseContext : DbContext
     {
     }
 
-    public DbSet<Person> Data { get; set; }
+    public DbSet<Person> Person { get; set; }
+
+    public DbSet<City> City { get; set; }
+
+    public DbSet<Photo> Photo { get; set; }
 }

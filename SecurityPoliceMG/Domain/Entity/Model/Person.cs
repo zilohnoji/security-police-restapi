@@ -31,6 +31,11 @@ public sealed class Person : BaseEntity
     [Column("daddy_name", TypeName = "varchar(200)")]
     public string DaddyName { get; private set; }
 
+    [Column("photo_id", TypeName = "uuid")]
+    public Photo Photo { get; private set; }
+
+    public static readonly Person Empty = new Person();
+
     private Person()
     {
         Name = string.Empty;
@@ -38,6 +43,7 @@ public sealed class Person : BaseEntity
         Gender = string.Empty;
         MotherName = string.Empty;
         DaddyName = string.Empty;
+        Photo = Photo.Empty;
     }
 
     public sealed class PersonBuilder : IPersonFluentBuilder

@@ -7,10 +7,6 @@ namespace SecurityPoliceMG.Domain.Entity.Model;
 public class Photo : BaseEntity
 {
     [Required]
-    [Column("person_id", TypeName = "uuid")]
-    public Guid PersonId { get; private set; }
-
-    [Required]
     [Column("created_at", TypeName = "date")]
     public DateTime CreatedAt { get; private set; }
 
@@ -24,11 +20,15 @@ public class Photo : BaseEntity
     [Column("hash", TypeName = "varchar(50)")]
     public string Hash { get; private set; }
 
+    [Column("person_id", TypeName = "uuid")]
+    public Person Person { get; private set; }
+    
+    public static readonly Photo Empty = new Photo();
     private Photo()
     {
-        PersonId = Guid.Empty;
         CreatedAt = DateTime.Now;
         Bucket = string.Empty;
         Hash = string.Empty;
+        Person = Person.Empty;
     }
 }
