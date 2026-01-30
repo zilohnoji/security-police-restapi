@@ -31,7 +31,6 @@ public sealed class Person : BaseEntity
     [Column("daddy_name", TypeName = "varchar(200)")]
     public string DaddyName { get; private set; }
 
-    [Column("photo_id", TypeName = "uuid")]
     public Photo Photo { get; private set; }
 
     public static readonly Person Empty = new Person();
@@ -55,7 +54,7 @@ public sealed class Person : BaseEntity
             this._entity = new Person();
         }
 
-        public static PersonBuilder Builder()
+        public static IPersonFluentBuilder Builder()
         {
             return new PersonBuilder();
         }

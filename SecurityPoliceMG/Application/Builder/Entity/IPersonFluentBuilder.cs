@@ -4,6 +4,8 @@ namespace SecurityPoliceMG.Application.Builder.Entity;
 
 public interface IPersonFluentBuilder : IBuilder<Person>
 {
+
+    static abstract IPersonFluentBuilder Builder();
     IPersonFluentBuilder Name(string name);
 
     IPersonFluentBuilder BirthDate(DateTime birthDate);

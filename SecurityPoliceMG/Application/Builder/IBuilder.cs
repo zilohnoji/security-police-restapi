@@ -1,6 +1,6 @@
 ﻿namespace SecurityPoliceMG.Application.Builder;
 
-public interface IBuilder<out T>
+public interface IBuilder<out TResult>
 {
-    T Build();
+    TResult Build();
 }

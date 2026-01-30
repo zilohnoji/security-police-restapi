@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
 [Table("city")]
-public class City : BaseEntity
+public sealed class City : BaseEntity
 {
     [Required]
     [Column("name", TypeName = "varchar(200)")]
@@ -13,6 +13,8 @@ public class City : BaseEntity
     [Required]
     [Column("uf", TypeName = "varchar(2)")]
     public string Uf { get; private set; }
+
+    public static readonly City Empty = new City();
 
     private City()
     {

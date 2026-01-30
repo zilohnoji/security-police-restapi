@@ -8,7 +8,7 @@ public abstract class BaseEntity
     [Key]
     [Column("id", TypeName = "uuid")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; private set; }
+    public virtual Guid Id { get; protected set; }
 
     protected BaseEntity()
     {
