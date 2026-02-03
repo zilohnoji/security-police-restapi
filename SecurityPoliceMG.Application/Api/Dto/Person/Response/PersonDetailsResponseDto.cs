@@ -1,0 +1,103 @@
+﻿using System.Text.Json.Serialization;
+using SecurityPoliceMG.Application.Builder.Dto.Response;
+
+namespace SecurityPoliceMG.Api.Dto.Person.Response;
+
+public sealed class PersonDetailsResponseDto
+{
+    [JsonPropertyName("id")] public Guid Id { get; set; }
+
+    [JsonPropertyName("name")] public string Name { get; set; }
+
+    [JsonPropertyName("gender")] public string Gender { get; set; }
+
+    [JsonPropertyName("birth_date")] public DateTime BirthDate { get; set; }
+
+    [JsonPropertyName("mother_name")] public string MotherName { get; set; }
+
+    [JsonPropertyName("daddy_name")] public string DaddyName { get; set; }
+
+    [JsonPropertyName("photo")] public PhotoDetailsResponseDto Photo { get; set; }
+
+    [JsonPropertyName("address")] public AddressDetailsResponseDto Address { get; set; }
+
+    private PersonDetailsResponseDto()
+    {
+        Id = Guid.Empty;
+        Name = string.Empty;
+        Gender = string.Empty;
+        BirthDate = DateTime.Now;
+        MotherName = string.Empty;
+        DaddyName = string.Empty;
+        Photo = PhotoDetailsResponseDto.Empty;
+        Address = AddressDetailsResponseDto.Empty;
+    }
+
+    public sealed class PersonDetailsBuilder : IPersonDetailsResponseDtoFluentBuilder
+    {
+        private readonly PersonDetailsResponseDto _dto;
+
+        private PersonDetailsBuilder()
+        {
+            _dto = new PersonDetailsResponseDto();
+        }
+
+        public static IPersonDetailsResponseDtoFluentBuilder Builder()
+        {
+            return new PersonDetailsBuilder();
+        }
+
+        public PersonDetailsResponseDto Build()
+        {
+            return _dto;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder Id(Guid id)
+        {
+            _dto.Id = id;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder Name(string name)
+        {
+            _dto.Name = name;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder BirthDate(DateTime birthDate)
+        {
+            _dto.BirthDate = birthDate;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder Gender(string gender)
+        {
+            _dto.Gender = gender;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder MotherName(string motherName)
+        {
+            _dto.MotherName = motherName;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder DaddyName(string daddyName)
+        {
+            _dto.DaddyName = daddyName;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder Photo(PhotoDetailsResponseDto photo)
+        {
+            _dto.Photo = photo;
+            return this;
+        }
+
+        public IPersonDetailsResponseDtoFluentBuilder Address(AddressDetailsResponseDto address)
+        {
+            _dto.Address = address;
+            return this;
+        }
+    }
+}

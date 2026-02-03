@@ -1,0 +1,24 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Person.Request;
+using SecurityPoliceMG.Service;
+
+namespace SecurityPoliceMG.Api;
+
+[ApiController]
+[Route("api/persons")]
+public sealed class PersonApi(IPersonService service) : ControllerBase
+{
+    [HttpPost]
+    public ActionResult<PersonDetailsResponseDto> Create([FromBody] CreatePersonRequestDto requestDto)
+    {
+        PersonDetailsResponseDto response = service.Create(requestDto);
+        return Created(response.Id.ToString(), response);
+    }
+
+    [HttpGet]
+    public ActionResult<List<PersonDetailsResponseDto>> FindAll()
+    {
+        return Ok(service.FindAll());
+    }
+}
