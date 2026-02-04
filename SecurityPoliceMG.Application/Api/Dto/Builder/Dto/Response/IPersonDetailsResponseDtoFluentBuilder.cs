@@ -5,7 +5,7 @@ namespace SecurityPoliceMG.Application.Builder.Dto.Response;
 public interface IPersonDetailsResponseDtoFluentBuilder : IBuilder<PersonDetailsResponseDto>
 {
     static abstract IPersonDetailsResponseDtoFluentBuilder Builder();
-    
+
     IPersonDetailsResponseDtoFluentBuilder Id(Guid id);
 
     IPersonDetailsResponseDtoFluentBuilder Name(string name);
@@ -17,8 +17,10 @@ public interface IPersonDetailsResponseDtoFluentBuilder : IBuilder<PersonDetails
     IPersonDetailsResponseDtoFluentBuilder MotherName(string motherName);
 
     IPersonDetailsResponseDtoFluentBuilder DaddyName(string daddyName);
-    
+
     IPersonDetailsResponseDtoFluentBuilder Photo(PhotoDetailsResponseDto photo);
-    
+
     IPersonDetailsResponseDtoFluentBuilder Address(AddressDetailsResponseDto address);
+    
+    IPersonDetailsResponseDtoFluentBuilder User(UserDetailsResponseDto user);
 }

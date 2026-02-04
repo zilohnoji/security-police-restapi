@@ -4,7 +4,7 @@ namespace SecurityPoliceMG.Api.Dto.Person.Request;
 
 public record CreateAddressRequestDto
 {
-    [JsonPropertyName("patio_type")] public string PatioType { get; set; } = string.Empty;
+    [JsonPropertyName("street_type")] public string PatioType { get; set; } = string.Empty;
 
     [JsonPropertyName("street")] public string Street { get; set; } = string.Empty;
 

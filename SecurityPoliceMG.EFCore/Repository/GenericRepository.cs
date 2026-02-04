@@ -6,29 +6,29 @@ namespace SecurityPoliceMG.EFCore.Repository;
 
 public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
-    private readonly AppDbContext _context;
-    private readonly DbSet<T> _dataSet;
+    protected readonly AppDbContext Context;
+    protected readonly DbSet<T> DataSet;
 
     public GenericRepository(AppDbContext context)
     {
-        _context = context;
-        _dataSet = context.Set<T>();
+        Context = context;
+        DataSet = context.Set<T>();
     }
 
     public T Create(T entity)
     {
-        entity = _dataSet.Add(entity).Entity;
-        _context.SaveChanges();
+        entity = DataSet.Add(entity).Entity;
+        Context.SaveChanges();
         return entity;
     }
 
     public List<T> FindAll()
     {
-        return _dataSet.ToList();
+        return DataSet.ToList();
     }
 
     public T Update(T entity)
     {
-        return _dataSet.Update(entity).Entity;
+        return DataSet.Update(entity).Entity;
     }
 }

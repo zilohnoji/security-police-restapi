@@ -28,15 +28,14 @@ public sealed class Photo : BaseEntity
     {
     }
 
-    private Photo(string bucket, string hash, Person person)
+    private Photo(string bucket, string hash)
     {
         Bucket = bucket;
         Hash = hash;
-        Person = person;
     }
 
-    public static Photo Of(string bucket, string hash, Person person)
+    public static Photo Of(string bucket, string hash)
     {
-        return new Photo(bucket, hash, person);
+        return new Photo(bucket, hash);
     }
 }

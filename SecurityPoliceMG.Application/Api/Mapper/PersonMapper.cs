@@ -6,19 +6,20 @@ namespace SecurityPoliceMG.Api.Mapper;
 
 public static class PersonMapper
 {
-    public static Person ToEntity(CreatePersonRequestDto requestDto)
+    public static Person ToEntity(CreatePersonRequestDto requestDto, User entity)
     {
         return Person.PersonBuilder.Builder()
-            .Name(requestDto.Name)
-            .Gender(requestDto.Gender)
-            .BirthDate(PaseDateTime(requestDto.BirthDate))
-            .DaddyName(requestDto.DaddyName)
-            .MotherName(requestDto.MotherName)
+            .Name(requestDto.Profile.Name)
+            .Gender(requestDto.Profile.Gender)
+            .BirthDate(PaseDateTime(requestDto.Profile.BirthDate))
+            .DaddyName(requestDto.Profile.DaddyName)
+            .MotherName(requestDto.Profile.MotherName)
             .Address(AddressMapper.ToEntity(requestDto.Address))
+            .User(entity)
             .Build();
     }
 
-    public static PersonDetailsResponseDto ToDto(Person entity, Address address, Photo photo)
+    public static PersonDetailsResponseDto ToDto(Person entity)
     {
         return PersonDetailsResponseDto.PersonDetailsBuilder.Builder()
             .Id(entity.Id)
@@ -27,8 +28,9 @@ public static class PersonMapper
             .BirthDate(entity.BirthDate)
             .DaddyName(entity.DaddyName)
             .MotherName(entity.MotherName)
-            .Photo(PhotoMapper.ToDto(photo))
-            .Address(AddressMapper.ToDto(address))
+            .Photo(PhotoMapper.ToDto(entity.Photo))
+            .Address(AddressMapper.ToDto(entity.Address))
+            .User(new UserDetailsResponseDto(entity.User.Email, entity.User.Password))
             .Build();
     }
 

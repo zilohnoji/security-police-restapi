@@ -1,10 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SecurityPoliceMG.Api.Dto.Person.Response;
+﻿namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
 public sealed class PhotoDetailsResponseDto
 {
-    [JsonPropertyName("created_at")] public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public string Bucket { get; set; }
 
@@ -14,7 +12,8 @@ public sealed class PhotoDetailsResponseDto
 
     private PhotoDetailsResponseDto()
     {
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        ;
         Bucket = string.Empty;
         Hash = string.Empty;
     }
@@ -23,7 +22,8 @@ public sealed class PhotoDetailsResponseDto
     {
         Bucket = bucket;
         Hash = hash;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+        ;
     }
 
     public static PhotoDetailsResponseDto Of(string bucket, string hash)

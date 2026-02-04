@@ -1,11 +1,10 @@
-﻿using System.Text.Json.Serialization;
-using SecurityPoliceMG.Application.Builder.Dto.Response;
+﻿using SecurityPoliceMG.Application.Builder.Dto.Response;
 
 namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
 public sealed class AddressDetailsResponseDto
 {
-    [JsonPropertyName("patio_type")] public string PatioType { get; set; }
+    public string PatioType { get; set; }
 
     public string Street { get; set; }
 
@@ -33,7 +32,7 @@ public sealed class AddressDetailsResponseDto
         {
             _dto = new AddressDetailsResponseDto();
         }
-        
+
         public AddressDetailsResponseDto Build()
         {
             return _dto;

@@ -10,19 +10,28 @@ public class PersonServiceImpl(
     IRepository<Person> personRepository,
     IRepository<Address> addressRepository,
     IRepository<Photo> photoRepository,
-    IRepository<City> cityRepository) : IPersonService
+    IRepository<City> cityRepository,
+    IRepository<User> userRepository) : IPersonService
 {
     public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto)
     {
-        City cityEntity = cityRepository.Create(CityMapper.ToEntity(requestDto.Address.City));
+        City cityEntity = CityMapper.ToEntity(requestDto.Address.City);
 
-        Address addressEntity = addressRepository.Create(AddressMapper.ToEntity(requestDto.Address, cityEntity));
+        Address addressEntity = AddressMapper.ToEntity(requestDto.Address, cityEntity);
 
-        Person personEntity = personRepository.Create(PersonMapper.ToEntity(requestDto));
+        Photo photoEntity = PhotoMapper.ToEntity(requestDto.Profile.Photo);
 
-        Photo photoEntity = photoRepository.Create(PhotoMapper.ToEntity(requestDto.Photo, personEntity));
+        User userEntity = User.Of(requestDto.User.Email, requestDto.User.Password);
 
-        return PersonMapper.ToDto(personEntity, addressEntity, photoEntity);
+        Person personEntity = PersonMapper.ToEntity(requestDto, userEntity);
+
+        personEntity.DefinePhoto(photoEntity);
+        personEntity.DefineUser(userEntity);
+        personEntity.DefineAddress(addressEntity);
+
+        personRepository.Create(personEntity);
+
+        return PersonMapper.ToDto(personEntity);
     }
 
     public List<PersonDetailsResponseDto> FindAll()
@@ -30,6 +39,7 @@ public class PersonServiceImpl(
         List<Photo> photoDto = photoRepository.FindAll().ToList();
         List<Address> addressDto = addressRepository.FindAll().ToList();
         List<City> cityDto = cityRepository.FindAll().ToList();
+        List<User> userDto = userRepository.FindAll().ToList();
 
         List<PersonDetailsResponseDto> personDtos =
             personRepository.FindAll().Select(entity =>
@@ -37,7 +47,15 @@ public class PersonServiceImpl(
                 Photo photoEntity = photoDto.Find(t => t.PersonId.Equals(entity.Id)) ?? Photo.Empty;
                 Address addressEntity = addressDto.Find(t => t.Id.Equals(entity.AddressId)) ?? Address.Empty;
                 City cityEntity = cityDto.Find(t => t.Id.Equals(entity.Address.CityId)) ?? City.Empty;
-                return PersonMapper.ToDto(entity, addressEntity, photoEntity);
+                User userEntity = userDto.Find(t => t.Id.Equals(entity.UserId)) ?? User.Empty;
+
+                addressEntity.DefineCity(cityEntity);
+
+                entity.DefinePhoto(photoEntity);
+                entity.DefineAddress(addressEntity);
+                entity.DefineUser(userEntity);
+
+                return PersonMapper.ToDto(entity);
             }).ToList();
 
         return personDtos;

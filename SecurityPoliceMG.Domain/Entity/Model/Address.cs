@@ -83,4 +83,10 @@ public sealed class Address : BaseEntity
         }
     }
 
+    public void DefineCity(City city)
+    {
+        City = city;
+        CityId = city.Id;
+    }
+
 }

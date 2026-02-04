@@ -12,7 +12,9 @@ public sealed class Person : BaseEntity
     [Column("name")]
     public string Name { get; private set; } = string.Empty;
 
-    [Required] [Column("birth_date")] public DateTime BirthDate { get; private set; } = DateTime.Now;
+    [Required]
+    [Column("birth_date")]
+    public DateTime BirthDate { get; private set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
     [Required]
     [MaxLength(9)]
@@ -32,6 +34,12 @@ public sealed class Person : BaseEntity
     [Required] [Column("address_id")] public Guid AddressId { get; private set; } = Guid.Empty;
 
     [Required] public Address Address { get; private set; } = Address.Empty;
+
+    [Required] [Column("user_id")] public Guid UserId { get; private set; } = Guid.Empty;
+
+    public Photo Photo { get; private set; } = Photo.Empty;
+
+    public User User { get; private set; } = User.Empty;
 
     public static readonly Person Empty = new Person();
 
@@ -90,5 +98,27 @@ public sealed class Person : BaseEntity
             _entity.Address = address;
             return this;
         }
+
+        public IPersonBuilder User(User user)
+        {
+            _entity.UserId = user.Id;
+            _entity.User = user;
+            return this;
+        }
+    }
+
+    public void DefinePhoto(Photo photo)
+    {
+        Photo = photo;
+    }
+
+    public void DefineUser(User user)
+    {
+        User = user;
+    }
+
+    public void DefineAddress(Address address)
+    {
+        Address = address;
     }
 }

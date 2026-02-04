@@ -10,8 +10,10 @@ public class AppDbContext : DbContext
     public DbSet<Photo> Photos { get; set; }
 
     public DbSet<City> Cities { get; set; }
-    
+
     public DbSet<Address> Addresses { get; set; }
+    
+    public DbSet<User> Users { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
