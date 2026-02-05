@@ -1,16 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using SecurityPoliceMG.Application.Api.Dto.Builder.Dto.Response;
+﻿using SecurityPoliceMG.Application.Api.Dto.Builder.Dto.Response;
 
 namespace SecurityPoliceMG.Api.Dto.Scale.Response;
 
 public sealed class ScaleDetailsResponseDto
 {
-    [JsonPropertyName("scale_id")] public Guid ScaleId { get; set; }
-    [JsonPropertyName("is_completed")] public bool IsCompleted { get; set; }
-    [JsonPropertyName("created_at")] public DateTime CreatedAt { get; set; }
-    [JsonPropertyName("starts_at")] public DateTime StartsAt { get; set; }
-    [JsonPropertyName("finished_at")] public DateTime FinishedAt { get; set; }
-    [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
+    public Guid ScaleId { get; set; }
+    public bool IsCompleted { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime StartsAt { get; set; }
+    public DateTime FinishedAt { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     public static readonly ScaleDetailsResponseDto Empty = new ScaleDetailsResponseDto();
 

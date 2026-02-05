@@ -1,12 +1,10 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SecurityPoliceMG.Api.Dto.Person.Response;
+﻿namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
 public sealed class CityDetailsResponseDto
 {
-    [JsonPropertyName("name")] public string Name { get; set; }
+    public string Name { get; set; }
 
-    [JsonPropertyName("uf")] public string Uf { get; set; }
+    public string Uf { get; set; }
 
     public static readonly CityDetailsResponseDto Empty = new CityDetailsResponseDto();
 

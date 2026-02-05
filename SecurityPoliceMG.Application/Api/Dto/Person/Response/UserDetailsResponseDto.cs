@@ -1,12 +1,10 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SecurityPoliceMG.Api.Dto.Person.Response;
+﻿namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
 public record UserDetailsResponseDto
 {
-    [JsonPropertyName("email")] public string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
-    [JsonPropertyName("password")] public string Password { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 
     public static readonly UserDetailsResponseDto Empty = new UserDetailsResponseDto();
 
