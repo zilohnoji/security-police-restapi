@@ -1,17 +1,14 @@
 ﻿using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Mapper;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository;
 
 namespace SecurityPoliceMG.Service.Impl;
 
-public class PersonServiceImpl(
-    IRepository<Person> personRepository,
-    IRepository<Address> addressRepository,
-    IRepository<Photo> photoRepository,
-    IRepository<City> cityRepository,
-    IRepository<User> userRepository) : IPersonService
+public class PersonServiceImpl(IRepository<Person> personRepository, IRepository<Scale> scaleRepository)
+    : IPersonService
 {
     public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto)
     {
@@ -36,28 +33,21 @@ public class PersonServiceImpl(
 
     public List<PersonDetailsResponseDto> FindAll()
     {
-        List<Photo> photoDto = photoRepository.FindAll().ToList();
-        List<Address> addressDto = addressRepository.FindAll().ToList();
-        List<City> cityDto = cityRepository.FindAll().ToList();
-        List<User> userDto = userRepository.FindAll().ToList();
+        return personRepository.FindAll().Select(PersonMapper.ToDto).ToList();
+    }
 
-        List<PersonDetailsResponseDto> personDtos =
-            personRepository.FindAll().Select(entity =>
-            {
-                Photo photoEntity = photoDto.Find(t => t.PersonId.Equals(entity.Id)) ?? Photo.Empty;
-                Address addressEntity = addressDto.Find(t => t.Id.Equals(entity.AddressId)) ?? Address.Empty;
-                City cityEntity = cityDto.Find(t => t.Id.Equals(entity.Address.CityId)) ?? City.Empty;
-                User userEntity = userDto.Find(t => t.Id.Equals(entity.UserId)) ?? User.Empty;
+    public PersonDetailsResponseDto CreateScale(CreateScaleRequestDto requestDto)
+    {
+        Person personEntity = personRepository.FindById(Guid.Parse(requestDto.PersonId));
+        Scale scaleEntity = ScaleMapper.ToEntity(requestDto, personEntity);
 
-                addressEntity.DefineCity(cityEntity);
+        scaleEntity.PersonScales.Add(PersonScale.Of(scaleEntity, personEntity, 0));
 
-                entity.DefinePhoto(photoEntity);
-                entity.DefineAddress(addressEntity);
-                entity.DefineUser(userEntity);
+        scaleRepository.Create(scaleEntity);
 
-                return PersonMapper.ToDto(entity);
-            }).ToList();
+        PersonDetailsResponseDto responseDto = PersonMapper.ToDto(personEntity);
+        responseDto.Scales.Add(ScaleMapper.ToDto(scaleEntity));
 
-        return personDtos;
+        return responseDto;
     }
 }

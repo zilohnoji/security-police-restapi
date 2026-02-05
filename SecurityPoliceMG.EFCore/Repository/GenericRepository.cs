@@ -6,29 +6,35 @@ namespace SecurityPoliceMG.EFCore.Repository;
 
 public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
-    protected readonly AppDbContext Context;
+    private readonly AppDbContext _context;
     protected readonly DbSet<T> DataSet;
 
     public GenericRepository(AppDbContext context)
     {
-        Context = context;
+        _context = context;
         DataSet = context.Set<T>();
     }
 
-    public T Create(T entity)
+    public virtual T Create(T entity)
     {
         entity = DataSet.Add(entity).Entity;
-        Context.SaveChanges();
+        _context.SaveChanges();
         return entity;
     }
 
-    public List<T> FindAll()
+    public virtual List<T> FindAll()
     {
         return DataSet.ToList();
     }
 
-    public T Update(T entity)
+    public virtual T Update(T entity)
     {
         return DataSet.Update(entity).Entity;
+    }
+
+    public virtual T FindById(Guid id)
+    {
+        return DataSet.FirstOrDefault(t => t.Id.Equals(id)) ??
+               throw new ArgumentException($"Not found entity with ID {id}");
     }
 }

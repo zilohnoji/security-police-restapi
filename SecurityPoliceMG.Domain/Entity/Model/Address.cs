@@ -1,32 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
+﻿using SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
-[Table("tb_address")]
 public sealed class Address : BaseEntity
 {
-    [Required]
-    [MaxLength(50)]
-    [Column("patio_type")]
     public string PatioType { get; private set; } = string.Empty;
 
-    [Required]
-    [MaxLength(200)]
-    [Column("street")]
     public string Street { get; private set; } = string.Empty;
 
-    [Required] [Column("number")] public int Number { get; private set; }
+    public int Number { get; private set; }
 
-    [Required]
-    [MaxLength(100)]
-    [Column("neighborhood")]
     public string Neighborhood { get; private set; } = string.Empty;
 
-    [Required] [Column("city_id")] public Guid CityId { get; private set; } = Guid.Empty;
+    public Guid CityId { get; private set; } = Guid.Empty;
 
-    [Required] public City City { get; private set; } = City.Empty;
+    public City City { get; private set; } = City.Empty;
 
     public List<Person> Persons { get; private set; } = [];
 
@@ -88,5 +76,4 @@ public sealed class Address : BaseEntity
         City = city;
         CityId = city.Id;
     }
-
 }

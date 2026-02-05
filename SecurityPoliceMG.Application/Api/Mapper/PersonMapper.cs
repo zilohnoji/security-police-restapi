@@ -11,7 +11,7 @@ public static class PersonMapper
         return Person.PersonBuilder.Builder()
             .Name(requestDto.Profile.Name)
             .Gender(requestDto.Profile.Gender)
-            .BirthDate(PaseDateTime(requestDto.Profile.BirthDate))
+            .BirthDate(PaseDate(requestDto.Profile.BirthDate))
             .DaddyName(requestDto.Profile.DaddyName)
             .MotherName(requestDto.Profile.MotherName)
             .Address(AddressMapper.ToEntity(requestDto.Address))
@@ -30,29 +30,30 @@ public static class PersonMapper
             .MotherName(entity.MotherName)
             .Photo(PhotoMapper.ToDto(entity.Photo))
             .Address(AddressMapper.ToDto(entity.Address))
-            .User(new UserDetailsResponseDto(entity.User.Email, entity.User.Password))
+            .Scales(entity.PersonScales.Select(s => ScaleMapper.ToDto(s.Scale)).ToList())
+            .User(UserDetailsResponseDto.Of(entity.User.Email, entity.User.Password))
             .Build();
     }
 
-    private static DateTime PaseDateTime(string date)
+    private static DateOnly PaseDate(string date)
     {
-        if (!TryParse(date, out DateTime parsedDate))
+        if (!TryParse(date, out DateOnly parsedDate))
         {
             throw new ArgumentException("Data de nascimento inválida!");
         }
 
-        return DateTime.Parse(parsedDate.ToString("MM/dd/yyyy"));
+        return DateOnly.Parse(parsedDate.ToString("MM/dd/yyyy"));
     }
 
-    private static bool TryParse(string date, out DateTime output)
+    private static bool TryParse(string date, out DateOnly output)
     {
         if (string.IsNullOrEmpty(date))
         {
-            output = DateTime.Now;
+            output = new DateOnly();
             return false;
         }
 
-        DateTime.TryParse(date, out output);
+        DateOnly.TryParse(date, out output);
         return true;
     }
 }

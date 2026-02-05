@@ -1,4 +1,5 @@
-﻿using SecurityPoliceMG.Application.Builder.Dto.Response;
+﻿using SecurityPoliceMG.Api.Dto.Scale.Response;
+using SecurityPoliceMG.Application.Builder.Dto.Response;
 
 namespace SecurityPoliceMG.Api.Dto.Person.Response;
 
@@ -10,18 +11,12 @@ public sealed class PersonDetailsResponseDto
 
     public ProfileResponse Profile { get; set; } = new ProfileResponse();
 
-    public AddressDetailsResponseDto Address { get; set; }
+    public AddressDetailsResponseDto Address { get; set; } = AddressDetailsResponseDto.Empty;
+
+    public ICollection<ScaleDetailsResponseDto> Scales { get; set; } = new List<ScaleDetailsResponseDto>();
 
     private PersonDetailsResponseDto()
     {
-        Id = Guid.Empty;
-        Profile.Name = string.Empty;
-        Profile.Gender = string.Empty;
-        Profile.BirthDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        Profile.MotherName = string.Empty;
-        Profile.DaddyName = string.Empty;
-        Profile.Photo = PhotoDetailsResponseDto.Empty;
-        Address = AddressDetailsResponseDto.Empty;
     }
 
     public sealed class PersonDetailsBuilder : IPersonDetailsResponseDtoFluentBuilder
@@ -55,7 +50,7 @@ public sealed class PersonDetailsResponseDto
             return this;
         }
 
-        public IPersonDetailsResponseDtoFluentBuilder BirthDate(DateTime birthDate)
+        public IPersonDetailsResponseDtoFluentBuilder BirthDate(DateOnly birthDate)
         {
             _dto.Profile.BirthDate = birthDate;
             return this;
@@ -96,6 +91,12 @@ public sealed class PersonDetailsResponseDto
             _dto.User = user;
             return this;
         }
+
+        public IPersonDetailsResponseDtoFluentBuilder Scales(List<ScaleDetailsResponseDto> scale)
+        {
+            _dto.Scales = scale;
+            return this;
+        }
     }
 }
 
@@ -103,7 +104,7 @@ public sealed class ProfileResponse
 {
     public string Name { get; set; } = string.Empty;
 
-    public DateTime BirthDate { get; set; } = DateTime.Now;
+    public DateOnly BirthDate { get; set; }
 
     public string Gender { get; set; } = string.Empty;
 

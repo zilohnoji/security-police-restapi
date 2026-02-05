@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Person.Request;
+using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
@@ -20,5 +21,12 @@ public sealed class PersonApi(IPersonService service) : ControllerBase
     public ActionResult<List<PersonDetailsResponseDto>> FindAll()
     {
         return Ok(service.FindAll());
+    }
+
+    [HttpPost("scale")]
+    public ActionResult<PersonDetailsResponseDto> CreateScale([FromBody] CreateScaleRequestDto requestDto)
+    {
+        PersonDetailsResponseDto response = service.CreateScale(requestDto);
+        return Created(response.Id.ToString(), response);
     }
 }

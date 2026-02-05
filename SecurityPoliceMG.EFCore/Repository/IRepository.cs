@@ -7,4 +7,6 @@ public interface IRepository<T>
     List<T> FindAll();
 
     T Update(T entity);
+
+    T FindById(Guid id);
 }

@@ -8,7 +8,7 @@ public interface IPersonBuilder : IBuilder<Person>
 
     IPersonBuilder Name(string name);
 
-    IPersonBuilder BirthDate(DateTime birthDate);
+    IPersonBuilder BirthDate(DateOnly birthDate);
 
     IPersonBuilder Gender(string gender);
 

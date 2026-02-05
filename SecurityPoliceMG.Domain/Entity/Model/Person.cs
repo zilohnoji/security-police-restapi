@@ -1,45 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
+﻿using SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
-[Table("tb_person")]
 public sealed class Person : BaseEntity
 {
-    [Required]
-    [MaxLength(200)]
-    [Column("name")]
     public string Name { get; private set; } = string.Empty;
 
-    [Required]
-    [Column("birth_date")]
-    public DateTime BirthDate { get; private set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+    public DateOnly BirthDate { get; private set; }
 
-    [Required]
-    [MaxLength(9)]
-    [Column("gender")]
     public string Gender { get; private set; } = string.Empty;
 
-    [Required]
-    [MaxLength(200)]
-    [Column("mother_name")]
     public string MotherName { get; private set; } = string.Empty;
 
-    [Required]
-    [MaxLength(200)]
-    [Column("daddy_name")]
     public string DaddyName { get; private set; } = string.Empty;
 
-    [Required] [Column("address_id")] public Guid AddressId { get; private set; } = Guid.Empty;
+    public Guid AddressId { get; private set; } = Guid.Empty;
 
-    [Required] public Address Address { get; private set; } = Address.Empty;
-
-    [Required] [Column("user_id")] public Guid UserId { get; private set; } = Guid.Empty;
+    public Address Address { get; private set; } = Address.Empty;
 
     public Photo Photo { get; private set; } = Photo.Empty;
 
+    public Guid UserId { get; private set; } = Guid.Empty;
+
     public User User { get; private set; } = User.Empty;
+
+    public ICollection<PersonScale> PersonScales { get; private set; } = new List<PersonScale>();
 
     public static readonly Person Empty = new Person();
 
@@ -68,9 +53,9 @@ public sealed class Person : BaseEntity
             return this;
         }
 
-        public IPersonBuilder BirthDate(DateTime birthDate)
+        public IPersonBuilder BirthDate(DateOnly birthDate)
         {
-            _entity.BirthDate = DateTime.SpecifyKind(birthDate, DateTimeKind.Utc);
+            _entity.BirthDate = birthDate;
             return this;
         }
 

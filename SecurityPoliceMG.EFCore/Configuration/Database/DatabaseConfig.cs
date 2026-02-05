@@ -19,7 +19,13 @@ public static class DatabaseConfig
     {
         var connectionString = GetConnectionString("PostgresSQLConnection:Url", configuration);
 
-        services.AddDbContext<AppDbContext>(options => { options.UseNpgsql(connectionString); });
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseNpgsql(connectionString)
+                .LogTo(Console.WriteLine,
+                    new[] { DbLoggerCategory.Database.Command.Name },
+                    Microsoft.Extensions.Logging.LogLevel.Information);
+        });
 
         return services;
     }

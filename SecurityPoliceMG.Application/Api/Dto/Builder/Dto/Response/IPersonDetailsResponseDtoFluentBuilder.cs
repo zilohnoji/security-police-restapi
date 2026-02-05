@@ -1,4 +1,5 @@
 ﻿using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Scale.Response;
 
 namespace SecurityPoliceMG.Application.Builder.Dto.Response;
 
@@ -10,7 +11,7 @@ public interface IPersonDetailsResponseDtoFluentBuilder : IBuilder<PersonDetails
 
     IPersonDetailsResponseDtoFluentBuilder Name(string name);
 
-    IPersonDetailsResponseDtoFluentBuilder BirthDate(DateTime birthDate);
+    IPersonDetailsResponseDtoFluentBuilder BirthDate(DateOnly birthDate);
 
     IPersonDetailsResponseDtoFluentBuilder Gender(string gender);
 
@@ -21,6 +22,8 @@ public interface IPersonDetailsResponseDtoFluentBuilder : IBuilder<PersonDetails
     IPersonDetailsResponseDtoFluentBuilder Photo(PhotoDetailsResponseDto photo);
 
     IPersonDetailsResponseDtoFluentBuilder Address(AddressDetailsResponseDto address);
-    
+
     IPersonDetailsResponseDtoFluentBuilder User(UserDetailsResponseDto user);
+    
+    IPersonDetailsResponseDtoFluentBuilder Scales(List<ScaleDetailsResponseDto> scale);
 }
