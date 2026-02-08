@@ -11,18 +11,29 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers().ConfigureContentNegotiation();
+
 builder.Services.ConfigureDatabase(builder.Configuration);
 
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.ConfigureOpenApi();
+
+builder.Services.ConfigureSwagger();
+
+builder.Services.ConfigureCors(builder.Configuration);
+
 builder.Services.AddScoped<IPersonService, PersonServiceImpl>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddScoped<IDocumentService, DocumentServiceImpl>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
 
-// builder.Services.AddScoped<PersonRepositoryImpl>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -36,6 +47,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseRouting();
+
+app.UseCorsConfig();
+
 app.MapControllers();
+
+app.UseSwaggerSpecification();
 
 app.Run();

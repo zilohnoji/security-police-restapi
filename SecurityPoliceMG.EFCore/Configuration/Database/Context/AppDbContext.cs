@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecurityPoliceMG.Domain.Entity.Model;
+using File = System.IO.File;
 
 namespace SecurityPoliceMG.EFCore.Configuration.Database.Context;
 
@@ -57,7 +58,7 @@ public class AppDbContext : DbContext
             .HasColumnName("father_name")
             .HasMaxLength(200)
             .IsRequired();
-        
+
         modelBuilder.Entity<Person>()
             .Property(p => p.AddressId)
             .HasColumnName("address_id")
@@ -243,13 +244,13 @@ public class AppDbContext : DbContext
             .HasColumnName("scale_id")
             .HasColumnType("uuid")
             .IsRequired();
-        
+
         modelBuilder.Entity<PersonScale>()
             .Property(p => p.PersonId)
             .HasColumnName("person_id")
             .HasColumnType("uuid")
             .IsRequired();
-        
+
         modelBuilder.Entity<PersonScale>()
             .Property(p => p.HoursWorked)
             .HasColumnName("hours_worked")
@@ -262,12 +263,35 @@ public class AppDbContext : DbContext
             .HasForeignKey(s => s.PersonId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        
+
         modelBuilder.Entity<PersonScale>()
             .HasOne(s => s.Scale)
             .WithMany(p => p.PersonScales)
             .HasForeignKey(s => s.ScaleId)
             .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+
+        #endregion
+
+        #region Document
+
+        modelBuilder.Entity<Document>().ToTable("tb_document");
+
+        modelBuilder.Entity<Document>()
+            .Property(p => p.Url)
+            .IsRequired();
+        
+        modelBuilder.Entity<Document>()
+            .Property(p => p.DocType)
+            .HasColumnName("document_type")
+            .IsRequired();
+
+        modelBuilder.Entity<Document>()
+            .Property(p => p.Name)
+            .IsRequired();
+        
+        modelBuilder.Entity<Document>()
+            .Property(p => p.Size)
             .IsRequired();
 
         #endregion

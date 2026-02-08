@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Scale.Request;
@@ -8,9 +9,11 @@ namespace SecurityPoliceMG.Api;
 
 [ApiController]
 [Route("api/persons")]
+[EnableCors("LocalPolicy")]
 public sealed class PersonApi(IPersonService service) : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType<PersonDetailsResponseDto>(201)]
     public ActionResult<PersonDetailsResponseDto> Create([FromBody] CreatePersonRequestDto requestDto)
     {
         PersonDetailsResponseDto response = service.Create(requestDto);
@@ -18,12 +21,14 @@ public sealed class PersonApi(IPersonService service) : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType<PersonDetailsResponseDto[]>(200)]
     public ActionResult<List<PersonDetailsResponseDto>> FindAll()
     {
         return Ok(service.FindAll());
     }
 
     [HttpPost("scale")]
+    [ProducesResponseType<PersonDetailsResponseDto>(201)]
     public ActionResult<PersonDetailsResponseDto> CreateScale([FromBody] CreateScaleRequestDto requestDto)
     {
         PersonDetailsResponseDto response = service.CreateScale(requestDto);

@@ -126,3 +126,6 @@ C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\D
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\SecurityPoliceMG.EFCore.dll
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\SecurityPoliceMG.Domain.pdb
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\SecurityPoliceMG.EFCore.pdb
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

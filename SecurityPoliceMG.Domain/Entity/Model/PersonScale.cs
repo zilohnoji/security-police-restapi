@@ -1,6 +1,6 @@
 ﻿namespace SecurityPoliceMG.Domain.Entity.Model;
 
-public class PersonScale : BaseEntity
+public sealed class PersonScale : BaseEntity
 {
     public Guid ScaleId { get; private set; } = Guid.Empty;
 
