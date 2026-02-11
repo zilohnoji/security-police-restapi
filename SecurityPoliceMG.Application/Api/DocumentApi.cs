@@ -17,4 +17,12 @@ public sealed class DocumentApi(IDocumentService service) : ControllerBase
         var fileDetail = await service.SaveFile(requestDto);
         return Ok(fileDetail);
     }
+
+    [HttpGet("download/{fileName}")]
+    public IActionResult DownloadDocument([FromRoute] string fileName)
+    {
+        byte[] response = service.GetFile(fileName);
+        string contentType = "application/octet-stream";
+        return File(response, contentType, fileName);
+    }
 }

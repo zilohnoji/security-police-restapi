@@ -129,3 +129,14 @@ C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\D
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Evolve.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\SecurityPoliceMG.Authentication.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\SecurityPoliceMG.Authentication.pdb

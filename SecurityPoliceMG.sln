@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityPoliceMG.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityPoliceMG.EFCore", "SecurityPoliceMG.EFCore\SecurityPoliceMG.EFCore.csproj", "{3627EB57-850D-4164-BE87-EEEFF2BF1293}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityPoliceMG.Authentication", "SecurityPoliceMG.Authentication\SecurityPoliceMG.Authentication.csproj", "{3C811838-3A2E-4E8D-A0B5-28D028AEB927}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 		{3627EB57-850D-4164-BE87-EEEFF2BF1293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3627EB57-850D-4164-BE87-EEEFF2BF1293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3627EB57-850D-4164-BE87-EEEFF2BF1293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C811838-3A2E-4E8D-A0B5-28D028AEB927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C811838-3A2E-4E8D-A0B5-28D028AEB927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C811838-3A2E-4E8D-A0B5-28D028AEB927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C811838-3A2E-4E8D-A0B5-28D028AEB927}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

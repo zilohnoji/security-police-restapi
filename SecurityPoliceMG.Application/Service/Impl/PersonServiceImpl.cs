@@ -18,7 +18,7 @@ public class PersonServiceImpl(IRepository<Person> personRepository, IRepository
 
         Photo photoEntity = PhotoMapper.ToEntity(requestDto.Profile.Photo);
 
-        User userEntity = User.Of(requestDto.User.Email, requestDto.User.Password);
+        User userEntity = User.Of(requestDto.User.Email, requestDto.User.Password, null);
 
         Person personEntity = PersonMapper.ToEntity(requestDto, userEntity);
 

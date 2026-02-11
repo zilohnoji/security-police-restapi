@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SecurityPoliceMG.EFCore.Configuration.Database.Context;
 
 namespace SecurityPoliceMG.EFCore.Configuration.Database;
@@ -22,9 +23,8 @@ public static class DatabaseConfig
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(connectionString)
-                .LogTo(Console.WriteLine,
-                    new[] { DbLoggerCategory.Database.Command.Name },
-                    Microsoft.Extensions.Logging.LogLevel.Information);
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name },
+                    LogLevel.Information);
         });
 
         return services;

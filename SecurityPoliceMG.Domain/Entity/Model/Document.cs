@@ -2,7 +2,7 @@
 
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
-public class Document : BaseEntity
+public sealed class Document : BaseEntity
 {
     public string Name { get; private set; } = string.Empty;
 

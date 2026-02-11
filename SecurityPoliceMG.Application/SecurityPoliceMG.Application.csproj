@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\SecurityPoliceMG.Authentication\SecurityPoliceMG.Authentication.csproj" />
         <ProjectReference Include="..\SecurityPoliceMG.Domain\SecurityPoliceMG.Domain.csproj"/>
         <ProjectReference Include="..\SecurityPoliceMG.EFCore\SecurityPoliceMG.EFCore.csproj"/>
     </ItemGroup>

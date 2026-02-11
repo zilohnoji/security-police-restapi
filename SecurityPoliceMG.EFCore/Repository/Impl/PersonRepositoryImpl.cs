@@ -4,7 +4,7 @@ using SecurityPoliceMG.EFCore.Configuration.Database.Context;
 
 namespace SecurityPoliceMG.EFCore.Repository.Impl;
 
-public class PersonRepositoryImpl(AppDbContext context) : GenericRepository<Person>(context)
+public sealed class PersonRepositoryImpl(AppDbContext context) : GenericRepository<Person>(context)
 {
     public override Person FindById(Guid id)
     {
@@ -13,7 +13,7 @@ public class PersonRepositoryImpl(AppDbContext context) : GenericRepository<Pers
             .Include(p => p.Photo)
             .Include(p => p.PersonScales)
             .ToList()
-            .Find(p => p.Id.Equals(id)) ?? throw new ArgumentException($"Person not found by ID {id}");
+            .FirstOrDefault(p => p.Id.Equals(id)) ?? throw new ArgumentException($"Person not found by ID {id}");
     }
 
     public override List<Person> FindAll()

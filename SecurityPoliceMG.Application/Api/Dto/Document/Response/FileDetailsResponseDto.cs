@@ -24,8 +24,12 @@ public class FileDetailsResponseDto
         Url = url;
     }
 
-    public static FileDetailsResponseDto Of(string name, string size, string docType, string url)
+    public static FileDetailsResponseDto Of(IFormFile file, string url)
     {
-        return new FileDetailsResponseDto(name, size, docType, url);
+        var fileName = Path.GetFileName(file.FileName);
+        var fileSize = file.Length.ToString();
+        var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+        return new FileDetailsResponseDto(fileName, fileSize, fileExtension, url);
     }
 }

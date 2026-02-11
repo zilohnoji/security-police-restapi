@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SecurityPoliceMG.Api.Dto.Person.Request;
+namespace SecurityPoliceMG.Api.Dto.User.Request;
 
 public record CreateUserRequestDto
 {

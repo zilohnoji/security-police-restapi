@@ -230,6 +230,16 @@ public class AppDbContext : DbContext
             .HasMaxLength(200)
             .IsRequired();
 
+        modelBuilder.Entity<User>()
+            .Property(u => u.RefreshToken)
+            .HasColumnName("refresh_token")
+            .HasColumnType("text");
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.RefreshTokenExpiryTime)
+            .HasColumnName("refresh_token_expiry_time")
+            .HasColumnType("timestamp");
+
         #endregion
 
         #region PersonScale
@@ -280,7 +290,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Document>()
             .Property(p => p.Url)
             .IsRequired();
-        
+
         modelBuilder.Entity<Document>()
             .Property(p => p.DocType)
             .HasColumnName("document_type")
@@ -289,7 +299,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Document>()
             .Property(p => p.Name)
             .IsRequired();
-        
+
         modelBuilder.Entity<Document>()
             .Property(p => p.Size)
             .IsRequired();

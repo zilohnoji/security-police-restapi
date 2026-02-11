@@ -9,5 +9,4 @@ public interface IDocumentService
 
     Task<FileDetailsResponseDto> SaveFile(UploadDocumentRequestDto requestDto);
 
-    Task<List<FileDetailsResponseDto>> SaveMultipleFiles(UploadDocumentRequestDto[] requestDtos);
 }
