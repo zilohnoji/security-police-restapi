@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SecurityPoliceMG.Api.Dto.Request;
 using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Service;
 
@@ -27,9 +28,9 @@ public sealed class UserAuthApi(IUserAuthService service) : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("access-token")]
-    public IActionResult ProducesAccessToken([FromHeader(Name = "Refresh-Token")] string refreshToken)
+    [HttpPost("refresh")]
+    public IActionResult ValidateCredentials([FromBody] RefreshTokenRequestDto requestDto)
     {
-        return Ok(service.ProducesAccessToken(refreshToken));
+        return Ok(service.ValidateCredentials(requestDto));
     }
 }

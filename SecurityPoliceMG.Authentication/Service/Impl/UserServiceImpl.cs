@@ -1,4 +1,5 @@
-﻿using SecurityPoliceMG.Api.Dto.Response;
+﻿using SecurityPoliceMG.Api.Dto.Request;
+using SecurityPoliceMG.Api.Dto.Response;
 using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
 using SecurityPoliceMG.Contract;
@@ -12,7 +13,7 @@ public class UserServiceImpl(
     IPasswordEncoder passwordEncoder,
     ITokenGenerator tokenGenerator) : IUserAuthService
 {
-    public AuthenticationUserResponseDto? Signin(AuthenticationUserRequestDto requestDto)
+    public TokenUserResponseDto? Signin(AuthenticationUserRequestDto requestDto)
     {
         var entity = repositoryImpl.FindByEmail(requestDto.Email);
 
@@ -27,7 +28,7 @@ public class UserServiceImpl(
         entity.DefineRefreshToken(refreshToken);
         repositoryImpl.Update(entity);
 
-        return new AuthenticationUserResponseDto()
+        return new TokenUserResponseDto()
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken.Token
@@ -41,28 +42,39 @@ public class UserServiceImpl(
             throw new ArgumentException("Esse email já está sendo usado!!");
         }
 
-        var entity = User.Of(requestDto.Email, passwordEncoder.Encode(requestDto.Password), null);
+        var entity = User.Of(requestDto.Email, passwordEncoder.Encode(requestDto.Password));
         entity = repositoryImpl.Create(entity);
 
         return CreateUserResponseDto.Of(entity.Id.ToString(), entity.Email);
     }
 
-    public string ProducesAccessToken(string refreshToken)
+    public string ValidateCredentials(RefreshTokenRequestDto requestDto)
     {
-        var entity = repositoryImpl.FindByRefreshToken(refreshToken);
+        var email = tokenGenerator.GetPrincipalFromExpiredAccessToken(requestDto.ExpiredAccessToken);
+
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new ArgumentException("Access token inválido!");
+        }
+
+        var entity = repositoryImpl.FindByEmail(email);
 
         if (entity?.RefreshToken is null)
         {
-            throw new ArgumentException("Refresh token inválido!");
+            throw new ArgumentException("Usuário não possui um refresh token, autenticação necessária!");
         }
 
-        if (entity.RefreshToken.ExpiryTime < DateTime.Now)
+        if (entity.RefreshToken.ExpiryTime < DateTime.UtcNow)
         {
             throw new ArgumentException("O refresh token está expirado!");
         }
 
-        var accessToken = tokenGenerator.GenerateAccessToken(entity);
-        return accessToken;
+        if (!entity.RefreshToken.Token.Equals(requestDto.RefreshToken))
+        {
+            throw new ArgumentException("Refresh token inválido");
+        }
+
+        return tokenGenerator.GenerateAccessToken(entity);
     }
 
     public bool RevokeToken(string email)

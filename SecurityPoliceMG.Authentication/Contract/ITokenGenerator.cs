@@ -7,5 +7,5 @@ public interface ITokenGenerator
 {
     string GenerateAccessToken(User entity);
 
-    ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+    string GetPrincipalFromExpiredAccessToken(string expiredAccessToken);
 }

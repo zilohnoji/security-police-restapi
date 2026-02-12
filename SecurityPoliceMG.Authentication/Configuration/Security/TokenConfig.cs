@@ -1,6 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -36,7 +35,7 @@ public class TokenConfig : ITokenGenerator
                 ]
             ),
             SigningCredentials = signingCredentials,
-            Expires = DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes)
+            Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes)
         };
 
         var handler = new JsonWebTokenHandler();
@@ -44,9 +43,15 @@ public class TokenConfig : ITokenGenerator
         return handler.CreateToken(tokenDescriptor);
     }
 
-    public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+    public string GetPrincipalFromExpiredAccessToken(string expiredAccessToken)
     {
         var secretKey = Encoding.UTF8.GetBytes(_jwtSettings.Secret);
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        if (!tokenHandler.CanReadToken(expiredAccessToken))
+        {
+            throw new ArgumentException("O token Jwt possui um formato inválido");
+        }
 
         var tokenParameters = new TokenValidationParameters()
         {
@@ -57,26 +62,21 @@ public class TokenConfig : ITokenGenerator
             IssuerSigningKey = new SymmetricSecurityKey(secretKey)
         };
 
-        var tokenHandler = new JwtSecurityTokenHandler();
+        tokenHandler.ValidateToken(expiredAccessToken, tokenParameters, out var securityToken);
 
-        try
+        if (securityToken.ValidTo > DateTime.UtcNow)
         {
-            var principal = tokenHandler.ValidateToken(token, tokenParameters, out SecurityToken securityToken);
-
-            if (securityToken is JwtSecurityToken security)
-            {
-                if (security.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
-                        StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return principal;
-                }
-            }
-
-            throw new SecurityTokenException("Invalid token");
+            throw new ArgumentException("O token de acesso não está expirado!");
         }
-        catch (Exception e)
+
+        var security = (JwtSecurityToken)securityToken;
+        var algorithm = security.Header.Alg;
+
+        if (!algorithm.Equals(SecurityAlgorithms.HmacSha256, StringComparison.CurrentCultureIgnoreCase))
         {
-            throw new SecurityTokenException("Invalid token format");
+            throw new ArgumentException("Algoritmo de segurança inválido!");
         }
+
+        return security.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? string.Empty;
     }
 }

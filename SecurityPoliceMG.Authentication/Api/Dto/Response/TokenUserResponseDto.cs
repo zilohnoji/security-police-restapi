@@ -2,7 +2,7 @@
 
 namespace SecurityPoliceMG.Api.Dto.Response;
 
-public record AuthenticationUserResponseDto
+public record TokenUserResponseDto
 {
     [JsonPropertyName("access_token")] public string AccessToken { get; set; } = string.Empty;
 

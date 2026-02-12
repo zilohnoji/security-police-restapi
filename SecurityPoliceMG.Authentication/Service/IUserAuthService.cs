@@ -1,7 +1,7 @@
-﻿using SecurityPoliceMG.Api.Dto.Response;
+﻿using SecurityPoliceMG.Api.Dto.Request;
+using SecurityPoliceMG.Api.Dto.Response;
 using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
-using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Service;
 
@@ -9,11 +9,11 @@ public interface IUserAuthService
 {
     CreateUserResponseDto SigninUp(CreateUserRequestDto requestDto);
 
-    AuthenticationUserResponseDto? Signin(AuthenticationUserRequestDto requestDto);
+    TokenUserResponseDto? Signin(AuthenticationUserRequestDto requestDto);
 
     bool RevokeToken(string email);
 
-    string ProducesAccessToken(string refreshToken);
+    string ValidateCredentials(RefreshTokenRequestDto requestDto);
 
     // User UpdateData(User user);
 }

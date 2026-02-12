@@ -25,7 +25,7 @@ public sealed class User : BaseEntity
         RefreshToken = refreshToken;
     }
 
-    public static User Of(string email, string password, RefreshToken refreshToken)
+    public static User Of(string email, string password, RefreshToken refreshToken = null)
     {
         return new User(email, password, refreshToken);
     }
