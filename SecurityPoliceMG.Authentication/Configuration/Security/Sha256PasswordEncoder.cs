@@ -15,9 +15,6 @@ public sealed class Sha256PasswordEncoder : IPasswordEncoder
 
     public bool MatchPassword(string password, string hashedPassword)
     {
-        var t = string.Equals(Encode(password), hashedPassword);
-        var len = Encode(password).Length;
-        var len2 = hashedPassword.Length;
-        return t;
+        return string.Equals(Encode(password), hashedPassword);
     }
 }

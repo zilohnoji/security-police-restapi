@@ -44,11 +44,6 @@ public class TokenConfig : ITokenGenerator
         return handler.CreateToken(tokenDescriptor);
     }
 
-    public string GenerateRefreshToken()
-    {
-        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
-    }
-
     public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
     {
         var secretKey = Encoding.UTF8.GetBytes(_jwtSettings.Secret);

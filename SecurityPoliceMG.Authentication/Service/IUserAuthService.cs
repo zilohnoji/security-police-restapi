@@ -7,8 +7,6 @@ namespace SecurityPoliceMG.Service;
 
 public interface IUserAuthService
 {
-    User? FindByEmail(string email);
-
     CreateUserResponseDto SigninUp(CreateUserRequestDto requestDto);
 
     AuthenticationUserResponseDto? Signin(AuthenticationUserRequestDto requestDto);

@@ -10,13 +10,20 @@ public sealed class UserRepositoryImpl(AppDbContext context) : GenericRepository
     {
         return DataSet
             .Include(u => u.Person)
+            .Include(u => u.RefreshToken)
             .FirstOrDefault(u => u.Email.Equals(email));
+    }
+
+    public bool ExistsByEmail(string email)
+    {
+        return DataSet.FirstOrDefault(u => u.Email.Equals(email)) != null ? true : false;
     }
 
     public User? FindByRefreshToken(string refreshToken)
     {
         return DataSet
             .Include(u => u.Person)
-            .FirstOrDefault(u => u.RefreshToken.Equals(refreshToken));
+            .Include(u => u.RefreshToken)
+            .FirstOrDefault(u => u.RefreshToken != null && u.RefreshToken.Token.Equals(refreshToken));
     }
 }

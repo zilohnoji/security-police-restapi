@@ -12,14 +12,9 @@ public class UserServiceImpl(
     IPasswordEncoder passwordEncoder,
     ITokenGenerator tokenGenerator) : IUserAuthService
 {
-    public User? FindByEmail(string email)
-    {
-        return repositoryImpl.FindByEmail(email);
-    }
-
     public AuthenticationUserResponseDto? Signin(AuthenticationUserRequestDto requestDto)
     {
-        var entity = FindByEmail(requestDto.Email);
+        var entity = repositoryImpl.FindByEmail(requestDto.Email);
 
         if (entity is null || !passwordEncoder.MatchPassword(requestDto.Password, entity.Password))
         {
@@ -27,21 +22,21 @@ public class UserServiceImpl(
         }
 
         var accessToken = tokenGenerator.GenerateAccessToken(entity);
-        var refreshToken = tokenGenerator.GenerateRefreshToken();
+        var refreshToken = RefreshToken.Of(32);
 
-        entity.DefineRefreshToken(refreshToken, DateTime.Now.AddDays(7));
+        entity.DefineRefreshToken(refreshToken);
         repositoryImpl.Update(entity);
 
         return new AuthenticationUserResponseDto()
         {
             AccessToken = accessToken,
-            RefreshToken = entity.RefreshToken
+            RefreshToken = refreshToken.Token
         };
     }
 
     public CreateUserResponseDto SigninUp(CreateUserRequestDto requestDto)
     {
-        if (FindByEmail(requestDto.Email) != null)
+        if (repositoryImpl.ExistsByEmail(requestDto.Email))
         {
             throw new ArgumentException("Esse email já está sendo usado!!");
         }
@@ -56,7 +51,12 @@ public class UserServiceImpl(
     {
         var entity = repositoryImpl.FindByRefreshToken(refreshToken);
 
-        if (entity is null || entity.RefreshTokenExpiryTime < DateTime.Now)
+        if (entity?.RefreshToken is null)
+        {
+            throw new ArgumentException("Refresh token inválido!");
+        }
+
+        if (entity.RefreshToken.ExpiryTime < DateTime.Now)
         {
             throw new ArgumentException("O refresh token está expirado!");
         }
@@ -67,15 +67,14 @@ public class UserServiceImpl(
 
     public bool RevokeToken(string email)
     {
-        var entity = FindByEmail(email);
-        if (entity == null)
+        if (!repositoryImpl.ExistsByEmail(email))
         {
             return false;
         }
 
-        entity.DefineRefreshToken(null);
+        var entity = repositoryImpl.FindByEmail(email);
+        entity.RevokeRefreshToken();
         repositoryImpl.Update(entity);
-
         return true;
     }
 }

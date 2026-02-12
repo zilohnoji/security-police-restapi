@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecurityPoliceMG.Domain.Entity.Model;
-using File = System.IO.File;
 
 namespace SecurityPoliceMG.EFCore.Configuration.Database.Context;
 
@@ -17,6 +16,8 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
 
     public DbSet<Scale> Scales { get; set; }
+    
+    public DbSet<RefreshToken> Tokens { get; set; }
 
     public DbSet<PersonScale> PersonScales { get; set; }
 
@@ -216,6 +217,9 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>().ToTable("tb_user");
 
+        modelBuilder.Entity<User>().HasIndex(u => u.Email)
+            .IsUnique();
+
         modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .HasColumnName("email")
@@ -231,14 +235,14 @@ public class AppDbContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<User>()
-            .Property(u => u.RefreshToken)
-            .HasColumnName("refresh_token")
-            .HasColumnType("text");
+            .Property(u => u.RefreshTokenId)
+            .HasColumnName("token_id")
+            .HasColumnType("uuid");
 
         modelBuilder.Entity<User>()
-            .Property(u => u.RefreshTokenExpiryTime)
-            .HasColumnName("refresh_token_expiry_time")
-            .HasColumnType("timestamp");
+            .HasOne(p => p.RefreshToken)
+            .WithOne(p => p.User)
+            .HasForeignKey<User>(u => u.RefreshTokenId);
 
         #endregion
 
@@ -302,6 +306,27 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Document>()
             .Property(p => p.Size)
+            .IsRequired();
+
+        #endregion
+
+        #region RefreshToken
+
+        modelBuilder.Entity<RefreshToken>().ToTable("tb_refresh_token");
+
+        modelBuilder.Entity<RefreshToken>().HasIndex(p => p.Token)
+            .IsUnique();
+
+        modelBuilder.Entity<RefreshToken>()
+            .Property(p => p.Token)
+            .HasColumnName("refresh_token")
+            .HasColumnType("text")
+            .IsRequired();
+
+        modelBuilder.Entity<RefreshToken>()
+            .Property(p => p.ExpiryTime)
+            .HasColumnName("refresh_token_expiry_time")
+            .HasColumnType("timestamp")
             .IsRequired();
 
         #endregion
