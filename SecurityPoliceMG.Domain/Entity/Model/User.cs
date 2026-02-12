@@ -6,7 +6,7 @@ public sealed class User : BaseEntity
 
     public string Password { get; private set; } = string.Empty;
 
-    public string? RefreshToken { get; private set; }
+    public string RefreshToken { get; private set; }
 
     public DateTime? RefreshTokenExpiryTime { get; private set; } = DateTime.Now;
 
@@ -18,7 +18,7 @@ public sealed class User : BaseEntity
     {
     }
 
-    private User(string email, string password, string refreshToken, DateTime? refreshTokenExpiryTime)
+    private User(string email, string password, DateTime? refreshTokenExpiryTime, string refreshToken)
     {
         Email = email;
         Password = password;
@@ -28,16 +28,17 @@ public sealed class User : BaseEntity
 
     public static User Of(string email, string password, DateTime? refreshTokenExpiryTime, string refreshToken = "")
     {
-        return new User(email, password, refreshToken, refreshTokenExpiryTime);
+        return new User(email, password, refreshTokenExpiryTime, refreshToken);
     }
 
-    public void DefineRefreshToken(string? refreshToken)
+    public void DefineRefreshToken(string refreshToken)
     {
         RefreshToken = refreshToken;
     }
 
-    public void DefineRefreshToken(string? refreshToken, DateTime refreshTokenExpiryTime)
+    public void DefineRefreshToken(string refreshToken, DateTime refreshTokenExpiryTime)
     {
+        RefreshToken = refreshToken;
         RefreshTokenExpiryTime = refreshTokenExpiryTime;
     }
 }

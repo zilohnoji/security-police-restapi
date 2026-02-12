@@ -7,7 +7,6 @@ using SecurityPoliceMG.EFCore.Repository;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 using SecurityPoliceMG.Service;
 using SecurityPoliceMG.Service.Impl;
-using SecurityPoliceMG.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 

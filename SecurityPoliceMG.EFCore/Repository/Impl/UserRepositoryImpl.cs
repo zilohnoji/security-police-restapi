@@ -12,4 +12,11 @@ public sealed class UserRepositoryImpl(AppDbContext context) : GenericRepository
             .Include(u => u.Person)
             .FirstOrDefault(u => u.Email.Equals(email));
     }
+
+    public User? FindByRefreshToken(string refreshToken)
+    {
+        return DataSet
+            .Include(u => u.Person)
+            .FirstOrDefault(u => u.RefreshToken.Equals(refreshToken));
+    }
 }

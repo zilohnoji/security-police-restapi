@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Person.Request;
+using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
 
-[Authorize]
 [ApiController]
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
+[Authorize]
 public sealed class PersonApi(IPersonService service) : ControllerBase
 {
     [HttpPost]

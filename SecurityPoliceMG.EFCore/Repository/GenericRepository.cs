@@ -29,7 +29,9 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 
     public virtual T Update(T entity)
     {
-        return DataSet.Update(entity).Entity;
+        var res = DataSet.Update(entity).Entity;
+        _context.SaveChanges();
+        return res;
     }
 
     public virtual T FindById(Guid id)

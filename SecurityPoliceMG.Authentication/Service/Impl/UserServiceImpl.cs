@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.IdentityModel.JsonWebTokens;
+﻿using SecurityPoliceMG.Api.Dto.Response;
 using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
 using SecurityPoliceMG.Contract;
@@ -18,7 +17,29 @@ public class UserServiceImpl(
         return repositoryImpl.FindByEmail(email);
     }
 
-    public CreateUserResponseDto Register(CreateUserRequestDto requestDto)
+    public AuthenticationUserResponseDto? Signin(AuthenticationUserRequestDto requestDto)
+    {
+        var entity = FindByEmail(requestDto.Email);
+
+        if (entity is null || !passwordEncoder.MatchPassword(requestDto.Password, entity.Password))
+        {
+            throw new ArgumentException("Senha inválida");
+        }
+
+        var accessToken = tokenGenerator.GenerateAccessToken(entity);
+        var refreshToken = tokenGenerator.GenerateRefreshToken();
+
+        entity.DefineRefreshToken(refreshToken, DateTime.Now.AddDays(7));
+        repositoryImpl.Update(entity);
+
+        return new AuthenticationUserResponseDto()
+        {
+            AccessToken = accessToken,
+            RefreshToken = entity.RefreshToken
+        };
+    }
+
+    public CreateUserResponseDto SigninUp(CreateUserRequestDto requestDto)
     {
         if (FindByEmail(requestDto.Email) != null)
         {
@@ -29,6 +50,19 @@ public class UserServiceImpl(
         entity = repositoryImpl.Create(entity);
 
         return CreateUserResponseDto.Of(entity.Id.ToString(), entity.Email);
+    }
+
+    public string ProducesAccessToken(string refreshToken)
+    {
+        var entity = repositoryImpl.FindByRefreshToken(refreshToken);
+
+        if (entity is null || entity.RefreshTokenExpiryTime < DateTime.Now)
+        {
+            throw new ArgumentException("O refresh token está expirado!");
+        }
+
+        var accessToken = tokenGenerator.GenerateAccessToken(entity);
+        return accessToken;
     }
 
     public bool RevokeToken(string email)
@@ -43,34 +77,5 @@ public class UserServiceImpl(
         repositoryImpl.Update(entity);
 
         return true;
-    }
-
-    public AuthenticationUserResponseDto? ValidateCredentials(AuthenticationUserRequestDto requestDto)
-    {
-        var entity = FindByEmail(requestDto.Email);
-        if (entity == null ||
-            !passwordEncoder.MatchPassword(requestDto.Password, entity.Password))
-        {
-            throw new ArgumentException("Senha inválida");
-        }
-
-        Claim[] claims =
-        [
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N"))
-        ];
-
-        var accessToken = tokenGenerator.GenerateAccessToken(claims);
-        var refreshToken = tokenGenerator.GenerateRefreshToken();
-
-        entity.DefineRefreshToken(refreshToken, DateTime.Now.AddDays(7));
-        entity = repositoryImpl.Update(entity);
-
-        return new AuthenticationUserResponseDto()
-        {
-            Email = entity.Email,
-            Authenticated = true,
-            RefreshToken = refreshToken,
-            AccessToken = accessToken
-        };
     }
 }

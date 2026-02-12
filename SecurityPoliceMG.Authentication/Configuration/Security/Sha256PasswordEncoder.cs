@@ -2,7 +2,7 @@
 using System.Text;
 using SecurityPoliceMG.Contract;
 
-namespace SecurityPoliceMG.Utils;
+namespace SecurityPoliceMG.Configuration.Security;
 
 public sealed class Sha256PasswordEncoder : IPasswordEncoder
 {

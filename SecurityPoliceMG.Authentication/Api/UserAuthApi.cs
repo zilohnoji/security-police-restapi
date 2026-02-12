@@ -15,13 +15,21 @@ public sealed class UserAuthApi(IUserAuthService service) : ControllerBase
     [HttpPost("signin")]
     public IActionResult Signin([FromBody] AuthenticationUserRequestDto requestDto)
     {
-        return Ok(service.ValidateCredentials(requestDto));
+        return Ok(service.Signin(requestDto));
     }
 
+    [AllowAnonymous]
     [HttpPost("signinup")]
     public IActionResult SigninUp([FromBody] CreateUserRequestDto requestDto)
     {
-        var response = service.Register(requestDto);
+        var response = service.SigninUp(requestDto);
         return Created($"{response.Id}", response);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("access-token")]
+    public IActionResult ProducesAccessToken([FromHeader(Name = "Refresh-Token")] string refreshToken)
+    {
+        return Ok(service.ProducesAccessToken(refreshToken));
     }
 }
