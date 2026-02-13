@@ -1,12 +1,9 @@
 ﻿using System.Text.Json.Serialization;
-using SecurityPoliceMG.Api.Dto.User.Request;
 
 namespace SecurityPoliceMG.Api.Dto.Person.Request;
 
 public record CreatePersonRequestDto
 {
-    [JsonPropertyName("credentials")] public CreateUserRequestDto User { get; set; } = new CreateUserRequestDto();
-
     [JsonPropertyName("profile")] public ProfileRequest Profile { get; set; } = new ProfileRequest();
 
     [JsonPropertyName("address")] public CreateAddressRequestDto Address { get; set; } = new CreateAddressRequestDto();

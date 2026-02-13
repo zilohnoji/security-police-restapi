@@ -16,8 +16,4 @@
       <ProjectReference Include="..\SecurityPoliceMG.EFCore\SecurityPoliceMG.EFCore.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Utils\" />
-    </ItemGroup>
-
 </Project>

@@ -2,11 +2,9 @@
 
 public sealed class City : BaseEntity
 {
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get; private set; }
 
-    public string Uf { get; private set; } = string.Empty;
-
-    public static readonly City Empty = new City();
+    public string Uf { get; private set; }
 
     private City()
     {

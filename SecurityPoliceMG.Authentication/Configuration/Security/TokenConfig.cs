@@ -77,6 +77,6 @@ public class TokenConfig : ITokenGenerator
             throw new ArgumentException("Algoritmo de segurança inválido!");
         }
 
-        return security.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? string.Empty;
+        return security.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new ArgumentException("Access token inválido!");;
     }
 }

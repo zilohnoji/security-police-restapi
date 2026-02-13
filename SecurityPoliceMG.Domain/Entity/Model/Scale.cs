@@ -12,12 +12,10 @@ public class Scale : BaseEntity
 
     public DateTime FinishedAt { get; private set; }
 
-    public string Description { get; private set; } = string.Empty;
+    public string Description { get; private set; }
 
-    public ICollection<PersonScale> PersonScales { get; private set; } = new List<PersonScale>();
+    public ICollection<PersonScale> PersonScales { get; private set; }
 
-    public static readonly Scale Empty = new Scale();
-    
     private Scale()
     {
     }

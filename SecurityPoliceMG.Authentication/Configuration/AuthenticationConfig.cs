@@ -1,5 +1,7 @@
 ﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,31 @@ public static class AuthenticationConfig
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(secretKey)
+                };
+
+                jwtBearerOptions.Events = new JwtBearerEvents()
+                {
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = 401;
+                        context.Response.ContentType = "application/json";
+
+                        var errorMessage = context.AuthenticateFailure switch
+                        {
+                            SecurityTokenExpiredException => "O seu access token está expirado",
+                            _ => "Access token inválido ou não fornecido"
+                        };
+
+                        var response = JsonSerializer.Serialize(new
+                        {
+                            error = "Unauthorized",
+                            message = errorMessage
+                        });
+
+                        await context.Response.WriteAsync(response);
+                    }
                 };
             });
 

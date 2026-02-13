@@ -4,21 +4,23 @@ namespace SecurityPoliceMG.Domain.Entity.Model;
 
 public sealed class Address : BaseEntity
 {
-    public string PatioType { get; private set; } = string.Empty;
+    public string PatioType { get; private set; }
 
-    public string Street { get; private set; } = string.Empty;
+    public string Street { get; private set; }
 
     public int Number { get; private set; }
 
-    public string Neighborhood { get; private set; } = string.Empty;
+    public string Neighborhood { get; private set; }
 
-    public Guid CityId { get; private set; } = Guid.Empty;
+    public Guid CityId { get; private set; }
 
-    public City City { get; private set; } = City.Empty;
+    public City City { get; private set; }
 
-    public List<Person> Persons { get; private set; } = [];
+    public List<Person> Persons { get; private set; }
 
-    public static readonly Address Empty = new Address();
+    private Address()
+    {
+    }
 
     public sealed class AddressBuilder : IAddressBuilder
     {

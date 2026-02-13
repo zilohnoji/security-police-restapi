@@ -4,29 +4,31 @@ namespace SecurityPoliceMG.Domain.Entity.Model;
 
 public sealed class Person : BaseEntity
 {
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get; private set; }
 
     public DateOnly BirthDate { get; private set; }
 
-    public string Gender { get; private set; } = string.Empty;
+    public string Gender { get; private set; }
 
-    public string MotherName { get; private set; } = string.Empty;
+    public string MotherName { get; private set; }
 
-    public string DaddyName { get; private set; } = string.Empty;
+    public string DaddyName { get; private set; }
 
-    public Guid AddressId { get; private set; } = Guid.Empty;
+    public Guid AddressId { get; private set; }
 
-    public Address Address { get; private set; } = Address.Empty;
+    public Address Address { get; private set; }
 
-    public Photo Photo { get; private set; } = Photo.Empty;
+    public Photo Photo { get; private set; }
 
-    public Guid UserId { get; private set; } = Guid.Empty;
+    public Guid UserId { get; private set; }
 
-    public User User { get; private set; } = User.Empty;
+    public User User { get; private set; }
 
     public ICollection<PersonScale> PersonScales { get; private set; } = new List<PersonScale>();
 
-    public static readonly Person Empty = new Person();
+    private Person()
+    {
+    }
 
     public sealed class PersonBuilder : IPersonBuilder
     {
@@ -90,20 +92,11 @@ public sealed class Person : BaseEntity
             _entity.User = user;
             return this;
         }
-    }
 
-    public void DefinePhoto(Photo photo)
-    {
-        Photo = photo;
-    }
-
-    public void DefineUser(User user)
-    {
-        User = user;
-    }
-
-    public void DefineAddress(Address address)
-    {
-        Address = address;
+        public IPersonBuilder Photo(Photo photo)
+        {
+            _entity.Photo = photo;
+            return this;
+        }
     }
 }

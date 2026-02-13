@@ -7,24 +7,17 @@ using SecurityPoliceMG.EFCore.Repository;
 
 namespace SecurityPoliceMG.Service.Impl;
 
-public class PersonServiceImpl(IRepository<Person> personRepository, IRepository<Scale> scaleRepository)
+public class PersonServiceImpl(
+    IRepository<Person> personRepository,
+    IRepository<Scale> scaleRepository,
+    IUserAuthService userServiceImpl)
     : IPersonService
 {
     public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto)
     {
-        City cityEntity = CityMapper.ToEntity(requestDto.Address.City);
-
-        Address addressEntity = AddressMapper.ToEntity(requestDto.Address, cityEntity);
-
-        Photo photoEntity = PhotoMapper.ToEntity(requestDto.Profile.Photo);
-
-        User userEntity = User.Of(requestDto.User.Email, requestDto.User.Password, null);
+        User userEntity = userServiceImpl.GetLoggedUser() ?? throw new ArgumentException("Usuário não autenticado");
 
         Person personEntity = PersonMapper.ToEntity(requestDto, userEntity);
-
-        personEntity.DefinePhoto(photoEntity);
-        personEntity.DefineUser(userEntity);
-        personEntity.DefineAddress(addressEntity);
 
         personRepository.Create(personEntity);
 

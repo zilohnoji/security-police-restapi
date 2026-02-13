@@ -23,7 +23,5 @@ public interface IPersonDetailsResponseDtoFluentBuilder : IBuilder<PersonDetails
 
     IPersonDetailsResponseDtoFluentBuilder Address(AddressDetailsResponseDto address);
 
-    IPersonDetailsResponseDtoFluentBuilder User(UserDetailsResponseDto user);
-    
     IPersonDetailsResponseDtoFluentBuilder Scales(List<ScaleDetailsResponseDto> scale);
 }

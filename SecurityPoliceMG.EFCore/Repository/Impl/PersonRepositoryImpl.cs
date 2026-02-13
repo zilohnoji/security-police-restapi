@@ -12,8 +12,7 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
             .Include(p => p.User)
             .Include(p => p.Photo)
             .Include(p => p.PersonScales)
-            .ToList()
-            .FirstOrDefault(p => p.Id.Equals(id)) ?? throw new ArgumentException($"Person not found by ID {id}");
+            .First(p => p.Id.Equals(id));
     }
 
     public override List<Person> FindAll()

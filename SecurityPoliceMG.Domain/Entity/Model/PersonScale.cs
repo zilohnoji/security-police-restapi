@@ -2,13 +2,13 @@
 
 public sealed class PersonScale : BaseEntity
 {
-    public Guid ScaleId { get; private set; } = Guid.Empty;
+    public Guid ScaleId { get; private set; }
 
-    public Scale Scale { get; private set; } = Scale.Empty;
-    
-    public Guid PersonId { get; private set; } = Guid.Empty;
-    
-    public Person Person { get; private set; } = Person.Empty;
+    public Scale Scale { get; private set; }
+
+    public Guid PersonId { get; private set; }
+
+    public Person Person { get; private set; }
 
     public int HoursWorked { get; private set; }
 

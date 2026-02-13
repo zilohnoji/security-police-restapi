@@ -2,6 +2,7 @@
 using SecurityPoliceMG.Api.Dto.Response;
 using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
+using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Service;
 
@@ -11,9 +12,11 @@ public interface IUserAuthService
 
     TokenUserResponseDto? Signin(AuthenticationUserRequestDto requestDto);
 
+    User? GetLoggedUser();
+    
     bool RevokeToken(string email);
 
-    string ValidateCredentials(RefreshTokenRequestDto requestDto);
+    TokenUserResponseDto ValidateCredentials(RefreshTokenRequestDto requestDto);
 
     // User UpdateData(User user);
 }

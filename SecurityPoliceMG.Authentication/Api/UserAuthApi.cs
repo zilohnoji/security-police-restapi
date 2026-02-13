@@ -13,14 +13,14 @@ namespace SecurityPoliceMG.Api;
 public sealed class UserAuthApi(IUserAuthService service) : ControllerBase
 {
     [AllowAnonymous]
-    [HttpPost("signin")]
+    [HttpPost("sign-in")]
     public IActionResult Signin([FromBody] AuthenticationUserRequestDto requestDto)
     {
         return Ok(service.Signin(requestDto));
     }
 
     [AllowAnonymous]
-    [HttpPost("signinup")]
+    [HttpPost("signin-up")]
     public IActionResult SigninUp([FromBody] CreateUserRequestDto requestDto)
     {
         var response = service.SigninUp(requestDto);
@@ -28,7 +28,7 @@ public sealed class UserAuthApi(IUserAuthService service) : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("refresh")]
+    [HttpPost("refresh-token")]
     public IActionResult ValidateCredentials([FromBody] RefreshTokenRequestDto requestDto)
     {
         return Ok(service.ValidateCredentials(requestDto));

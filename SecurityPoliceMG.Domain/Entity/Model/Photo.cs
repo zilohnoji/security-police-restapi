@@ -2,17 +2,15 @@
 
 public sealed class Photo : BaseEntity
 {
-    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; private set; }
 
-    public string Bucket { get; private set; } = string.Empty;
+    public string Bucket { get; private set; }
 
-    public string Hash { get; private set; } = string.Empty;
+    public string Hash { get; private set; }
 
-    public Guid PersonId { get; private set; } = Guid.Empty;
+    public Guid PersonId { get; private set; }
 
-    public Person Person { get; private set; } = Person.Empty;
-
-    public static readonly Photo Empty = new Photo();
+    public Person? Person { get; private set; }
 
     private Photo()
     {

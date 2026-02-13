@@ -149,6 +149,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Photo>()
             .Property(p => p.CreatedAt)
             .HasColumnName("created_at")
+            .HasColumnType("timestamp with time zone")
             .IsRequired();
 
         modelBuilder.Entity<Photo>()
@@ -190,19 +191,19 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Scale>()
             .Property(s => s.CreatedAt)
             .HasColumnName("created_at")
-            .HasColumnType("timestamp")
+            .HasColumnType("timestamp with time zone")
             .IsRequired();
 
         modelBuilder.Entity<Scale>()
             .Property(s => s.StartsAt)
             .HasColumnName("starts_at")
-            .HasColumnType("timestamp")
+            .HasColumnType("timestamp with time zone")
             .IsRequired();
 
         modelBuilder.Entity<Scale>()
             .Property(s => s.FinishedAt)
             .HasColumnName("finished_at")
-            .HasColumnType("timestamp")
+            .HasColumnType("timestamp with time zone")
             .IsRequired();
 
         modelBuilder.Entity<Scale>()
@@ -326,7 +327,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<RefreshToken>()
             .Property(p => p.ExpiryTime)
             .HasColumnName("refresh_token_expiry_time")
-            .HasColumnType("timestamp")
+            .HasColumnType("timestamp with time zone")
             .IsRequired();
 
         #endregion

@@ -2,17 +2,15 @@
 
 public sealed class User : BaseEntity
 {
-    public string Email { get; private set; } = string.Empty;
+    public string Email { get; private set; }
 
-    public string Password { get; private set; } = string.Empty;
+    public string Password { get; private set; }
 
     public Guid? RefreshTokenId { get; private set; }
 
     public RefreshToken? RefreshToken { get; private set; }
 
-    public Person Person { get; private set; } = Person.Empty;
-
-    public static readonly User Empty = new User();
+    public Person? Person { get; private set; }
 
     private User()
     {
@@ -34,7 +32,7 @@ public sealed class User : BaseEntity
     {
         RefreshToken = null;
     }
-    
+
     public void DefineRefreshToken(RefreshToken refreshToken)
     {
         RefreshToken = refreshToken;

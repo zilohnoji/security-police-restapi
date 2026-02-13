@@ -4,9 +4,9 @@ namespace SecurityPoliceMG.Domain.Entity.Model;
 
 public sealed class RefreshToken : BaseEntity
 {
-    public string Token { get; private set; } = "";
-    public DateTime ExpiryTime { get; private set; } = DateTime.UtcNow;
-    public User User { get; private set; } = User.Empty;
+    public string Token { get; private set; }
+    public DateTime ExpiryTime { get; private set; }
+    public User? User { get; private set; }
 
     private RefreshToken()
     {

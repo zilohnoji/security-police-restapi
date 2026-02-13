@@ -16,6 +16,7 @@ public static class PersonMapper
             .MotherName(requestDto.Profile.MotherName)
             .Address(AddressMapper.ToEntity(requestDto.Address))
             .User(entity)
+            .Photo(PhotoMapper.ToEntity(requestDto.Profile.Photo))
             .Build();
     }
 
@@ -31,7 +32,6 @@ public static class PersonMapper
             .Photo(PhotoMapper.ToDto(entity.Photo))
             .Address(AddressMapper.ToDto(entity.Address))
             .Scales(entity.PersonScales.Select(s => ScaleMapper.ToDto(s.Scale)).ToList())
-            .User(UserDetailsResponseDto.Of(entity.User.Email, entity.User.Password))
             .Build();
     }
 

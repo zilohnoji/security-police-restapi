@@ -7,8 +7,6 @@ public sealed class PersonDetailsResponseDto
 {
     public Guid Id { get; set; }
 
-    public UserDetailsResponseDto User { get; set; } = UserDetailsResponseDto.Empty;
-
     public ProfileResponse Profile { get; set; } = new ProfileResponse();
 
     public AddressDetailsResponseDto Address { get; set; } = AddressDetailsResponseDto.Empty;
@@ -83,12 +81,6 @@ public sealed class PersonDetailsResponseDto
         public IPersonDetailsResponseDtoFluentBuilder Address(AddressDetailsResponseDto address)
         {
             _dto.Address = address;
-            return this;
-        }
-
-        public IPersonDetailsResponseDtoFluentBuilder User(UserDetailsResponseDto user)
-        {
-            _dto.User = user;
             return this;
         }
 

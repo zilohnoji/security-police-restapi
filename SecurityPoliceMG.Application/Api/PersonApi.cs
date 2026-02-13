@@ -8,10 +8,10 @@ using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
 
+[Authorize]
 [ApiController]
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
-[Authorize]
 public sealed class PersonApi(IPersonService service) : ControllerBase
 {
     [HttpPost]
