@@ -1,26 +1,28 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using SecurityPoliceMG.Api.Dto.Request;
-using SecurityPoliceMG.Api.Dto.Response;
-using SecurityPoliceMG.Api.Dto.User.Request;
+﻿using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
-using SecurityPoliceMG.Contract;
+using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 
 namespace SecurityPoliceMG.Service.Impl;
 
 public class UserServiceImpl(
     UserRepositoryImpl repositoryImpl,
+    IRepository<EmailCodeConfirmation> emailCodeRepository,
     IPasswordEncoder passwordEncoder,
-    ITokenGenerator tokenGenerator,
-    IHttpContextAccessor contextAccessor) : IUserAuthService
+    ITokenGenerator tokenGenerator) : IUserAuthService
 {
-    public TokenUserResponseDto? Signin(AuthenticationUserRequestDto requestDto)
+    public TokenUserResponseDto Signin(AuthenticationUserRequestDto requestDto)
     {
-        var entity = repositoryImpl.FindByEmail(requestDto.Email);
+        var entity = repositoryImpl.FindByEmailOrThrowNotFound(requestDto.Email);
 
-        if (entity is null || !passwordEncoder.MatchPassword(requestDto.Password, entity.Password))
+        if (!entity.IsActive)
+        {
+            throw new ArgumentException("Usuário não ativado, verifique seu email");
+        }
+
+        if (!passwordEncoder.VerifyPassword(requestDto.Password, entity.Password))
         {
             throw new ArgumentException("Senha inválida");
         }
@@ -31,11 +33,7 @@ public class UserServiceImpl(
         entity.DefineRefreshToken(refreshToken);
         repositoryImpl.Update(entity);
 
-        return new TokenUserResponseDto()
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken.Token
-        };
+        return TokenUserResponseDto.Of(accessToken, refreshToken.Token);
     }
 
     public CreateUserResponseDto SigninUp(CreateUserRequestDto requestDto)
@@ -45,15 +43,17 @@ public class UserServiceImpl(
             throw new ArgumentException("Esse email já está sendo usado!!");
         }
 
-        var entity = User.Of(requestDto.Email, passwordEncoder.Encode(requestDto.Password));
+        var emailCode = EmailCodeConfirmation.Of(DateTime.UtcNow.AddMinutes(30));
+        var entity = User.Of(requestDto.Email, passwordEncoder.Encode(requestDto.Password), emailCode);
+
         entity = repositoryImpl.Create(entity);
 
         return CreateUserResponseDto.Of(entity.Id.ToString(), entity.Email);
     }
 
-    public TokenUserResponseDto ValidateCredentials(RefreshTokenRequestDto requestDto)
+    public TokenUserResponseDto RefreshAccessToken(RefreshTokenRequestDto requestDto)
     {
-        var email = tokenGenerator.GetPrincipalFromExpiredAccessToken(requestDto.ExpiredAccessToken);
+        var email = tokenGenerator.GetUsernameFromExpiredAccessToken(requestDto.ExpiredAccessToken);
 
         var entity = repositoryImpl.FindByEmail(email);
 
@@ -75,36 +75,11 @@ public class UserServiceImpl(
         entity.DefineRefreshToken(RefreshToken.Of(32));
         entity = repositoryImpl.Update(entity);
 
-        var response = new TokenUserResponseDto()
-        {
-            RefreshToken = entity?.RefreshToken.Token,
-            AccessToken = tokenGenerator.GenerateAccessToken(entity)
-        };
-
-        return response;
+        return TokenUserResponseDto.Of(tokenGenerator.GenerateAccessToken(entity), entity?.RefreshToken.Token);
     }
 
-    public User? GetLoggedUser()
+    public User GetLoggedUser(Guid userId)
     {
-        var userEmail = contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Email);
-        if (string.IsNullOrEmpty(userEmail))
-        {
-            throw new ArgumentException("Usuário não autenticado!");
-        }
-
-        return repositoryImpl.FindByEmail(userEmail);
-    }
-
-    public bool RevokeToken(string email)
-    {
-        if (!repositoryImpl.ExistsByEmail(email))
-        {
-            return false;
-        }
-
-        var entity = repositoryImpl.FindByEmail(email);
-        entity.RevokeRefreshToken();
-        repositoryImpl.Update(entity);
-        return true;
+        return repositoryImpl.FindById(userId) ?? throw new ArgumentException("Usuário não autenticado!");
     }
 }

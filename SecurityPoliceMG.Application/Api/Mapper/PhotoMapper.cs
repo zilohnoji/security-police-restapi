@@ -1,5 +1,5 @@
-﻿using SecurityPoliceMG.Api.Dto.Person.Request;
-using SecurityPoliceMG.Api.Dto.Person.Response;
+﻿using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Photo.Request;
 using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Api.Mapper;

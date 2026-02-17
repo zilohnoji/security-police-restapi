@@ -6,7 +6,7 @@ namespace SecurityPoliceMG.Service;
 
 public interface IPersonService
 {
-    PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto);
+    PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto, Guid loggedUserId);
 
     List<PersonDetailsResponseDto> FindAll();
 

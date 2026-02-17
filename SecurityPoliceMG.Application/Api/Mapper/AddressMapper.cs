@@ -1,4 +1,4 @@
-﻿using SecurityPoliceMG.Api.Dto.Person.Request;
+﻿using SecurityPoliceMG.Api.Dto.Address.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
 

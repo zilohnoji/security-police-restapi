@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using SecurityPoliceMG.Api.Dto.Address.Request;
+using SecurityPoliceMG.Api.Dto.Photo.Request;
 
 namespace SecurityPoliceMG.Api.Dto.Person.Request;
 
@@ -22,4 +24,5 @@ public sealed class ProfileRequest
     [JsonPropertyName("father_name")] public string DaddyName { get; set; } = string.Empty;
 
     [JsonPropertyName("photo")] public CreatePhotoRequestDto Photo { get; set; } = new CreatePhotoRequestDto();
-}
+};
+

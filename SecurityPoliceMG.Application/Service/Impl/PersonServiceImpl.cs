@@ -13,11 +13,11 @@ public class PersonServiceImpl(
     IUserAuthService userServiceImpl)
     : IPersonService
 {
-    public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto)
+    public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto, Guid loggedUserId)
     {
-        User userEntity = userServiceImpl.GetLoggedUser() ?? throw new ArgumentException("Usuário não autenticado");
+        var userEntity = userServiceImpl.GetLoggedUser(loggedUserId);
 
-        Person personEntity = PersonMapper.ToEntity(requestDto, userEntity);
+        var personEntity = PersonMapper.ToEntity(requestDto, userEntity);
 
         personRepository.Create(personEntity);
 

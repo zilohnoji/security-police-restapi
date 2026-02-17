@@ -12,20 +12,27 @@ public sealed class User : BaseEntity
 
     public Person? Person { get; private set; }
 
+    public Guid EmailCodeConfirmationId { get; private set; }
+
+    public EmailCodeConfirmation? EmailCodeConfirmation { get; private set; }
+
+    public bool IsActive { get; private set; }
+
     private User()
     {
     }
 
-    private User(string email, string password, RefreshToken refreshToken)
+    private User(string email, string password, RefreshToken refreshToken, EmailCodeConfirmation emailCodeConfirmation)
     {
         Email = email;
         Password = password;
         RefreshToken = refreshToken;
+        EmailCodeConfirmation = emailCodeConfirmation;
     }
 
-    public static User Of(string email, string password, RefreshToken refreshToken = null)
+    public static User Of(string email, string password, EmailCodeConfirmation emailCode, RefreshToken refreshToken = null)
     {
-        return new User(email, password, refreshToken);
+        return new User(email, password, refreshToken, emailCode);
     }
 
     public void RevokeRefreshToken()

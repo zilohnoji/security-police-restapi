@@ -16,10 +16,12 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
 
     public DbSet<Scale> Scales { get; set; }
-    
+
     public DbSet<RefreshToken> Tokens { get; set; }
 
     public DbSet<PersonScale> PersonScales { get; set; }
+    
+    public DbSet<EmailCodeConfirmation> EmailCodeConfirmations { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -241,10 +243,26 @@ public class AppDbContext : DbContext
             .HasColumnType("uuid");
 
         modelBuilder.Entity<User>()
+            .Property(p => p.EmailCodeConfirmationId)
+            .HasColumnName("email_code_confirmation_id")
+            .HasColumnType("uuid")
+            .IsRequired();
+        
+        modelBuilder.Entity<User>()
+            .Property(p => p.IsActive)
+            .HasColumnName("is_active")
+            .IsRequired();
+        
+        modelBuilder.Entity<User>()
             .HasOne(p => p.RefreshToken)
             .WithOne(p => p.User)
             .HasForeignKey<User>(u => u.RefreshTokenId);
 
+        modelBuilder.Entity<User>()
+            .HasOne(p => p.EmailCodeConfirmation)
+            .WithOne(e => e.User)
+            .HasForeignKey<User>(p => p.EmailCodeConfirmationId);
+        
         #endregion
 
         #region PersonScale
@@ -327,6 +345,28 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<RefreshToken>()
             .Property(p => p.ExpiryTime)
             .HasColumnName("refresh_token_expiry_time")
+            .HasColumnType("timestamp with time zone")
+            .IsRequired();
+
+        #endregion
+
+        #region EmailCodeConfirmation
+
+        modelBuilder.Entity<EmailCodeConfirmation>().ToTable("tb_email_code_confirmation");
+
+        modelBuilder.Entity<EmailCodeConfirmation>().HasIndex(p => p.Code)
+            .IsUnique();
+
+        modelBuilder.Entity<EmailCodeConfirmation>()
+            .Property(p => p.Code)
+            .HasMaxLength(255)
+            .HasColumnType("varchar")
+            .IsRequired()
+            .HasColumnName("code");
+
+        modelBuilder.Entity<EmailCodeConfirmation>()
+            .Property(p => p.ExpiryTime)
+            .HasColumnName("expiry_time")
             .HasColumnType("timestamp with time zone")
             .IsRequired();
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SecurityPoliceMG.Api.Base;
 using SecurityPoliceMG.Api.Dto.File.Request;
-using SecurityPoliceMG.Api.Dto.File.Response;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
@@ -9,7 +9,7 @@ namespace SecurityPoliceMG.Api;
 [ApiController]
 [Route("api/documents")]
 [EnableCors("LocalPolicy")]
-public sealed class DocumentApi(IDocumentService service) : ControllerBase
+public sealed class DocumentApi(IDocumentService service) : GenericApi
 {
     [HttpPost]
     public async Task<IActionResult> UploadDocument([FromForm] UploadDocumentRequestDto requestDto)

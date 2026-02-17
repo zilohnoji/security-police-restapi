@@ -4,17 +4,16 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using SecurityPoliceMG.Contract;
 using SecurityPoliceMG.Domain.Entity.Model;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
-namespace SecurityPoliceMG.Configuration.Security;
+namespace SecurityPoliceMG.Configuration.Security.Impl;
 
-public class TokenConfig : ITokenGenerator
+public class TokenGeneratorConfig : ITokenGenerator
 {
     private readonly JwtSettings _jwtSettings;
 
-    public TokenConfig(IOptions<JwtSettings> jwtSettings)
+    public TokenGeneratorConfig(IOptions<JwtSettings> jwtSettings)
     {
         _jwtSettings = jwtSettings.Value;
     }
@@ -31,19 +30,18 @@ public class TokenConfig : ITokenGenerator
             Subject = new ClaimsIdentity(
                 [
                     new Claim(JwtRegisteredClaimNames.Sub, entity.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, entity.Email)
+                    new Claim(JwtRegisteredClaimNames.Email, entity.Email),
+                    new Claim("is_active", entity.IsActive.ToString())
                 ]
             ),
             SigningCredentials = signingCredentials,
             Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes)
         };
 
-        var handler = new JsonWebTokenHandler();
-
-        return handler.CreateToken(tokenDescriptor);
+        return new JsonWebTokenHandler().CreateToken(tokenDescriptor);
     }
 
-    public string GetPrincipalFromExpiredAccessToken(string expiredAccessToken)
+    public string GetUsernameFromExpiredAccessToken(string expiredAccessToken)
     {
         var secretKey = Encoding.UTF8.GetBytes(_jwtSettings.Secret);
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -77,6 +75,13 @@ public class TokenConfig : ITokenGenerator
             throw new ArgumentException("Algoritmo de segurança inválido!");
         }
 
-        return security.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? throw new ArgumentException("Access token inválido!");;
+        var email = security.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
+
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new ArgumentException("Access token inválido!");
+        }
+
+        return email;
     }
 }

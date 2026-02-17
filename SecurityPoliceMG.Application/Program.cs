@@ -1,6 +1,7 @@
+using FluentValidation;
 using SecurityPoliceMG.Configuration;
 using SecurityPoliceMG.Configuration.Security;
-using SecurityPoliceMG.Contract;
+using SecurityPoliceMG.Configuration.Security.Impl;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Configuration.Database;
 using SecurityPoliceMG.EFCore.Repository;
@@ -24,6 +25,8 @@ builder.Services.ConfigureOpenApi();
 
 builder.Services.ConfigureSwagger();
 
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
+
 builder.Services.ConfigureCors(builder.Configuration);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -36,7 +39,7 @@ builder.Services.AddScoped<IUserAuthService, UserServiceImpl>();
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-builder.Services.AddScoped<ITokenGenerator, TokenConfig>();
+builder.Services.AddScoped<ITokenGenerator, TokenGeneratorConfig>();
 
 builder.Services.AddScoped<IPasswordEncoder, Sha256PasswordEncoder>();
 

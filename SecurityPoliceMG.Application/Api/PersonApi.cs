@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SecurityPoliceMG.Api.Base;
 using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Scale.Request;
@@ -8,17 +9,17 @@ using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
 
-[Authorize]
 [ApiController]
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
-public sealed class PersonApi(IPersonService service) : ControllerBase
+[Authorize(Policy = "ActiveUserOnly")]
+public sealed class PersonApi(IPersonService service) : GenericApi
 {
     [HttpPost]
     [ProducesResponseType<PersonDetailsResponseDto>(201)]
     public ActionResult<PersonDetailsResponseDto> Create([FromBody] CreatePersonRequestDto requestDto)
     {
-        PersonDetailsResponseDto response = service.Create(requestDto);
+        PersonDetailsResponseDto response = service.Create(requestDto, GetLoggedUserId());
         return Created(response.Id.ToString(), response);
     }
 
