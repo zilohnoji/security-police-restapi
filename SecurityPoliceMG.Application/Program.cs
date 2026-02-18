@@ -2,10 +2,7 @@ using FluentValidation;
 using SecurityPoliceMG.Configuration;
 using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Configuration.Security.Impl;
-using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Configuration.Database;
-using SecurityPoliceMG.EFCore.Repository;
-using SecurityPoliceMG.EFCore.Repository.Impl;
 using SecurityPoliceMG.Service;
 using SecurityPoliceMG.Service.Impl;
 
@@ -15,42 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().ConfigureContentNegotiation();
 
-builder.Services.ConfigureDatabase(builder.Configuration);
-
-builder.Services.ConfigureSecurity(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.ConfigureOpenApi();
-
-builder.Services.ConfigureSwagger();
-
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
-
-builder.Services.ConfigureCors(builder.Configuration);
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-builder.Services.AddScoped<IPersonService, PersonServiceImpl>();
-
-builder.Services.AddScoped<IDocumentService, DocumentServiceImpl>();
-
-builder.Services.AddScoped<IUserAuthService, UserServiceImpl>();
-
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-
-builder.Services.AddScoped<ITokenGenerator, TokenGeneratorConfig>();
-
-builder.Services.AddScoped<IPasswordEncoder, Sha256PasswordEncoder>();
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-
-builder.Services.AddScoped<UserRepositoryImpl>();
-
-builder.Services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
-
-builder.Services.AddScoped<IRepository<User>, UserRepositoryImpl>();
-
+// builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 

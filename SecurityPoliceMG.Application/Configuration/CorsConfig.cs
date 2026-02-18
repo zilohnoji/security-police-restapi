@@ -2,7 +2,7 @@
 
 public static class CorsConfig
 {
-    public static void ConfigureCors(this IServiceCollection service, IConfiguration configuration)
+    public static IServiceCollection ConfigureCors(this IServiceCollection service, IConfiguration configuration)
     {
         service.AddCors(options =>
         {
@@ -13,6 +13,8 @@ public static class CorsConfig
                     .AllowAnyHeader()
                     .AllowCredentials());
         });
+
+        return service;
     }
 
     public static IApplicationBuilder UseCorsConfig(this IApplicationBuilder app)
