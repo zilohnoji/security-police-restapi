@@ -1,4 +1,6 @@
-﻿using SecurityPoliceMG.Configuration.Security;
+﻿using SecurityPoliceMG.Authentiation.Configuration.Security.Impl;
+using SecurityPoliceMG.Configuration.Mail;
+using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Configuration.Security.Impl;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Configuration.Database;
@@ -19,6 +21,7 @@ public static class SetUpInjectableServices
             .AddRepositoriesServices()
             .AddDatabaseServices(configuration)
             .AddMainServices()
+            .AddEmailConfiguration(configuration)
             .AddSecurityServices(configuration);
 
         return services;
@@ -51,6 +54,8 @@ public static class SetUpInjectableServices
         services.AddScoped<IPersonService, PersonServiceImpl>();
         services.AddScoped<IDocumentService, DocumentServiceImpl>();
         services.AddScoped<IUserAuthService, UserServiceImpl>();
+        services.AddScoped<EmailSender>();
+        services.AddScoped<IEmailService, EmailServiceImpl>();
 
         return services;
     }

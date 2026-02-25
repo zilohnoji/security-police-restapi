@@ -23,6 +23,7 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
             .Include(p => p.Photo)
             .Include(p => p.PersonScales)
             .ThenInclude(s => s.Scale)
+            .OrderBy(t => t.Name)
             .ToList();
     }
 }

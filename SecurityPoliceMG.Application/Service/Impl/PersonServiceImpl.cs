@@ -4,20 +4,19 @@ using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Mapper;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository;
+using SecurityPoliceMG.EFCore.Repository.Impl;
 
 namespace SecurityPoliceMG.Service.Impl;
 
 public class PersonServiceImpl(
     IRepository<Person> personRepository,
     IRepository<Scale> scaleRepository,
-    IUserAuthService userServiceImpl)
+    UserRepositoryImpl userRepositoryImpl)
     : IPersonService
 {
     public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto, Guid loggedUserId)
     {
-        var userEntity = userServiceImpl.GetLoggedUser(loggedUserId);
-
-        var personEntity = PersonMapper.ToEntity(requestDto, userEntity);
+        var personEntity = PersonMapper.ToEntity(requestDto, userRepositoryImpl.FindById(loggedUserId));
 
         personRepository.Create(personEntity);
 

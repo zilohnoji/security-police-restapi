@@ -10,6 +10,8 @@
 
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+        <PackageReference Include="MailKit" Version="4.15.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions" Version="10.0.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2"/>
@@ -22,8 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SecurityPoliceMG.Authentication\SecurityPoliceMG.Authentication.csproj" />
         <ProjectReference Include="..\SecurityPoliceMG.Domain\SecurityPoliceMG.Domain.csproj"/>
         <ProjectReference Include="..\SecurityPoliceMG.EFCore\SecurityPoliceMG.EFCore.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Authentication\" />
     </ItemGroup>
 </Project>

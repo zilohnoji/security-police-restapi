@@ -30,6 +30,9 @@ public sealed class PersonApi(IPersonService service) : GenericApi
         return Ok(service.FindAll());
     }
 
+    
+    // TODO Criar um controller para a Scale
+    
     [HttpPost("scale")]
     [ProducesResponseType<PersonDetailsResponseDto>(201)]
     public ActionResult<PersonDetailsResponseDto> CreateScale([FromBody] CreateScaleRequestDto requestDto)

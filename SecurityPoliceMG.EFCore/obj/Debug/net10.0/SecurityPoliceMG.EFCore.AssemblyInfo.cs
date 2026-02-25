@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SecurityPoliceMG.EFCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3200a7a8f2e5af33a86b387f17093daaf7abd128")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b6b4aa05b2aa26ba80a2df2f7e863f9336e615ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("SecurityPoliceMG.EFCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SecurityPoliceMG.EFCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

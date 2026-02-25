@@ -40,6 +40,11 @@ public sealed class User : BaseEntity
         RefreshToken = null;
     }
 
+    public void ActiveUser()
+    {
+        IsActive = true;
+    }
+    
     public void DefineRefreshToken(RefreshToken refreshToken)
     {
         RefreshToken = refreshToken;
