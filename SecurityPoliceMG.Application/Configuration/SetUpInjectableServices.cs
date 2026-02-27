@@ -1,4 +1,6 @@
 ﻿using SecurityPoliceMG.Authentiation.Configuration.Security.Impl;
+using SecurityPoliceMG.Authentication.Service;
+using SecurityPoliceMG.Authentication.Service.Impl;
 using SecurityPoliceMG.Configuration.Mail;
 using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Configuration.Security.Impl;
@@ -40,6 +42,7 @@ public static class SetUpInjectableServices
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
         services.AddScoped<UserRepositoryImpl>();
+        services.AddScoped<PersonRepositoryImpl>();
 
         services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
         services.AddScoped<IRepository<User>, UserRepositoryImpl>();

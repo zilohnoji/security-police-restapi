@@ -4,16 +4,22 @@ using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Mapper;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository;
+using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 
 namespace SecurityPoliceMG.Service.Impl;
 
 public class PersonServiceImpl(
-    IRepository<Person> personRepository,
+    PersonRepositoryImpl personRepository,
     IRepository<Scale> scaleRepository,
     UserRepositoryImpl userRepositoryImpl)
     : IPersonService
 {
+    public Page<PersonDetailsResponseDto> FindAll(Pageable pageable)
+    {
+        return PersonMapper.ToPageDto(personRepository.FindAllInclude(pageable));
+    }
+
     public PersonDetailsResponseDto Create(CreatePersonRequestDto requestDto, Guid loggedUserId)
     {
         var personEntity = PersonMapper.ToEntity(requestDto, userRepositoryImpl.FindById(loggedUserId));
@@ -21,11 +27,6 @@ public class PersonServiceImpl(
         personRepository.Create(personEntity);
 
         return PersonMapper.ToDto(personEntity);
-    }
-
-    public List<PersonDetailsResponseDto> FindAll()
-    {
-        return personRepository.FindAll().Select(PersonMapper.ToDto).ToList();
     }
 
     public PersonDetailsResponseDto CreateScale(CreateScaleRequestDto requestDto)

@@ -1,12 +1,14 @@
-﻿namespace SecurityPoliceMG.EFCore.Repository;
+﻿using SecurityPoliceMG.EFCore.Repository.Base;
+
+namespace SecurityPoliceMG.EFCore.Repository;
 
 public interface IRepository<T>
 {
     T Create(T entity);
-    
-    List<T> FindAll();
+
+    Page<T> FindAll(Pageable pageable, IQueryable<T> query);
 
     T Update(T entity);
 
-    T FindById(Guid id);
+    T FindById(Guid id, IQueryable<T> query);
 }

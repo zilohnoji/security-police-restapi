@@ -5,6 +5,8 @@ using SecurityPoliceMG.Api.Base;
 using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Dto.Scale.Request;
+using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
@@ -16,26 +18,28 @@ namespace SecurityPoliceMG.Api;
 public sealed class PersonApi(IPersonService service) : GenericApi
 {
     [HttpPost]
-    [ProducesResponseType<PersonDetailsResponseDto>(201)]
-    public ActionResult<PersonDetailsResponseDto> Create([FromBody] CreatePersonRequestDto requestDto)
+    public IActionResult Create([FromBody] CreatePersonRequestDto requestDto)
     {
         PersonDetailsResponseDto response = service.Create(requestDto, GetLoggedUserId());
         return Created(response.Id.ToString(), response);
     }
 
     [HttpGet]
-    [ProducesResponseType<PersonDetailsResponseDto[]>(200)]
-    public ActionResult<List<PersonDetailsResponseDto>> FindAll()
+    public IActionResult FindAll(
+        [FromQuery] int? page,
+        [FromQuery] int? pageSize,
+        [FromQuery] string? sort,
+        [FromQuery] string? searchTerm)
     {
-        return Ok(service.FindAll());
+        var pageable = Pageable.Of(page, pageSize, sort, searchTerm);
+        return Ok(service.FindAll(pageable));
     }
 
-    
+
     // TODO Criar um controller para a Scale
-    
+
     [HttpPost("scale")]
-    [ProducesResponseType<PersonDetailsResponseDto>(201)]
-    public ActionResult<PersonDetailsResponseDto> CreateScale([FromBody] CreateScaleRequestDto requestDto)
+    public IActionResult CreateScale([FromBody] CreateScaleRequestDto requestDto)
     {
         PersonDetailsResponseDto response = service.CreateScale(requestDto);
         return Created(response.Id.ToString(), response);

@@ -1,6 +1,9 @@
-﻿using SecurityPoliceMG.Api.Dto.Person.Request;
+﻿using System.Collections;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 
 namespace SecurityPoliceMG.Api.Mapper;
 
@@ -18,6 +21,12 @@ public static class PersonMapper
             .User(entity)
             .Photo(PhotoMapper.ToEntity(requestDto.Profile.Photo))
             .Build();
+    }
+
+    public static Page<PersonDetailsResponseDto> ToPageDto(Page<Person> personPage)
+    {
+        var collectionDto = personPage.Elements.Select(ToDto);
+        return Page<PersonDetailsResponseDto>.Of(collectionDto, personPage.Pageable);
     }
 
     public static PersonDetailsResponseDto ToDto(Person entity)

@@ -17,23 +17,27 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         DataSet = context.Set<T>();
     }
 
-    public virtual T Create(T entity)
+    public T Create(T entity)
     {
         entity = DataSet.Add(entity).Entity;
         _context.SaveChanges();
         return entity;
     }
 
-    public virtual List<T> FindAll()
+    public Page<T> FindAll(Pageable pageable, IQueryable<T>? customQuery = null)
     {
-        return DataSet.ToList();
-    }
+        var sortRule = MakeExpressionBySearchTerm(pageable.SearchTerm);
 
-    public Page<T> FindAll<TKey>(Expression<Func<T, TKey>> sortRule, Pageable<T> pageable, string sortDirection = "")
-    {
-        var query = string.IsNullOrEmpty(sortDirection)
-            ? DataSet.OrderBy(sortRule)
-            : DataSet.OrderByDescending(sortRule);
+        IQueryable<T> query = customQuery ?? DataSet;
+
+        if (!string.IsNullOrEmpty(pageable.Sort) && pageable.Sort.Equals("desc", StringComparison.OrdinalIgnoreCase))
+        {
+            query = query.OrderByDescending(sortRule);
+        }
+        else
+        {
+            query = query.OrderBy(sortRule);
+        }
 
         var entities = query
             .AsNoTracking()
@@ -43,16 +47,34 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         return Page<T>.Of(entities.ToList(), pageable);
     }
 
-    public virtual T Update(T entity)
+    public T Update(T entity)
     {
         var res = DataSet.Update(entity).Entity;
         _context.SaveChanges();
         return res;
     }
 
-    public virtual T FindById(Guid id)
+    public T FindById(Guid id, IQueryable<T>? query = null)
     {
-        return DataSet.FirstOrDefault(t => t.Id.Equals(id)) ??
-               throw new ArgumentException($"Not found entity with ID {id}");
+        query = query ?? DataSet;
+        return query.FirstOrDefault(t => t.Id.Equals(id));
+    }
+
+    private static Expression<Func<T, object>> MakeExpressionBySearchTerm(string searchTerm)
+    {
+        var parameter = Expression.Parameter(typeof(T), "t");
+        var propertyInfo = typeof(T).GetProperties()
+            .FirstOrDefault(p => string.Equals(p.Name, searchTerm, StringComparison.OrdinalIgnoreCase));
+
+        if (propertyInfo == null)
+        {
+            throw new ArgumentException($"The property {searchTerm} not found");
+        }
+
+        var property = Expression.Property(parameter, propertyInfo);
+
+        var conversion = Expression.Convert(property, typeof(object));
+
+        return Expression.Lambda<Func<T, object>>(conversion, parameter);
     }
 }

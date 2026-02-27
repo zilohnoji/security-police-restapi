@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Configuration.Database.Context;
+using SecurityPoliceMG.EFCore.Repository.Base;
 
 namespace SecurityPoliceMG.EFCore.Repository.Impl;
 
 public sealed class PersonRepositoryImpl(AppDbContext context) : GenericRepository<Person>(context)
 {
-    public override Person FindById(Guid id)
+    public Person? FindById(Guid id)
     {
         return DataSet.Include(p => p.Address.City)
             .Include(p => p.User)
@@ -15,15 +16,15 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
             .First(p => p.Id.Equals(id));
     }
 
-    public override List<Person> FindAll()
+    public Page<Person> FindAllInclude(Pageable pageable)
     {
-        return DataSet
+        var query = DataSet
             .Include(p => p.Address.City)
             .Include(p => p.User)
             .Include(p => p.Photo)
             .Include(p => p.PersonScales)
-            .ThenInclude(s => s.Scale)
-            .OrderBy(t => t.Name)
-            .ToList();
+            .ThenInclude(s => s.Scale);
+
+        return base.FindAll(pageable, query);
     }
 }
