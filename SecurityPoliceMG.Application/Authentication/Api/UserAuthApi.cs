@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SecurityPoliceMG.Api.Dto.User.Request;
+using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
@@ -38,5 +42,12 @@ public sealed class UserAuthApi(IUserAuthService service) : ControllerBase
     public IActionResult ActiveAccount([FromRoute] string userEmail, [FromRoute] string emailCode)
     {
         return Ok(service.ActiveAccount(userEmail, emailCode));
+    }
+
+    [HttpGet]
+    public IActionResult Test()
+    {
+        var page = Pageable<User>.Of(null, null);
+        return Ok(service.FindAllPaged(page));
     }
 }

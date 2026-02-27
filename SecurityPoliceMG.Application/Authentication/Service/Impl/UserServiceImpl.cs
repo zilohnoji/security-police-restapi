@@ -1,7 +1,9 @@
-﻿using SecurityPoliceMG.Api.Dto.User.Request;
+﻿using System.Linq.Expressions;
+using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
 using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 
 namespace SecurityPoliceMG.Service.Impl;
@@ -93,5 +95,12 @@ public class UserServiceImpl(
         userEntity = repositoryImpl.Update(userEntity);
 
         return CreateUserResponseDto.Of(userEntity.Id.ToString(), userEntity.Email);
+    }
+
+    public Page<User> FindAllPaged(Pageable<User> pageable)
+    {
+        Expression<Func<User, string>> sortRule = (u) => u.Person.Name;
+
+        return repositoryImpl.FindAll(sortRule, pageable);
     }
 }

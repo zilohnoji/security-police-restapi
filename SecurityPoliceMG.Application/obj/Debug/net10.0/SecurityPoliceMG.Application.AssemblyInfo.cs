@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SecurityPoliceMG.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b6b4aa05b2aa26ba80a2df2f7e863f9336e615ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28948daf0a7ba52a0b6e6fed9f1f7644eb828ddd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SecurityPoliceMG.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SecurityPoliceMG.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

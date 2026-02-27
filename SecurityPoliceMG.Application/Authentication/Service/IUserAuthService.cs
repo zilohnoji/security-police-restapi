@@ -1,6 +1,7 @@
 ﻿using SecurityPoliceMG.Api.Dto.User.Request;
 using SecurityPoliceMG.Api.Dto.User.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 
 namespace SecurityPoliceMG.Service;
 
@@ -13,4 +14,6 @@ public interface IUserAuthService
     TokenUserResponseDto RefreshAccessToken(RefreshTokenRequestDto requestDto);
 
     CreateUserResponseDto ActiveAccount(string userEmail, string emailCode);
+
+    Page<User> FindAllPaged(Pageable<User> pageable);
 }
