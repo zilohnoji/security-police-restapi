@@ -29,9 +29,10 @@ public sealed class PersonApi(IPersonService service) : GenericApi
         [FromQuery] int? page,
         [FromQuery] int? pageSize,
         [FromQuery] string? sort,
+        [FromQuery] string? orderTerm,
         [FromQuery] string? searchTerm)
     {
-        var pageable = Pageable.Of(page, pageSize, sort, searchTerm);
+        var pageable = Pageable.Of(page, pageSize, sort, orderTerm, searchTerm);
         return Ok(service.FindAll(pageable));
     }
 

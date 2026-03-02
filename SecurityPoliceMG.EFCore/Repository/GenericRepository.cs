@@ -26,9 +26,10 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 
     public Page<T> FindAll(Pageable pageable, IQueryable<T>? customQuery = null)
     {
-        var sortRule = MakeExpressionBySearchTerm(pageable.SearchTerm);
+        var sortRule = MakeExpressionByOrderTerm(pageable.OrderTerm);
 
         IQueryable<T> query = customQuery ?? DataSet;
+        var total = query.Count();
 
         if (!string.IsNullOrEmpty(pageable.Sort) && pageable.Sort.Equals("desc", StringComparison.OrdinalIgnoreCase))
         {
@@ -42,9 +43,10 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         var entities = query
             .AsNoTracking()
             .Skip((pageable.Page - 1) * pageable.PageSize)
-            .Take(pageable.PageSize);
+            .Take(pageable.PageSize)
+            .ToList();
 
-        return Page<T>.Of(entities.ToList(), pageable);
+        return Page<T>.Of(entities, total, pageable);
     }
 
     public T Update(T entity)
@@ -60,15 +62,15 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         return query.FirstOrDefault(t => t.Id.Equals(id));
     }
 
-    private static Expression<Func<T, object>> MakeExpressionBySearchTerm(string searchTerm)
+    private static Expression<Func<T, object>> MakeExpressionByOrderTerm(string orderTerm)
     {
         var parameter = Expression.Parameter(typeof(T), "t");
         var propertyInfo = typeof(T).GetProperties()
-            .FirstOrDefault(p => string.Equals(p.Name, searchTerm, StringComparison.OrdinalIgnoreCase));
+            .FirstOrDefault(p => string.Equals(p.Name, orderTerm, StringComparison.OrdinalIgnoreCase));
 
         if (propertyInfo == null)
         {
-            throw new ArgumentException($"The property {searchTerm} not found");
+            throw new ArgumentException($"The property {orderTerm} not found");
         }
 
         var property = Expression.Property(parameter, propertyInfo);

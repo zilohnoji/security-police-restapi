@@ -2,19 +2,19 @@
 
 public class Page<T>
 {
-    public IEnumerable<T> Elements { get; set; }
+    public List<T> Elements { get; set; }
     public Pageable Pageable { get; set; }
     public int Total { get; set; }
 
-    private Page(IEnumerable<T> elements, Pageable pageable)
+    private Page(List<T> elements, int total, Pageable pageable)
     {
         Elements = elements;
         Pageable = pageable;
-        Total = elements.Count();
+        Total = total;
     }
 
-    public static Page<T> Of(IEnumerable<T> elements, Pageable pageable)
+    public static Page<T> Of(List<T> elements, int total, Pageable pageable)
     {
-        return new Page<T>(elements, pageable);
+        return new Page<T>(elements, total, pageable);
     }
 }

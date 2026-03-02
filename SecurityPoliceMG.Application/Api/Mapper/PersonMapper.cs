@@ -25,8 +25,8 @@ public static class PersonMapper
 
     public static Page<PersonDetailsResponseDto> ToPageDto(Page<Person> personPage)
     {
-        var collectionDto = personPage.Elements.Select(ToDto);
-        return Page<PersonDetailsResponseDto>.Of(collectionDto, personPage.Pageable);
+        var collectionDto = personPage.Elements.Select(ToDto).ToList();
+        return Page<PersonDetailsResponseDto>.Of(collectionDto, personPage.Total, personPage.Pageable);
     }
 
     public static PersonDetailsResponseDto ToDto(Person entity)

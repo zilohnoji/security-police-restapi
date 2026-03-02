@@ -19,6 +19,9 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
     public Page<Person> FindAllInclude(Pageable pageable)
     {
         var query = DataSet
+            .Where(p => p.Name.ToLower().Contains(pageable.SearchTerm.ToLower())
+                        || p.DaddyName.ToLower().Contains(pageable.SearchTerm.ToLower())
+                        || p.MotherName.ToLower().Contains(pageable.SearchTerm.ToLower()))
             .Include(p => p.Address.City)
             .Include(p => p.User)
             .Include(p => p.Photo)
