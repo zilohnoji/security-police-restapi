@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using SecurityPoliceMG.Domain.Entity;
 using SecurityPoliceMG.EFCore.Configuration.Database.Context;
@@ -10,7 +11,7 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
     private readonly AppDbContext _context;
     protected readonly DbSet<T> DataSet;
-
+        
     public GenericRepository(AppDbContext context)
     {
         _context = context;

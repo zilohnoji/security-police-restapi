@@ -4,7 +4,7 @@ namespace SecurityPoliceMG.Api.Dto.Scale.Response;
 
 public sealed class ScaleDetailsResponseDto
 {
-    public Guid ScaleId { get; set; }
+    public Guid Id { get; set; }
     public bool IsCompleted { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime StartsAt { get; set; }
@@ -38,7 +38,7 @@ public sealed class ScaleDetailsResponseDto
 
         public IScaleDetailsResponseDtoFluentBuilder ScaleId(Guid scaleId)
         {
-            _dto.ScaleId = scaleId;
+            _dto.Id = scaleId;
             return this;
         }
 

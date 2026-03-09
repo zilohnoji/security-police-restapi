@@ -1,4 +1,5 @@
-﻿using SecurityPoliceMG.Authentiation.Configuration.Security.Impl;
+﻿using SecurityPoliceMG.Authentication.Configuration;
+using SecurityPoliceMG.Authentication.Configuration.Security.Impl;
 using SecurityPoliceMG.Authentication.Service;
 using SecurityPoliceMG.Authentication.Service.Impl;
 using SecurityPoliceMG.Configuration.Mail;
@@ -43,6 +44,7 @@ public static class SetUpInjectableServices
 
         services.AddScoped<UserRepositoryImpl>();
         services.AddScoped<PersonRepositoryImpl>();
+        services.AddScoped<ScaleRepositoryImpl>();
 
         services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
         services.AddScoped<IRepository<User>, UserRepositoryImpl>();
@@ -57,8 +59,10 @@ public static class SetUpInjectableServices
         services.AddScoped<IPersonService, PersonServiceImpl>();
         services.AddScoped<IDocumentService, DocumentServiceImpl>();
         services.AddScoped<IUserAuthService, UserServiceImpl>();
-        services.AddScoped<EmailSender>();
         services.AddScoped<IEmailService, EmailServiceImpl>();
+        services.AddScoped<IScaleService, ScaleServiceImpl>();
+
+        services.AddScoped<EmailSender>();
 
         return services;
     }

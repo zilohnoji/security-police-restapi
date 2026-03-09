@@ -6,14 +6,14 @@ public sealed class User : BaseEntity
 
     public string Password { get; private set; }
 
-    public Guid? RefreshTokenId { get; private set; }
+    public Guid? RefreshTokenId { get; private set; } 
 
     public RefreshToken? RefreshToken { get; private set; }
 
     public Person? Person { get; private set; }
 
     public Guid EmailCodeConfirmationId { get; private set; }
-
+ 
     public EmailCodeConfirmation? EmailCodeConfirmation { get; private set; }
 
     public bool IsActive { get; private set; }

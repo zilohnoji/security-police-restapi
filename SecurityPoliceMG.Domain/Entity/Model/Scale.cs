@@ -14,7 +14,7 @@ public class Scale : BaseEntity
 
     public string Description { get; private set; }
 
-    public ICollection<PersonScale> PersonScales { get; private set; }
+    public ICollection<PersonScale> PersonScales { get; private set; } = [];
 
     private Scale()
     {

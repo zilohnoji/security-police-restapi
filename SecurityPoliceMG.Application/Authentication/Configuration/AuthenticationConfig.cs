@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SecurityPoliceMG.Authentication.Configuration.Enum;
+using SecurityPoliceMG.Configuration;
 
-namespace SecurityPoliceMG.Configuration;
+namespace SecurityPoliceMG.Authentication.Configuration;
 
 public static class AuthenticationConfig
 {
@@ -25,13 +27,14 @@ public static class AuthenticationConfig
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(secretKey)
+                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
         service.AddAuthorization(options =>
         {
-            options.AddPolicy("ActiveUserOnly", policy => { policy.RequireClaim("is_active", "True"); });
+            options.AddPolicy(nameof(SecurityPolicy.ActiveUserOnly), policy => { policy.RequireClaim("is_active", "True"); });
         });
 
         return service;

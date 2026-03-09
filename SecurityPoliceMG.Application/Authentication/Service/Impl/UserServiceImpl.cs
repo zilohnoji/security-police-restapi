@@ -59,6 +59,11 @@ public class UserServiceImpl(
 
         var entity = repositoryImpl.FindByEmail(email);
 
+        if (!entity.IsActive)
+        {
+            throw new ArgumentException("Usuário inativo, não é possível gerar um código!!");
+        }
+
         if (entity?.RefreshToken is null)
         {
             throw new ArgumentException("Usuário não possui um refresh token, autenticação necessária!");

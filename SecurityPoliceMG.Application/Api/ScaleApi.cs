@@ -2,23 +2,24 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SecurityPoliceMG.Api.Base;
-using SecurityPoliceMG.Api.Dto.Person.Request;
-using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Scale.Request;
+using SecurityPoliceMG.Api.Dto.Scale.Response;
+using SecurityPoliceMG.Authentication.Configuration.Enum;
 using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
 
 [ApiController]
-[Route("api/persons")]
+[Route("/api/scales")]
 [EnableCors("LocalPolicy")]
-[Authorize(Policy = "ActiveUserOnly")]
-public sealed class PersonApi(IPersonService service) : GenericApi
+[Authorize(nameof(SecurityPolicy.ActiveUserOnly))]
+public class ScaleApi(IScaleService service) : GenericApi
 {
-    [HttpPost]
-    public IActionResult Create([FromBody] CreatePersonRequestDto requestDto)
+    [HttpPost("{personId:guid}")]
+    public IActionResult CreateScale([FromRoute] Guid personId, [FromBody] CreateScaleRequestDto requestDto)
     {
-        PersonDetailsResponseDto response = service.Create(requestDto, GetLoggedUserId());
+        ScaleDetailsResponseDto response = service.CreateScale(personId, requestDto);
         return Created(response.Id.ToString(), response);
     }
 

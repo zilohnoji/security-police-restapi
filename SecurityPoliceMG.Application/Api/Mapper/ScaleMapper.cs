@@ -1,6 +1,8 @@
-﻿using SecurityPoliceMG.Api.Dto.Scale.Request;
+﻿using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Dto.Scale.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
+using SecurityPoliceMG.EFCore.Repository.Base;
 
 namespace SecurityPoliceMG.Api.Mapper;
 
@@ -15,6 +17,12 @@ public static class ScaleMapper
             .StartsAt(ParseDateTime(requestDto.StartsAt))
             .FinishedAt(ParseDateTime(requestDto.FinishedAt))
             .Build();
+    }
+
+    public static Page<ScaleDetailsResponseDto> ToPageDto(Page<Scale> scalePage)
+    {
+        var collectionDto = scalePage.Elements.Select(ToDto).ToList();
+        return Page<ScaleDetailsResponseDto>.Of(collectionDto, scalePage.Total, scalePage.Pageable);
     }
 
     public static ScaleDetailsResponseDto ToDto(Scale entity)
@@ -33,10 +41,10 @@ public static class ScaleMapper
     {
         if (!TryParse(date, out DateTime parsedDate))
         {
-            throw new ArgumentException("Data de nascimento inválida!");
+            throw new ArgumentException("Data inválida!");
         }
 
-        return DateTime.SpecifyKind(parsedDate, DateTimeKind.Unspecified);
+        return DateTime.SpecifyKind(parsedDate, DateTimeKind.Utc);
     }
 
     private static bool TryParse(string date, out DateTime output)

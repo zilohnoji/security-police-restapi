@@ -4,12 +4,12 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using SecurityPoliceMG.Configuration;
+using SecurityPoliceMG.Authentication.Configuration;
 using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Domain.Entity.Model;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace SecurityPoliceMG.Authentiation.Configuration.Security.Impl;
+namespace SecurityPoliceMG.Authentication.Configuration.Security.Impl;
 
 public class TokenGeneratorConfig : ITokenGenerator
 {
@@ -59,7 +59,8 @@ public class TokenGeneratorConfig : ITokenGenerator
             ValidateAudience = false,
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(secretKey)
+            IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+            ClockSkew = TimeSpan.Zero
         };
 
         tokenHandler.ValidateToken(expiredAccessToken, tokenParameters, out var securityToken);

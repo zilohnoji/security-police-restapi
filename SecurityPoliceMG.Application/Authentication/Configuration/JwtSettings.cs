@@ -1,4 +1,4 @@
-﻿namespace SecurityPoliceMG.Configuration;
+﻿namespace SecurityPoliceMG.Authentication.Configuration;
 
 public sealed class JwtSettings
 {
