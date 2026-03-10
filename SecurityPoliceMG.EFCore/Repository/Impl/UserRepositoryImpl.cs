@@ -16,6 +16,16 @@ public sealed class UserRepositoryImpl(AppDbContext context) : GenericRepository
                throw new ArgumentException("Email não encontrado!");
     }
 
+    public User FindById(Guid id)
+    {
+        return DataSet
+                   .Include(u => u.Person)
+                   .Include(u => u.RefreshToken)
+                   .Include(u => u.EmailCodeConfirmation)
+                   .FirstOrDefault(u => u.Id == id) ??
+               throw new ArgumentException("ID não encontrado!");
+    }
+
     public User? FindByEmail(string email)
     {
         return DataSet

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Companion;
+using QuestPDF.Fluent;
 using SecurityPoliceMG.Api.Base;
 using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Dto.Scale.Response;
-using SecurityPoliceMG.Authentication.Configuration.Enum;
+using SecurityPoliceMG.Domain.Entity.Enum;
 using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.Service;
 
@@ -13,16 +15,45 @@ namespace SecurityPoliceMG.Api;
 [ApiController]
 [Route("/api/scales")]
 [EnableCors("LocalPolicy")]
-[Authorize(nameof(SecurityPolicy.ActiveUserOnly))]
 public class ScaleApi(IScaleService service) : GenericApi
 {
-    [HttpPost("{personId:guid}")]
-    public IActionResult CreateScale([FromRoute] Guid personId, [FromBody] CreateScaleRequestDto requestDto)
+    [Authorize(Roles = nameof(UserRole.Admin))]
+    [HttpPost("{scaleId:guid}/register/{personId:guid}")]
+    public IActionResult AddOnScale([FromRoute] Guid scaleId, [FromRoute] Guid personId)
     {
-        ScaleDetailsResponseDto response = service.CreateScale(personId, requestDto);
+        ScaleDetailsResponseDto response = service.AddOnScale(scaleId, personId);
         return Created(response.Id.ToString(), response);
     }
 
+    [Authorize(Roles = nameof(UserRole.Admin))]
+    [HttpPost]
+    public IActionResult CreateScale([FromBody] CreateScaleRequestDto requestDto)
+    {
+        ScaleDetailsResponseDto response = service.CreateScale(requestDto);
+        return Created(response.Id.ToString(), response);
+    }
+
+    [Authorize]
+    [HttpGet("{scaleId:guid}/report")]
+    public IActionResult GenerateReport([FromRoute] Guid scaleId)
+    {
+        var pdfBytes = service.GenerateReport(scaleId, GetLoggedUserId()).GeneratePdf();
+
+        return File(pdfBytes, "application/pdf", $"scale_report_{DateTime.UtcNow:dd/MM/yyyy HH:mm}.pdf");
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{scaleId:guid}/debug/report")]
+    public IActionResult GenerateReportDebug([FromRoute] Guid scaleId)
+    {
+        var pdfBytes = service.GenerateReport(scaleId, GetLoggedUserId());
+
+        pdfBytes.ShowInCompanion();
+
+        return Ok("Opened archive on Companion Software");
+    }
+
+    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpGet]
     public IActionResult FindAll(
         [FromQuery] int? page,

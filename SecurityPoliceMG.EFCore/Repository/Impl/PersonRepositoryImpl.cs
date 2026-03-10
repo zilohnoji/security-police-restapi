@@ -13,7 +13,8 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
             .Include(p => p.User)
             .Include(p => p.Photo)
             .Include(p => p.PersonScales)
-            .First(p => p.Id.Equals(id));
+            .ThenInclude(s => s.Scale)
+            .FirstOrDefault(p => p.Id.Equals(id));
     }
 
     public Page<Person> FindAllInclude(Pageable pageable)

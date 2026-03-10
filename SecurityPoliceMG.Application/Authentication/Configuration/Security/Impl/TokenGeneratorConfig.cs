@@ -33,7 +33,7 @@ public class TokenGeneratorConfig : ITokenGenerator
                 [
                     new Claim(JwtRegisteredClaimNames.Sub, entity.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, entity.Email),
-                    new Claim("is_active", entity.IsActive.ToString())
+                    new Claim("role", entity.Role.ToString())
                 ]
             ),
             SigningCredentials = signingCredentials,

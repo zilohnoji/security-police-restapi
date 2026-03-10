@@ -12,7 +12,7 @@ namespace SecurityPoliceMG.Api;
 [ApiController]
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
-[Authorize(Policy = "ActiveUserOnly")]
+[Authorize]
 public sealed class PersonApi(IPersonService service) : GenericApi
 {
     [HttpPost]

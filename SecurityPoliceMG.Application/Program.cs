@@ -1,10 +1,7 @@
-using FluentValidation;
+using QuestPDF.Infrastructure;
 using SecurityPoliceMG.Configuration;
-using SecurityPoliceMG.Configuration.Security;
-using SecurityPoliceMG.Configuration.Security.Impl;
-using SecurityPoliceMG.EFCore.Configuration.Database;
-using SecurityPoliceMG.Service;
-using SecurityPoliceMG.Service.Impl;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 

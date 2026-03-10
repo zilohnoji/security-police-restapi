@@ -1,4 +1,5 @@
 ﻿using SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
+using SecurityPoliceMG.Domain.Entity.Enum;
 
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
@@ -13,6 +14,8 @@ public class Scale : BaseEntity
     public DateTime FinishedAt { get; private set; }
 
     public string Description { get; private set; }
+
+    public ScaleStatus Status { get; private set; }
 
     public ICollection<PersonScale> PersonScales { get; private set; } = [];
 
@@ -66,6 +69,12 @@ public class Scale : BaseEntity
         public IScaleBuilder Description(string description)
         {
             _entity.Description = description;
+            return this;
+        }
+
+        public IScaleBuilder Status(ScaleStatus status)
+        {
+            _entity.Status = status;
             return this;
         }
     }

@@ -9,10 +9,15 @@ public sealed class ScaleRepositoryImpl(AppDbContext context) : GenericRepositor
 {
     public Scale? FindById(Guid id)
     {
-        return DataSet.Include(p => p.PersonScales)
+        return DataSet
+            .Include(p => p.PersonScales)
             .ThenInclude(p => p.Person)
-            .ThenInclude(p => p.Address)
-            .First(p => p.Id.Equals(id));
+            .ThenInclude(u => u.User)
+            .Include(p => p.PersonScales)
+            .ThenInclude(p => p.Person)
+            .ThenInclude(a => a.Address)
+            .ThenInclude(c => c.City)
+            .FirstOrDefault(p => p.Id.Equals(id));
     }
 
     public Page<Scale> FindAllInclude(Pageable pageable)

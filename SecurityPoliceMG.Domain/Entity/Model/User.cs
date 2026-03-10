@@ -1,4 +1,6 @@
-﻿namespace SecurityPoliceMG.Domain.Entity.Model;
+﻿using SecurityPoliceMG.Domain.Entity.Enum;
+
+namespace SecurityPoliceMG.Domain.Entity.Model;
 
 public sealed class User : BaseEntity
 {
@@ -17,6 +19,8 @@ public sealed class User : BaseEntity
     public EmailCodeConfirmation? EmailCodeConfirmation { get; private set; }
 
     public bool IsActive { get; private set; }
+    
+    public UserRole Role { get; private set; }
 
     private User()
     {
@@ -24,6 +28,7 @@ public sealed class User : BaseEntity
 
     private User(string email, string password, RefreshToken refreshToken, EmailCodeConfirmation emailCodeConfirmation)
     {
+        Role = UserRole.Agent;
         Email = email;
         Password = password;
         RefreshToken = refreshToken;

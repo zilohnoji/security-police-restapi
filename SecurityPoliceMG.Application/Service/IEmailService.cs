@@ -1,6 +1,10 @@
-﻿namespace SecurityPoliceMG.Service;
+﻿using SecurityPoliceMG.Domain.Entity.Model;
+
+namespace SecurityPoliceMG.Service;
 
 public interface IEmailService
 {
-    void SendSimpleEmail(string to, string subject, string body);
+    void ActiveUserAccount(string userEmail, string code);
+
+    void PersonRegisterOnScale(string userEmail, Scale scale);
 }

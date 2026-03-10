@@ -20,7 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<RefreshToken> Tokens { get; set; }
 
     public DbSet<PersonScale> PersonScales { get; set; }
-    
+
     public DbSet<EmailCodeConfirmation> EmailCodeConfirmations { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
@@ -214,6 +214,12 @@ public class AppDbContext : DbContext
             .HasColumnType("text")
             .IsRequired();
 
+        modelBuilder.Entity<Scale>()
+            .Property(s => s.Status)
+            .HasColumnName("status")
+            .HasColumnType("int")
+            .IsRequired();
+
         #endregion
 
         #region User
@@ -247,12 +253,17 @@ public class AppDbContext : DbContext
             .HasColumnName("email_code_confirmation_id")
             .HasColumnType("uuid")
             .IsRequired();
-        
+
         modelBuilder.Entity<User>()
             .Property(p => p.IsActive)
             .HasColumnName("is_active")
             .IsRequired();
         
+        modelBuilder.Entity<User>()
+            .Property(p => p.Role)
+            .HasColumnName("role")
+            .IsRequired();
+
         modelBuilder.Entity<User>()
             .HasOne(p => p.RefreshToken)
             .WithOne(p => p.User)
@@ -262,15 +273,19 @@ public class AppDbContext : DbContext
             .HasOne(p => p.EmailCodeConfirmation)
             .WithOne(e => e.User)
             .HasForeignKey<User>(p => p.EmailCodeConfirmationId);
-        
+
         #endregion
 
         #region PersonScale
 
         modelBuilder.Entity<PersonScale>().ToTable("tb_person_scale");
 
+        modelBuilder.Entity<PersonScale>().HasKey(s => s.Id);
+
         modelBuilder.Entity<PersonScale>()
-            .HasKey(s => new { s.PersonId, s.ScaleId });
+            .Property(p => p.Id)
+            .HasColumnName("id")
+            .HasDefaultValueSql("gen_random_uuid()");
 
         modelBuilder.Entity<PersonScale>()
             .Property(p => p.ScaleId)

@@ -11,14 +11,14 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
     private readonly AppDbContext _context;
     protected readonly DbSet<T> DataSet;
-        
+
     public GenericRepository(AppDbContext context)
     {
         _context = context;
         DataSet = context.Set<T>();
     }
 
-    public T Create(T entity)
+    public virtual T Create(T entity)
     {
         entity = DataSet.Add(entity).Entity;
         _context.SaveChanges();
@@ -50,14 +50,14 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         return Page<T>.Of(entities, total, pageable);
     }
 
-    public T Update(T entity)
+    public virtual T Update(T entity)
     {
         var res = DataSet.Update(entity).Entity;
         _context.SaveChanges();
         return res;
     }
 
-    public T FindById(Guid id, IQueryable<T>? query = null)
+    public virtual T FindById(Guid id, IQueryable<T>? query = null)
     {
         query = query ?? DataSet;
         return query.FirstOrDefault(t => t.Id.Equals(id));

@@ -1,4 +1,5 @@
-﻿using SecurityPoliceMG.Domain.Entity.Model;
+﻿using SecurityPoliceMG.Domain.Entity.Enum;
+using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
@@ -15,4 +16,6 @@ public interface IScaleBuilder : IBuilder<Scale>
     IScaleBuilder FinishedAt(DateTime finishedAt);
 
     IScaleBuilder Description(string description);
+    
+    IScaleBuilder Status(ScaleStatus status);
 }

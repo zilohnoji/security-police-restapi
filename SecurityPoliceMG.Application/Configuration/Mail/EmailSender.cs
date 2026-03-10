@@ -39,7 +39,7 @@ public class EmailSender
         _subject = null;
         _body = null;
     }
-    
+
     public void Send()
     {
         var message = new MimeMessage();
@@ -54,7 +54,7 @@ public class EmailSender
 
         var builder = new BodyBuilder()
         {
-            TextBody = _body ?? _settings.Message ?? ""
+            HtmlBody = _body ?? _settings.Message,
         };
 
         message.Body = builder.ToMessageBody();

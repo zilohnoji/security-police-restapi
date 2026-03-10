@@ -1,6 +1,6 @@
-﻿using SecurityPoliceMG.Api.Dto.Person.Response;
-using SecurityPoliceMG.Api.Dto.Scale.Request;
+﻿using SecurityPoliceMG.Api.Dto.Scale.Request;
 using SecurityPoliceMG.Api.Dto.Scale.Response;
+using SecurityPoliceMG.Domain.Entity.Enum;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
 
@@ -8,7 +8,7 @@ namespace SecurityPoliceMG.Api.Mapper;
 
 public static class ScaleMapper
 {
-    public static Scale ToEntity(CreateScaleRequestDto requestDto, Person personEntity)
+    public static Scale ToEntity(CreateScaleRequestDto requestDto)
     {
         return Scale.ScaleBuilder.Builder()
             .Description(requestDto.Description)
@@ -16,6 +16,7 @@ public static class ScaleMapper
             .IsCompleted(false)
             .StartsAt(ParseDateTime(requestDto.StartsAt))
             .FinishedAt(ParseDateTime(requestDto.FinishedAt))
+            .Status(ScaleStatus.Created)
             .Build();
     }
 
@@ -37,7 +38,7 @@ public static class ScaleMapper
             .Build();
     }
 
-    private static DateTime ParseDateTime(string date)
+    public static DateTime ParseDateTime(string date)
     {
         if (!TryParse(date, out DateTime parsedDate))
         {

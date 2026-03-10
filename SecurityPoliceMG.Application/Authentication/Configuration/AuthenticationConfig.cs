@@ -1,10 +1,7 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using SecurityPoliceMG.Authentication.Configuration.Enum;
-using SecurityPoliceMG.Configuration;
+using SecurityPoliceMG.Domain.Entity.Enum;
 
 namespace SecurityPoliceMG.Authentication.Configuration;
 
@@ -34,7 +31,7 @@ public static class AuthenticationConfig
 
         service.AddAuthorization(options =>
         {
-            options.AddPolicy(nameof(SecurityPolicy.ActiveUserOnly), policy => { policy.RequireClaim("is_active", "True"); });
+            options.AddPolicy(nameof(UserRole.Admin), policy => policy.RequireRole(nameof(UserRole.Admin)));
         });
 
         return service;

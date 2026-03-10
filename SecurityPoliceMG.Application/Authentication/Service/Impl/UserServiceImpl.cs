@@ -46,7 +46,7 @@ public class UserServiceImpl(
         var emailCode = EmailCodeConfirmation.Of(DateTime.UtcNow.AddMinutes(30));
         var entity = User.Of(requestDto.Email, passwordEncoder.Encode(requestDto.Password), emailCode);
 
-        emailService.SendSimpleEmail(entity.Email, "Código de Confirmação", $"{emailCode.Code}");
+        emailService.ActiveUserAccount(entity.Email, emailCode.Code);
 
         entity = repositoryImpl.Create(entity);
 
