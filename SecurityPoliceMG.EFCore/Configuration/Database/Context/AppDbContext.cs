@@ -19,6 +19,10 @@ public class AppDbContext : DbContext
 
     public DbSet<RefreshToken> Tokens { get; set; }
 
+    public DbSet<Request> Requests { get; set; }
+
+    public DbSet<RequestExchangeScale> RequestExchangeScales { get; set; }
+
     public DbSet<PersonScale> PersonScales { get; set; }
 
     public DbSet<EmailCodeConfirmation> EmailCodeConfirmations { get; set; }
@@ -29,6 +33,97 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        #region Request
+
+        modelBuilder.Entity<Request>().ToTable("tb_request");
+
+        modelBuilder.Entity<Request>()
+            .Property(p => p.RequesterId)
+            .HasColumnName("requester_id")
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .Property(p => p.Description)
+            .HasColumnName("description")
+            .HasColumnType("text")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .Property(p => p.CreatedAt)
+            .HasColumnName("created_at")
+            .HasColumnType("timestamp with time zone")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .Property(p => p.RequestType)
+            .HasColumnName("request_type")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .Property(p => p.ReceiverId)
+            .HasColumnName("receiver_id")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .HasOne(p => p.Requester)
+            .WithMany(r => r.Requests)
+            .HasForeignKey(p => p.RequesterId)
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
+            .HasOne(p => p.Receiver)
+            .WithMany(r => r.Requests)
+            .HasForeignKey(p => p.ReceiverId)
+            .IsRequired();
+
+        #endregion
+
+        #region RequestExchangeScale
+
+        modelBuilder.Entity<RequestExchangeScale>().ToTable("tb_request_exchange_scale");
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .Property(p => p.RequestId)
+            .HasColumnName("request_id")
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .Property(p => p.Status)
+            .HasColumnName("status")
+            .IsRequired();
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .Property(p => p.AcceptedAt)
+            .HasColumnName("accepted_at")
+            .HasColumnType("timestamp with time zone")
+            .IsRequired();
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .Property(p => p.RequesterScaleId)
+            .HasColumnName("requester_scale_id")
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .Property(p => p.ReceiverScaleId)
+            .HasColumnName("receiver_scale_id")
+            .HasColumnType("uuid");
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .HasOne(p => p.Request)
+            .WithOne(r => r.RequestExchangeScale)
+            .HasForeignKey<RequestExchangeScale>(p => p.RequestId)
+            .IsRequired();
+
+        modelBuilder.Entity<RequestExchangeScale>()
+            .HasOne(p => p.ReceiverScale)
+            .WithOne(r => r.RequestExchangeScale)
+            .HasForeignKey<RequestExchangeScale>(p => p.ReceiverScale);
+
+        #endregion
+
         #region Person
 
         modelBuilder.Entity<Person>().ToTable("tb_person");
@@ -83,6 +178,11 @@ public class AppDbContext : DbContext
             .WithOne(u => u.Person)
             .HasForeignKey<Person>(p => p.UserId)
             .IsRequired();
+
+        modelBuilder.Entity<Person>()
+            .HasMany(r => r.Requests)
+            .WithOne(p => p.Requester)
+            .HasForeignKey(p => p.RequesterId);
 
         #endregion
 
@@ -258,7 +358,7 @@ public class AppDbContext : DbContext
             .Property(p => p.IsActive)
             .HasColumnName("is_active")
             .IsRequired();
-        
+
         modelBuilder.Entity<User>()
             .Property(p => p.Role)
             .HasColumnName("role")
@@ -317,29 +417,6 @@ public class AppDbContext : DbContext
             .WithMany(p => p.PersonScales)
             .HasForeignKey(s => s.ScaleId)
             .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
-
-        #endregion
-
-        #region Document
-
-        modelBuilder.Entity<Document>().ToTable("tb_document");
-
-        modelBuilder.Entity<Document>()
-            .Property(p => p.Url)
-            .IsRequired();
-
-        modelBuilder.Entity<Document>()
-            .Property(p => p.DocType)
-            .HasColumnName("document_type")
-            .IsRequired();
-
-        modelBuilder.Entity<Document>()
-            .Property(p => p.Name)
-            .IsRequired();
-
-        modelBuilder.Entity<Document>()
-            .Property(p => p.Size)
             .IsRequired();
 
         #endregion

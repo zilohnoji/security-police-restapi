@@ -17,6 +17,8 @@ public class Scale : BaseEntity
 
     public ScaleStatus Status { get; private set; }
 
+    public RequestExchangeScale RequestExchangeScale { get; private set; }
+    
     public ICollection<PersonScale> PersonScales { get; private set; } = [];
 
     private Scale()

@@ -1,7 +1,6 @@
 ﻿using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Api.Mapper;
-using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 
@@ -23,7 +22,7 @@ public class PersonServiceImpl(
 
         if (personEntity is not null) throw new ArgumentException("Esse usuário já possui um cadastro de pessoa!");
 
-        personEntity = PersonMapper.ToEntity(requestDto, userRepository.FindById(loggedUserId));
+        personEntity = PersonMapper.ToEntity(requestDto);
 
         personRepository.Create(personEntity);
 

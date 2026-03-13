@@ -16,9 +16,9 @@ public interface IPersonBuilder : IBuilder<Person>
 
     IPersonBuilder DaddyName(string daddyName);
 
-    IPersonBuilder Address(Address address);
+    IPersonBuilder AddressId(Guid addressId);
 
-    IPersonBuilder User(User user);
-    
+    IPersonBuilder UserId(Guid userId);
+
     IPersonBuilder Photo(Photo photo);
 }

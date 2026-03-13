@@ -8,10 +8,9 @@ public static class CorsConfig
         {
             options.AddPolicy("LocalPolicy", policy =>
                 policy
-                    .WithOrigins("http://localhost:4200")
+                    .WithOrigins("http://localhost:4200", "http://localhost:5000")
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
         });
 
         return service;
@@ -19,7 +18,7 @@ public static class CorsConfig
 
     public static IApplicationBuilder UseCorsConfig(this IApplicationBuilder app)
     {
-        app.UseCors();
+        app.UseCors("LocalPolicy");
         return app;
     }
 }

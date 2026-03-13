@@ -29,11 +29,11 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseCorsConfig();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCorsConfig();
 
 app.MapControllers();
 

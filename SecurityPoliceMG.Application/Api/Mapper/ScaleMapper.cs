@@ -3,6 +3,7 @@ using SecurityPoliceMG.Api.Dto.Scale.Response;
 using SecurityPoliceMG.Domain.Entity.Enum;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
+using SecurityPoliceMG.Util;
 
 namespace SecurityPoliceMG.Api.Mapper;
 
@@ -12,10 +13,10 @@ public static class ScaleMapper
     {
         return Scale.ScaleBuilder.Builder()
             .Description(requestDto.Description)
-            .CreatedAt(ParseDateTime(DateTime.Now.ToString()))
+            .CreatedAt(DateParser.ParseDateTime(DateTime.Now.ToString()))
             .IsCompleted(false)
-            .StartsAt(ParseDateTime(requestDto.StartsAt))
-            .FinishedAt(ParseDateTime(requestDto.FinishedAt))
+            .StartsAt(DateParser.ParseDateTime(requestDto.StartsAt))
+            .FinishedAt(DateParser.ParseDateTime(requestDto.FinishedAt))
             .Status(ScaleStatus.Created)
             .Build();
     }
@@ -36,27 +37,5 @@ public static class ScaleMapper
             .StartsAt(entity.StartsAt)
             .FinishedAt(entity.FinishedAt)
             .Build();
-    }
-
-    public static DateTime ParseDateTime(string date)
-    {
-        if (!TryParse(date, out DateTime parsedDate))
-        {
-            throw new ArgumentException("Data inválida!");
-        }
-
-        return DateTime.SpecifyKind(parsedDate, DateTimeKind.Utc);
-    }
-
-    private static bool TryParse(string date, out DateTime output)
-    {
-        if (string.IsNullOrEmpty(date))
-        {
-            output = new DateTime();
-            return false;
-        }
-
-        DateTime.TryParse(date, out output);
-        return true;
     }
 }

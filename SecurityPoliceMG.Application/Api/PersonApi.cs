@@ -13,7 +13,7 @@ namespace SecurityPoliceMG.Api;
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
 [Authorize]
-public sealed class PersonApi(IPersonService service) : GenericApi
+public sealed class PersonApi(IPersonService service) : BaseController
 {
     [HttpPost]
     public IActionResult Create([FromBody] CreatePersonRequestDto requestDto)

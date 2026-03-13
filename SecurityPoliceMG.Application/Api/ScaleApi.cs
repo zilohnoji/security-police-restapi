@@ -15,7 +15,7 @@ namespace SecurityPoliceMG.Api;
 [ApiController]
 [Route("/api/scales")]
 [EnableCors("LocalPolicy")]
-public class ScaleApi(IScaleService service) : GenericApi
+public class ScaleApi(IScaleService service) : BaseController
 {
     [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpPost("{scaleId:guid}/register/{personId:guid}")]
@@ -46,7 +46,7 @@ public class ScaleApi(IScaleService service) : GenericApi
     [HttpGet("{scaleId:guid}/debug/report")]
     public IActionResult GenerateReportDebug([FromRoute] Guid scaleId)
     {
-        var pdfBytes = service.GenerateReport(scaleId, GetLoggedUserId());
+        var pdfBytes = service.GenerateReport(scaleId, Guid.Empty);
 
         pdfBytes.ShowInCompanion();
 

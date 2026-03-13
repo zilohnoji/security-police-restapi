@@ -46,6 +46,8 @@ public static class SetUpInjectableServices
         services.AddScoped<UserRepositoryImpl>();
         services.AddScoped<PersonRepositoryImpl>();
         services.AddScoped<ScaleRepositoryImpl>();
+        services.AddScoped<RequestRepositoryImpl>();
+        services.AddScoped<RequestExchangeScaleRepositoryImpl>();
 
         services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
         services.AddScoped<IRepository<User>, UserRepositoryImpl>();
@@ -58,10 +60,10 @@ public static class SetUpInjectableServices
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         services.AddScoped<IPersonService, PersonServiceImpl>();
-        services.AddScoped<IDocumentService, DocumentServiceImpl>();
         services.AddScoped<IUserAuthService, UserServiceImpl>();
         services.AddScoped<IEmailService, EmailServiceImpl>();
         services.AddScoped<IScaleService, ScaleServiceImpl>();
+        services.AddScoped<IRequestService, RequestServiceImpl>();
 
         services.AddScoped<EmailSender>();
 

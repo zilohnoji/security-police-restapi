@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SecurityPoliceMG.Api.Base;
 
-public class GenericApi : ControllerBase
+public abstract class BaseController : ControllerBase
 {
     protected Guid GetLoggedUserId()
     {

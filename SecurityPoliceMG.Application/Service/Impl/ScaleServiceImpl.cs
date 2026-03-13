@@ -7,6 +7,7 @@ using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 using SecurityPoliceMG.Service.Impl.Email;
 using SecurityPoliceMG.Service.Impl.Report.Config;
+using SecurityPoliceMG.Util;
 
 namespace SecurityPoliceMG.Service.Impl;
 
@@ -56,8 +57,8 @@ public class ScaleServiceImpl(
 
     public ScaleDetailsResponseDto CreateScale(CreateScaleRequestDto requestDto)
     {
-        var startDate = ScaleMapper.ParseDateTime(requestDto.StartsAt);
-        var finishDate = ScaleMapper.ParseDateTime(requestDto.FinishedAt);
+        var startDate = DateParser.ParseDateTime(requestDto.StartsAt);
+        var finishDate = DateParser.ParseDateTime(requestDto.FinishedAt);
 
         if (startDate < DateTime.UtcNow)
         {

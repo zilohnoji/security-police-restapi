@@ -1,4 +1,4 @@
-﻿namespace SecurityPoliceMG.Api.Dto.Person.Response;
+﻿namespace SecurityPoliceMG.Api.Dto.Photo.Response;
 
 public sealed class PhotoDetailsResponseDto
 {
@@ -8,14 +8,8 @@ public sealed class PhotoDetailsResponseDto
 
     public string Hash { get; set; }
 
-    public static readonly PhotoDetailsResponseDto Empty = new PhotoDetailsResponseDto();
-
     private PhotoDetailsResponseDto()
     {
-        CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        ;
-        Bucket = string.Empty;
-        Hash = string.Empty;
     }
 
     private PhotoDetailsResponseDto(string bucket, string hash)
@@ -23,7 +17,6 @@ public sealed class PhotoDetailsResponseDto
         Bucket = bucket;
         Hash = hash;
         CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        ;
     }
 
     public static PhotoDetailsResponseDto Of(string bucket, string hash)

@@ -2,9 +2,9 @@
 
 namespace SecurityPoliceMG.Api.Dto.Photo.Request;
 
-public sealed class CreatePhotoRequestDto
+public record CreatePhotoRequestDto
 {
-    [JsonPropertyName("bucket")] public string Bucket { get; set; } = string.Empty;
+    [JsonPropertyName("bucket")] public string Bucket { get; set; }
 
-    [JsonPropertyName("file_hash")] public string Hash { get; set; } = string.Empty;
+    [JsonPropertyName("file_hash")] public string Hash { get; set; }
 };

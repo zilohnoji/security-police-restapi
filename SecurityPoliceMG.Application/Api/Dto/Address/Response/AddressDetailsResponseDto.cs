@@ -1,6 +1,7 @@
-﻿using SecurityPoliceMG.Application.Builder.Dto.Response;
+﻿using SecurityPoliceMG.Api.Dto.Builder.FluentBuilder.Response;
+using SecurityPoliceMG.Api.Dto.City.Response;
 
-namespace SecurityPoliceMG.Api.Dto.Person.Response;
+namespace SecurityPoliceMG.Api.Dto.Address.Response;
 
 public sealed class AddressDetailsResponseDto
 {
@@ -14,17 +15,11 @@ public sealed class AddressDetailsResponseDto
 
     public CityDetailsResponseDto City { get; set; }
 
-    public static readonly AddressDetailsResponseDto Empty = new AddressDetailsResponseDto();
-
     private AddressDetailsResponseDto()
     {
-        PatioType = string.Empty;
-        Street = string.Empty;
-        Neighborhood = string.Empty;
-        City = CityDetailsResponseDto.Empty;
     }
 
-    public sealed class AddressDetailsBuilder : IAddressDetailsResponseDtoFluentBuilder
+    public sealed class AddressDetailsBuilder : IAddressDetailsResponseDtoBuilder
     {
         private readonly AddressDetailsResponseDto _dto;
 
@@ -38,36 +33,36 @@ public sealed class AddressDetailsResponseDto
             return _dto;
         }
 
-        public static IAddressDetailsResponseDtoFluentBuilder Builder()
+        public static IAddressDetailsResponseDtoBuilder Builder()
         {
             return new AddressDetailsBuilder();
         }
 
-        public IAddressDetailsResponseDtoFluentBuilder PatioType(string patioType)
+        public IAddressDetailsResponseDtoBuilder PatioType(string patioType)
         {
             _dto.PatioType = patioType;
             return this;
         }
 
-        public IAddressDetailsResponseDtoFluentBuilder Street(string street)
+        public IAddressDetailsResponseDtoBuilder Street(string street)
         {
             _dto.Street = street;
             return this;
         }
 
-        public IAddressDetailsResponseDtoFluentBuilder Number(int number)
+        public IAddressDetailsResponseDtoBuilder Number(int number)
         {
             _dto.Number = number;
             return this;
         }
 
-        public IAddressDetailsResponseDtoFluentBuilder Neighborhood(string neighborhood)
+        public IAddressDetailsResponseDtoBuilder Neighborhood(string neighborhood)
         {
             _dto.Neighborhood = neighborhood;
             return this;
         }
 
-        public IAddressDetailsResponseDtoFluentBuilder City(CityDetailsResponseDto city)
+        public IAddressDetailsResponseDtoBuilder City(CityDetailsResponseDto city)
         {
             _dto.City = city;
             return this;

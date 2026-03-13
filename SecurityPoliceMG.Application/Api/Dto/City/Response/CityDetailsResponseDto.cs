@@ -1,4 +1,4 @@
-﻿namespace SecurityPoliceMG.Api.Dto.Person.Response;
+﻿namespace SecurityPoliceMG.Api.Dto.City.Response;
 
 public sealed class CityDetailsResponseDto
 {
@@ -6,12 +6,8 @@ public sealed class CityDetailsResponseDto
 
     public string Uf { get; set; }
 
-    public static readonly CityDetailsResponseDto Empty = new CityDetailsResponseDto();
-
-    public CityDetailsResponseDto()
+    private CityDetailsResponseDto()
     {
-        Name = string.Empty;
-        Uf = string.Empty;
     }
 
     private CityDetailsResponseDto(string name, string uf)

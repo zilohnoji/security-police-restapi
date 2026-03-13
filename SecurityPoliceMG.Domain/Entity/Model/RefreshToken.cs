@@ -23,4 +23,4 @@ public sealed class RefreshToken : BaseEntity
         var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(refreshTokenLength));
         return new RefreshToken(token, DateTime.UtcNow.AddDays(7));
     }
-}
+} 

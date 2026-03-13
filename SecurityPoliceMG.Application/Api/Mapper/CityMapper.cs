@@ -1,5 +1,5 @@
 ﻿using SecurityPoliceMG.Api.Dto.City.Request;
-using SecurityPoliceMG.Api.Dto.Person.Response;
+using SecurityPoliceMG.Api.Dto.City.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
 
 namespace SecurityPoliceMG.Api.Mapper;

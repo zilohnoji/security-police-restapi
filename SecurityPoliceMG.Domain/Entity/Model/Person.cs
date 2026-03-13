@@ -26,6 +26,8 @@ public sealed class Person : BaseEntity
 
     public ICollection<PersonScale> PersonScales { get; private set; } = new List<PersonScale>();
 
+    public ICollection<Request> Requests { get; private set; } = new List<Request>();
+
     private Person()
     {
     }
@@ -79,17 +81,15 @@ public sealed class Person : BaseEntity
             return this;
         }
 
-        public IPersonBuilder Address(Address address)
+        public IPersonBuilder AddressId(Guid addressId)
         {
-            _entity.AddressId = address.Id;
-            _entity.Address = address;
+            _entity.AddressId = addressId;
             return this;
         }
 
-        public IPersonBuilder User(User user)
+        public IPersonBuilder UserId(Guid userId)
         {
-            _entity.UserId = user.Id;
-            _entity.User = user;
+            _entity.UserId = userId;
             return this;
         }
 

@@ -1,24 +1,21 @@
-﻿using System.Collections;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using SecurityPoliceMG.Api.Dto.Person.Request;
+﻿using SecurityPoliceMG.Api.Dto.Person.Request;
 using SecurityPoliceMG.Api.Dto.Person.Response;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
+using SecurityPoliceMG.Util;
 
 namespace SecurityPoliceMG.Api.Mapper;
 
 public static class PersonMapper
 {
-    public static Person ToEntity(CreatePersonRequestDto requestDto, User entity)
+    public static Person ToEntity(CreatePersonRequestDto requestDto)
     {
         return Person.PersonBuilder.Builder()
             .Name(requestDto.Profile.Name)
             .Gender(requestDto.Profile.Gender)
-            .BirthDate(PaseDate(requestDto.Profile.BirthDate))
+            .BirthDate(DateParser.ParseDateOnly(requestDto.Profile.BirthDate))
             .DaddyName(requestDto.Profile.DaddyName)
             .MotherName(requestDto.Profile.MotherName)
-            .Address(AddressMapper.ToEntity(requestDto.Address))
-            .User(entity)
             .Photo(PhotoMapper.ToEntity(requestDto.Profile.Photo))
             .Build();
     }
@@ -42,27 +39,5 @@ public static class PersonMapper
             .Address(AddressMapper.ToDto(entity.Address))
             .Scales(entity.PersonScales.Select(s => ScaleMapper.ToDto(s.Scale)).ToList())
             .Build();
-    }
-
-    private static DateOnly PaseDate(string date)
-    {
-        if (!TryParse(date, out DateOnly parsedDate))
-        {
-            throw new ArgumentException("Data de nascimento inválida!");
-        }
-
-        return DateOnly.Parse(parsedDate.ToString("MM/dd/yyyy"));
-    }
-
-    private static bool TryParse(string date, out DateOnly output)
-    {
-        if (string.IsNullOrEmpty(date))
-        {
-            output = new DateOnly();
-            return false;
-        }
-
-        DateOnly.TryParse(date, out output);
-        return true;
     }
 }

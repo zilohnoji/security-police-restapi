@@ -1,23 +1,26 @@
-﻿using SecurityPoliceMG.Application.Api.Dto.Builder.Dto.Response;
+﻿using SecurityPoliceMG.Api.Dto.Builder.FluentBuilder.Response;
 
 namespace SecurityPoliceMG.Api.Dto.Scale.Response;
 
 public sealed class ScaleDetailsResponseDto
 {
     public Guid Id { get; set; }
-    public bool IsCompleted { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime StartsAt { get; set; }
-    public DateTime FinishedAt { get; set; }
-    public string Description { get; set; } = string.Empty;
 
-    public static readonly ScaleDetailsResponseDto Empty = new ScaleDetailsResponseDto();
+    public bool IsCompleted { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime StartsAt { get; set; }
+
+    public DateTime FinishedAt { get; set; }
+
+    public string Description { get; set; }
 
     private ScaleDetailsResponseDto()
     {
     }
 
-    public sealed class ScaleBuilder : IScaleDetailsResponseDtoFluentBuilder
+    public sealed class ScaleBuilder : IScaleDetailsResponseDtoBuilder
     {
         private readonly ScaleDetailsResponseDto _dto;
 
@@ -31,42 +34,42 @@ public sealed class ScaleDetailsResponseDto
             return _dto;
         }
 
-        public static IScaleDetailsResponseDtoFluentBuilder Builder()
+        public static IScaleDetailsResponseDtoBuilder Builder()
         {
             return new ScaleBuilder();
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder ScaleId(Guid scaleId)
+        public IScaleDetailsResponseDtoBuilder ScaleId(Guid scaleId)
         {
             _dto.Id = scaleId;
             return this;
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder IsCompleted(bool isCompleted)
+        public IScaleDetailsResponseDtoBuilder IsCompleted(bool isCompleted)
         {
             _dto.IsCompleted = isCompleted;
             return this;
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder CreatedAt(DateTime createdAt)
+        public IScaleDetailsResponseDtoBuilder CreatedAt(DateTime createdAt)
         {
             _dto.CreatedAt = createdAt;
             return this;
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder StartsAt(DateTime startsAt)
+        public IScaleDetailsResponseDtoBuilder StartsAt(DateTime startsAt)
         {
             _dto.StartsAt = startsAt;
             return this;
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder FinishedAt(DateTime finishedAt)
+        public IScaleDetailsResponseDtoBuilder FinishedAt(DateTime finishedAt)
         {
             _dto.FinishedAt = finishedAt;
             return this;
         }
 
-        public IScaleDetailsResponseDtoFluentBuilder Description(string description)
+        public IScaleDetailsResponseDtoBuilder Description(string description)
         {
             _dto.Description = description;
             return this;
