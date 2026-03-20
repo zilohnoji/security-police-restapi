@@ -21,6 +21,8 @@ public sealed class Request : BaseEntity
 
     public RequestExchangeScale RequestExchangeScale { get; private set; }
 
+    public bool IsCompleted { get; private set; }
+
     private Request()
     {
     }
@@ -29,8 +31,14 @@ public sealed class Request : BaseEntity
     {
         private readonly Request _entity;
 
-        private RequestBuilder()
+        private RequestBuilder(Request? entity)
         {
+            if (entity is not null)
+            {
+                _entity = entity;
+                return;
+            }
+
             _entity = new Request();
         }
 
@@ -39,9 +47,9 @@ public sealed class Request : BaseEntity
             return _entity;
         }
 
-        public static IRequestBuilder Builder()
+        public static IRequestBuilder Builder(Request? entity = null)
         {
-            return new RequestBuilder();
+            return new RequestBuilder(entity);
         }
 
         public IRequestBuilder RequesterId(Guid requesterId)
@@ -74,9 +82,9 @@ public sealed class Request : BaseEntity
             return this;
         }
 
-        public IRequestBuilder RequestExchangeScale(RequestExchangeScale requestExchangeScale)
+        public IRequestBuilder IsCompleted(bool isCompleted)
         {
-            _entity.RequestExchangeScale = requestExchangeScale;
+            _entity.IsCompleted = isCompleted;
             return this;
         }
     }

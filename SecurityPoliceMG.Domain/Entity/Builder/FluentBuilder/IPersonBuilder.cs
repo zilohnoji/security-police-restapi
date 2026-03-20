@@ -4,7 +4,7 @@ namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 public interface IPersonBuilder : IBuilder<Person>
 {
-    static abstract IPersonBuilder Builder();
+    static abstract IPersonBuilder Builder(Person? entity);
 
     IPersonBuilder Name(string name);
 
@@ -19,6 +19,4 @@ public interface IPersonBuilder : IBuilder<Person>
     IPersonBuilder AddressId(Guid addressId);
 
     IPersonBuilder UserId(Guid userId);
-
-    IPersonBuilder Photo(Photo photo);
 }

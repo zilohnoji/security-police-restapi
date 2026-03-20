@@ -1,6 +1,6 @@
 ﻿using SecurityPoliceMG.Domain.Entity.Model;
 
-namespace SecurityPoliceMG.Service.Impl.Email.Config;
+namespace SecurityPoliceMG.Service.Impl.EmailModule.Config;
 
 public static class TemplateHelper
 {
@@ -27,7 +27,7 @@ public static class TemplateHelper
 
     private static string GetEmailTemplate(string fileName, Dictionary<string, string> values)
     {
-        var path = Path.Combine(AppContext.BaseDirectory, "Service/Impl/Email/Template", fileName);
+        var path = Path.Combine(AppContext.BaseDirectory, "Service/Impl/EmailModule/Template", fileName);
         var html = File.ReadAllText(path);
 
         foreach (var p in values)

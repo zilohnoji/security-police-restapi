@@ -8,17 +8,24 @@ public class Pageable
     public string OrderTerm { get; set; }
     public string SearchTerm { get; set; }
 
-    private Pageable(int? page, int? pageSize, string? sort, string? orderTerm, string? searchTerm)
+    public Pageable()
     {
-        Page = page ?? 1;
-        PageSize = pageSize ?? 10;
-        Sort = sort ?? "desc";
-        OrderTerm = orderTerm ?? "id";
-        SearchTerm = searchTerm ?? "";
+        Page = 1;
+        PageSize = 10;
+        Sort = "desc";
+        OrderTerm = "id";
+        SearchTerm = "";
     }
 
     public static Pageable Of(int? page, int? pageSize, string? sort, string? orderTerm, string? searchTerm)
     {
-        return new Pageable(page, pageSize, sort, orderTerm, searchTerm);
+        return new Pageable()
+        {
+            Page = page ?? 1,
+            PageSize = pageSize ?? 10,
+            Sort = sort ?? "desc",
+            SearchTerm = searchTerm ?? "",
+            OrderTerm = orderTerm ?? "id"
+        };
     }
 }

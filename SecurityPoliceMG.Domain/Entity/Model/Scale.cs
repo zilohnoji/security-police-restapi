@@ -3,7 +3,7 @@ using SecurityPoliceMG.Domain.Entity.Enum;
 
 namespace SecurityPoliceMG.Domain.Entity.Model;
 
-public class Scale : BaseEntity
+public sealed class Scale : BaseEntity
 {
     public bool IsCompleted { get; private set; }
 
@@ -17,9 +17,11 @@ public class Scale : BaseEntity
 
     public ScaleStatus Status { get; private set; }
 
-    public RequestExchangeScale RequestExchangeScale { get; private set; }
-    
     public ICollection<PersonScale> PersonScales { get; private set; } = [];
+
+    public ICollection<RequestExchangeScale> RequestExchangeScales { get; private set; } = [];
+
+    public ICollection<RequestExchangeScale> ReceiverExchangeScales { get; private set; } = [];
 
     private Scale()
     {
@@ -29,8 +31,14 @@ public class Scale : BaseEntity
     {
         private readonly Scale _entity;
 
-        private ScaleBuilder()
+        private ScaleBuilder(Scale? entity)
         {
+            if (entity is not null)
+            {
+                _entity = entity;
+                return;
+            }
+
             _entity = new Scale();
         }
 
@@ -39,9 +47,9 @@ public class Scale : BaseEntity
             return _entity;
         }
 
-        public static IScaleBuilder Builder()
+        public static IScaleBuilder Builder(Scale? entity = null)
         {
-            return new ScaleBuilder();
+            return new ScaleBuilder(entity);
         }
 
         public IScaleBuilder IsCompleted(bool isCompleted)

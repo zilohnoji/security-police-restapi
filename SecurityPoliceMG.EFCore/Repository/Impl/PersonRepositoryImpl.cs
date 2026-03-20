@@ -11,9 +11,10 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
     {
         return DataSet.Include(p => p.Address.City)
             .Include(p => p.User)
-            .Include(p => p.Photo)
             .Include(p => p.PersonScales)
             .ThenInclude(s => s.Scale)
+            .Include(p => p.ReceiveRequests)
+            .Include(p => p.SentRequests)
             .FirstOrDefault(p => p.Id.Equals(id));
     }
 
@@ -25,7 +26,6 @@ public sealed class PersonRepositoryImpl(AppDbContext context) : GenericReposito
                         || p.MotherName.ToLower().Contains(pageable.SearchTerm.ToLower()))
             .Include(p => p.Address.City)
             .Include(p => p.User)
-            .Include(p => p.Photo)
             .Include(p => p.PersonScales)
             .ThenInclude(s => s.Scale);
 

@@ -4,7 +4,7 @@ namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 public interface IAddressBuilder : IBuilder<Address>
 {
-    static abstract IAddressBuilder Builder();
+    static abstract IAddressBuilder Builder(Address? entity);
 
     IAddressBuilder PatioType(string patioType);
 

@@ -26,8 +26,14 @@ public sealed class Address : BaseEntity
     {
         private readonly Address _entity;
 
-        private AddressBuilder()
+        private AddressBuilder(Address? entity)
         {
+            if (entity is not null)
+            {
+                _entity = entity;
+                return;
+            }
+
             _entity = new Address();
         }
 
@@ -36,9 +42,9 @@ public sealed class Address : BaseEntity
             return _entity;
         }
 
-        public static IAddressBuilder Builder()
+        public static IAddressBuilder Builder(Address? entity = null)
         {
-            return new AddressBuilder();
+            return new AddressBuilder(entity);
         }
 
         public IAddressBuilder PatioType(string patioType)
@@ -71,11 +77,5 @@ public sealed class Address : BaseEntity
             _entity.City = city;
             return this;
         }
-    }
-
-    public void DefineCity(City city)
-    {
-        City = city;
-        CityId = city.Id;
     }
 }

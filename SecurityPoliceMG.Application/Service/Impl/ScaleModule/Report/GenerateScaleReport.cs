@@ -4,9 +4,9 @@ using QuestPDF.Infrastructure;
 using SecurityPoliceMG.Domain.Entity.Model;
 using Document = QuestPDF.Fluent.Document;
 
-namespace SecurityPoliceMG.Service.Impl.Report.Config;
+namespace SecurityPoliceMG.Service.Impl.ScaleModule.Report;
 
-public static class ScaleReportHelper
+public static class GenerateScaleReport
 {
     public static Document GenerateReport(Scale model, Guid loggedUserId)
     {
@@ -122,7 +122,7 @@ public static class ScaleReportHelper
 
     private static byte[] LoadReportLogo(string fileName)
     {
-        var path = Path.Combine(AppContext.BaseDirectory, "Service/Impl/Report/Image", fileName);
+        var path = Path.Combine(AppContext.BaseDirectory, "Service/Impl/ScaleModule/Report/Image", fileName);
         return File.ReadAllBytes(path);
     }
 }

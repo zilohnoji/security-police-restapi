@@ -5,7 +5,7 @@ namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 public interface IRequestBuilder : IBuilder<Request>
 {
-    static abstract IRequestBuilder Builder();
+    static abstract IRequestBuilder Builder(Request? entity);
 
     IRequestBuilder RequesterId(Guid requesterId);
 
@@ -17,5 +17,5 @@ public interface IRequestBuilder : IBuilder<Request>
 
     IRequestBuilder ReceiverId(Guid receiverId);
 
-    IRequestBuilder RequestExchangeScale(RequestExchangeScale requestExchangeScale);
+    IRequestBuilder IsCompleted(bool isCompleted);
 }

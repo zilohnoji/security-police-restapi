@@ -5,11 +5,10 @@ using SecurityPoliceMG.Api.Mapper;
 using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
-using SecurityPoliceMG.Service.Impl.Email;
-using SecurityPoliceMG.Service.Impl.Report.Config;
+using SecurityPoliceMG.Service.Impl.ScaleModule.Report;
 using SecurityPoliceMG.Util;
 
-namespace SecurityPoliceMG.Service.Impl;
+namespace SecurityPoliceMG.Service.Impl.ScaleModule;
 
 public class ScaleServiceImpl(
     ScaleRepositoryImpl scaleRepository,
@@ -91,6 +90,6 @@ public class ScaleServiceImpl(
             throw new ArgumentException($"Scale não encontrada com o ID {scaleId}");
         }
 
-        return ScaleReportHelper.GenerateReport(scale, loggedUserId);
+        return GenerateScaleReport.GenerateReport(scale, loggedUserId);
     }
 }

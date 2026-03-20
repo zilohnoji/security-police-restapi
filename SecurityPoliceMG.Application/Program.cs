@@ -1,3 +1,4 @@
+using FluentValidation;
 using QuestPDF.Infrastructure;
 using SecurityPoliceMG.Configuration;
 
@@ -12,8 +13,6 @@ builder.Services.AddControllers().ConfigureContentNegotiation();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
-
-// builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 

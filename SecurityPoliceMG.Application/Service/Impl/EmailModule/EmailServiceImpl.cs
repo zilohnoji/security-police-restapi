@@ -1,8 +1,8 @@
 ﻿using SecurityPoliceMG.Configuration.Mail;
 using SecurityPoliceMG.Domain.Entity.Model;
-using SecurityPoliceMG.Service.Impl.Email.Config;
+using SecurityPoliceMG.Service.Impl.EmailModule.Config;
 
-namespace SecurityPoliceMG.Service.Impl.Email;
+namespace SecurityPoliceMG.Service.Impl.EmailModule;
 
 public class EmailServiceImpl(EmailSender sender) : IEmailService
 {

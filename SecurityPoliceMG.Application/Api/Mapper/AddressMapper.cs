@@ -17,15 +17,15 @@ public static class AddressMapper
             .Build();
     }
 
-
     public static AddressDetailsResponseDto ToDto(Address entity)
     {
-        return AddressDetailsResponseDto.AddressDetailsBuilder.Builder()
-            .Number(entity.Number)
-            .City(CityMapper.ToDto(entity.City))
-            .Street(entity.Street)
-            .Neighborhood(entity.Neighborhood)
-            .PatioType(entity.PatioType)
-            .Build();
+        return new AddressDetailsResponseDto()
+        {
+            Number = entity.Number,
+            City = CityMapper.ToDto(entity.City),
+            Street = entity.Street,
+            Neighborhood = entity.Neighborhood,
+            PatioType = entity.PatioType
+        };
     }
 }

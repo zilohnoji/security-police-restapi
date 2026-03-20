@@ -1,6 +1,6 @@
-﻿CREATE TABLE tb_city
+﻿create table tb_city
 (
-    id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(200) NOT NULL,
-    uf   VARCHAR(2)   NOT NULL
+    id   uuid primary key default gen_random_uuid(),
+    name varchar(200) not null,
+    uf   varchar(2)   not null
 );

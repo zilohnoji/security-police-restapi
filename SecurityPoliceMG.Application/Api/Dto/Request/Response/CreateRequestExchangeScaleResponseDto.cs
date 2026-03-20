@@ -10,9 +10,5 @@ public sealed class CreateRequestExchangeScaleResponseDto
 
     public string Status { get; set; }
 
-    public DateTime AcceptedAt { get; set; }
-
     public ScaleDetailsResponseDto RequesterScale { get; set; }
-
-    public ScaleDetailsResponseDto ReceiverScale { get; set; }
 }

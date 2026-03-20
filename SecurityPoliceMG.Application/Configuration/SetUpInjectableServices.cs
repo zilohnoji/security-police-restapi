@@ -1,17 +1,19 @@
-﻿using SecurityPoliceMG.Authentication.Configuration;
+﻿using FluentValidation;
+using SecurityPoliceMG.Authentication.Configuration;
 using SecurityPoliceMG.Authentication.Configuration.Security.Impl;
 using SecurityPoliceMG.Authentication.Service;
 using SecurityPoliceMG.Authentication.Service.Impl;
 using SecurityPoliceMG.Configuration.Mail;
 using SecurityPoliceMG.Configuration.Security;
 using SecurityPoliceMG.Configuration.Security.Impl;
-using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Configuration.Database;
 using SecurityPoliceMG.EFCore.Repository;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 using SecurityPoliceMG.Service;
-using SecurityPoliceMG.Service.Impl;
-using SecurityPoliceMG.Service.Impl.Email;
+using SecurityPoliceMG.Service.Impl.EmailModule;
+using SecurityPoliceMG.Service.Impl.PersonModule;
+using SecurityPoliceMG.Service.Impl.RequestModule;
+using SecurityPoliceMG.Service.Impl.ScaleModule;
 
 namespace SecurityPoliceMG.Configuration;
 
@@ -21,6 +23,7 @@ public static class SetUpInjectableServices
         IConfiguration configuration)
     {
         services
+            .AddValidatorsFromAssemblyContaining<Program>()
             .AddOpenApiServices(configuration)
             .AddRepositoriesServices()
             .AddDatabaseServices(configuration)
@@ -48,9 +51,7 @@ public static class SetUpInjectableServices
         services.AddScoped<ScaleRepositoryImpl>();
         services.AddScoped<RequestRepositoryImpl>();
         services.AddScoped<RequestExchangeScaleRepositoryImpl>();
-
-        services.AddScoped<IRepository<Person>, PersonRepositoryImpl>();
-        services.AddScoped<IRepository<User>, UserRepositoryImpl>();
+        services.AddScoped<AddressRepositoryImpl>();
 
         return services;
     }

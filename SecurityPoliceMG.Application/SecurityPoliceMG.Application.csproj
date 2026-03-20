@@ -9,6 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
         <PackageReference Include="MailKit" Version="4.15.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml.Extensions" Version="10.0.0"/>
@@ -29,16 +31,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Api\Dto\Builder\FluentBuilder\" />
         <Folder Include="Authentication\"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Service\Impl\Email\Template\*">
+        <Content Include="Service\Impl\EmailModule\Template\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>
-        <Content Include="Service\Impl\Report\Image\*">
+        <Content Include="Service\Impl\ScaleModule\Report\Image\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>

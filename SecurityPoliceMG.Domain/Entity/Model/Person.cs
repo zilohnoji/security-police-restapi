@@ -18,15 +18,15 @@ public sealed class Person : BaseEntity
 
     public Address Address { get; private set; }
 
-    public Photo Photo { get; private set; }
-
     public Guid UserId { get; private set; }
 
     public User User { get; private set; }
 
     public ICollection<PersonScale> PersonScales { get; private set; } = new List<PersonScale>();
 
-    public ICollection<Request> Requests { get; private set; } = new List<Request>();
+    public ICollection<Request> SentRequests { get; private set; } = new List<Request>();
+
+    public ICollection<Request> ReceiveRequests { get; private set; } = new List<Request>();
 
     private Person()
     {
@@ -36,8 +36,14 @@ public sealed class Person : BaseEntity
     {
         private readonly Person _entity;
 
-        private PersonBuilder()
+        private PersonBuilder(Person? entity = null)
         {
+            if (entity is not null)
+            {
+                _entity = entity;
+                return;
+            }
+
             _entity = new Person();
         }
 
@@ -46,9 +52,9 @@ public sealed class Person : BaseEntity
             return _entity;
         }
 
-        public static IPersonBuilder Builder()
+        public static IPersonBuilder Builder(Person? entity = null)
         {
-            return new PersonBuilder();
+            return new PersonBuilder(entity);
         }
 
         public IPersonBuilder Name(string name)
@@ -90,12 +96,6 @@ public sealed class Person : BaseEntity
         public IPersonBuilder UserId(Guid userId)
         {
             _entity.UserId = userId;
-            return this;
-        }
-
-        public IPersonBuilder Photo(Photo photo)
-        {
-            _entity.Photo = photo;
             return this;
         }
     }

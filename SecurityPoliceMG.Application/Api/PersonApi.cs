@@ -9,10 +9,10 @@ using SecurityPoliceMG.Service;
 
 namespace SecurityPoliceMG.Api;
 
+[Authorize]
 [ApiController]
 [Route("api/persons")]
 [EnableCors("LocalPolicy")]
-[Authorize]
 public sealed class PersonApi(IPersonService service) : BaseController
 {
     [HttpPost]
@@ -23,14 +23,8 @@ public sealed class PersonApi(IPersonService service) : BaseController
     }
 
     [HttpGet]
-    public IActionResult FindAll(
-        [FromQuery] int? page,
-        [FromQuery] int? pageSize,
-        [FromQuery] string? sort,
-        [FromQuery] string? orderTerm,
-        [FromQuery] string? searchTerm)
+    public IActionResult FindAll([FromQuery] Pageable pageable)
     {
-        var pageable = Pageable.Of(page, pageSize, sort, orderTerm, searchTerm);
         return Ok(service.FindAll(pageable));
     }
 }

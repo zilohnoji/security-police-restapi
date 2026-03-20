@@ -5,7 +5,7 @@ namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 public interface IScaleBuilder : IBuilder<Scale>
 {
-    static abstract IScaleBuilder Builder();
+    static abstract IScaleBuilder Builder(Scale? entity);
 
     IScaleBuilder IsCompleted(bool isCompleted);
 

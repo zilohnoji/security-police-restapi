@@ -55,14 +55,8 @@ public class ScaleApi(IScaleService service) : BaseController
 
     [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpGet]
-    public IActionResult FindAll(
-        [FromQuery] int? page,
-        [FromQuery] int? pageSize,
-        [FromQuery] string? sort,
-        [FromQuery] string? orderTerm,
-        [FromQuery] string? searchTerm)
+    public IActionResult FindAll([FromQuery] Pageable pageable)
     {
-        var pageable = Pageable.Of(page, pageSize, sort, orderTerm, searchTerm);
         return Ok(service.FindAll(pageable));
     }
 }

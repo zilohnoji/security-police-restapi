@@ -29,13 +29,14 @@ public static class ScaleMapper
 
     public static ScaleDetailsResponseDto ToDto(Scale entity)
     {
-        return ScaleDetailsResponseDto.ScaleBuilder.Builder()
-            .ScaleId(entity.Id)
-            .IsCompleted(entity.IsCompleted)
-            .Description(entity.Description)
-            .CreatedAt(entity.CreatedAt)
-            .StartsAt(entity.StartsAt)
-            .FinishedAt(entity.FinishedAt)
-            .Build();
+        return new ScaleDetailsResponseDto()
+        {
+            Id = entity.Id,
+            IsCompleted = entity.IsCompleted,
+            Description = entity.Description,
+            CreatedAt = entity.CreatedAt,
+            StartsAt = entity.StartsAt,
+            FinishedAt = entity.FinishedAt
+        };
     }
 }

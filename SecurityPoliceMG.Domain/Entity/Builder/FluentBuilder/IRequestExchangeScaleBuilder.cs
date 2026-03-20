@@ -5,7 +5,7 @@ namespace SecurityPoliceMG.Domain.Entity.Builder.FluentBuilder;
 
 public interface IRequestExchangeScaleBuilder : IBuilder<RequestExchangeScale>
 {
-    static abstract IRequestExchangeScaleBuilder Builder(Request request);
+    static abstract IRequestExchangeScaleBuilder Builder(Request request, RequestExchangeScale? entity);
 
     IRequestExchangeScaleBuilder Status(RequestStatus status);
 

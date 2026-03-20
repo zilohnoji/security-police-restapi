@@ -34,8 +34,14 @@ public sealed class RequestExchangeScale : BaseEntity
     {
         private readonly RequestExchangeScale _entity;
 
-        private RequestExchangeScaleBuilder(Request request)
+        private RequestExchangeScaleBuilder(Request request, RequestExchangeScale? entity)
         {
+            if (entity is not null)
+            {
+                _entity = entity;
+                return;
+            }
+
             _entity = new RequestExchangeScale(request);
         }
 
@@ -44,9 +50,9 @@ public sealed class RequestExchangeScale : BaseEntity
             return _entity;
         }
 
-        public static IRequestExchangeScaleBuilder Builder(Request request)
+        public static IRequestExchangeScaleBuilder Builder(Request request, RequestExchangeScale? entity = null)
         {
-            return new RequestExchangeScaleBuilder(request);
+            return new RequestExchangeScaleBuilder(request, entity);
         }
 
         public IRequestExchangeScaleBuilder Status(RequestStatus status)

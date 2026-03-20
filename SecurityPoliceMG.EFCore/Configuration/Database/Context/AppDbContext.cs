@@ -7,8 +7,6 @@ public class AppDbContext : DbContext
 {
     public DbSet<Person> Persons { get; set; }
 
-    public DbSet<Photo> Photos { get; set; }
-
     public DbSet<City> Cities { get; set; }
 
     public DbSet<Address> Addresses { get; set; }
@@ -66,15 +64,23 @@ public class AppDbContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<Request>()
+            .Property(p => p.IsCompleted)
+            .HasColumnName("is_completed")
+            .HasColumnType("boolean")
+            .IsRequired();
+
+        modelBuilder.Entity<Request>()
             .HasOne(p => p.Requester)
-            .WithMany(r => r.Requests)
+            .WithMany(r => r.SentRequests)
             .HasForeignKey(p => p.RequesterId)
+            .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
 
         modelBuilder.Entity<Request>()
             .HasOne(p => p.Receiver)
-            .WithMany(r => r.Requests)
+            .WithMany(r => r.ReceiveRequests)
             .HasForeignKey(p => p.ReceiverId)
+            .OnDelete(DeleteBehavior.Restrict)
             .IsRequired();
 
         #endregion
@@ -118,9 +124,14 @@ public class AppDbContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<RequestExchangeScale>()
+            .HasOne(p => p.RequesterScale)
+            .WithMany(r => r.RequestExchangeScales)
+            .HasForeignKey(p => p.RequesterScaleId);
+
+        modelBuilder.Entity<RequestExchangeScale>()
             .HasOne(p => p.ReceiverScale)
-            .WithOne(r => r.RequestExchangeScale)
-            .HasForeignKey<RequestExchangeScale>(p => p.ReceiverScale);
+            .WithMany(r => r.ReceiverExchangeScales)
+            .HasForeignKey(p => p.ReceiverScaleId);
 
         #endregion
 
@@ -179,11 +190,6 @@ public class AppDbContext : DbContext
             .HasForeignKey<Person>(p => p.UserId)
             .IsRequired();
 
-        modelBuilder.Entity<Person>()
-            .HasMany(r => r.Requests)
-            .WithOne(p => p.Requester)
-            .HasForeignKey(p => p.RequesterId);
-
         #endregion
 
         #region Address
@@ -240,42 +246,6 @@ public class AppDbContext : DbContext
             .Property(c => c.Uf)
             .HasColumnName("uf")
             .HasMaxLength(2)
-            .IsRequired();
-
-        #endregion
-
-        #region Photo
-
-        modelBuilder.Entity<Photo>().ToTable("tb_photo");
-
-        modelBuilder.Entity<Photo>()
-            .Property(p => p.CreatedAt)
-            .HasColumnName("created_at")
-            .HasColumnType("timestamp with time zone")
-            .IsRequired();
-
-        modelBuilder.Entity<Photo>()
-            .Property(p => p.Bucket)
-            .HasColumnName("bucket")
-            .HasMaxLength(50)
-            .IsRequired();
-
-        modelBuilder.Entity<Photo>()
-            .Property(p => p.Hash)
-            .HasColumnName("hash")
-            .HasMaxLength(100)
-            .IsRequired();
-
-        modelBuilder.Entity<Photo>()
-            .Property(p => p.PersonId)
-            .HasColumnName("person_id")
-            .IsRequired();
-
-
-        modelBuilder.Entity<Photo>()
-            .HasOne(p => p.Person)
-            .WithOne(p => p.Photo)
-            .HasForeignKey<Photo>(p => p.PersonId)
             .IsRequired();
 
         #endregion

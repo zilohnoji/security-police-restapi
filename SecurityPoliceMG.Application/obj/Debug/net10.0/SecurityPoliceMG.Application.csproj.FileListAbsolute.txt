@@ -183,6 +183,8 @@ C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\D
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\runtimes\win-x86\native\libwinpthread-1.dll
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\runtimes\win-x86\native\qpdf.dll
 C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\runtimes\win-x86\native\zlib1.dll
-C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\Email\Template\ActiveUserAccount.html
-C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\Report\Image\brasao_de_minas_gerais.png
-C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\Email\Template\PersonRegisterOnScale.html
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\EmailModule\Template\ActiveUserAccount.html
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\EmailModule\Template\PersonRegisterOnScale.html
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\Service\Impl\ScaleModule\Report\Image\brasao_de_minas_gerais.png
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\FluentValidation.dll
+C:\Users\donat\RiderProjects\SecurityPoliceMG\SecurityPoliceMG.Application\bin\Debug\net10.0\FluentValidation.DependencyInjectionExtensions.dll
