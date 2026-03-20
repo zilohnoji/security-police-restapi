@@ -36,8 +36,8 @@ public class RequestApi(IRequestService service) : BaseController
         return Ok(service.GetMyPendingReceivedRequests(pageable, GetLoggedUserId()));
     }
 
-    [Authorize(Roles = nameof(UserRole.Agent))]
-    [HttpPost("scales/{requestExchangeScaleId:guid}/accept-exchange/{receiverExchangeScaleId:guid}")]
+    [Authorize]
+    [HttpPost("scales/{requestExchangeScaleId:guid}/accept-exchange/{receiverScaleId:guid}")]
     public IActionResult AcceptRequestExchangeScale([FromRoute] Guid requestExchangeScaleId,
         [FromRoute] Guid receiverScaleId)
     {

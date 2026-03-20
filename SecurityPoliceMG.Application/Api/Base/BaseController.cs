@@ -11,7 +11,7 @@ public abstract class BaseController : ControllerBase
 
         if (!Guid.TryParse(userId, out var convertedVar))
         {
-            throw new ArgumentException("Impossível encontrar o ID do usuário nesse access token");
+            throw new UnauthorizedAccessException("Usuário não autenticado");
         }
 
         return convertedVar;

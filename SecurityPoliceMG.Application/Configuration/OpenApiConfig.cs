@@ -23,6 +23,15 @@ public static class OpenApiConfig
         Contact = AppContact
     };
 
+    private static readonly OpenApiSecurityScheme AppSecurityScheme = new OpenApiSecurityScheme()
+    {
+        Scheme = "bearer",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT"
+    };
+
     public static IServiceCollection ConfigureOpenApi(this IServiceCollection service)
     {
         service.AddSingleton(AppInfo);
@@ -31,7 +40,18 @@ public static class OpenApiConfig
 
     public static IServiceCollection ConfigureSwagger(this IServiceCollection service)
     {
-        service.AddSwaggerGen(conf => { conf.SwaggerDoc(AppVersion, AppInfo); });
+        service.AddSwaggerGen(conf =>
+        {
+            conf.SwaggerDoc(AppVersion, AppInfo);
+            conf.CustomSchemaIds(type => (type.FullName ?? type.Name).Replace("+", "."));
+            conf.AddSecurityDefinition("Bearer", AppSecurityScheme);
+            conf.AddSecurityRequirement(doc => new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Bearer", doc), []
+                }
+            });
+        });
         return service;
     }
 
@@ -44,7 +64,6 @@ public static class OpenApiConfig
             conf.RoutePrefix = "swagger-ui";
             conf.DocumentTitle = AppName;
         });
-
         return app;
     }
 }

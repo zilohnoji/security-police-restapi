@@ -36,6 +36,8 @@ public class RequestServiceImpl(
 
         requestExchangeScaleEntity = requestExchangeScaleRepositoryImpl.Create(requestExchangeScaleEntity);
 
+        requestExchangeScaleEntity = requestExchangeScaleRepositoryImpl.FindById(requestExchangeScaleEntity.Id);
+
         return RequestExchangeScaleMapper.ToDto(requestExchangeScaleEntity);
     }
 
@@ -91,7 +93,7 @@ public class RequestServiceImpl(
             throw new ArgumentException("Esse usuário não tem um cadastro com seus dados pessoais!!");
         }
 
-        if (!userLoggedEntity.Person.ReceiveRequests.Any(p => p.Id == requestExchangeScaleId))
+        if (!userLoggedEntity.Person.ReceiveRequests.Any(p => p.Id == requestExchangeScaleEntity.RequestId))
         {
             throw new ArgumentException("Essa solicitação não foi atribuída a você!!");
         }
@@ -104,8 +106,11 @@ public class RequestServiceImpl(
         requestExchangeScaleEntity = RequestExchangeScale.RequestExchangeScaleBuilder
             .Builder(requestExchangeScaleEntity.Request, requestExchangeScaleEntity)
             .Status(RequestStatus.Accepted)
+            .AcceptedAt(DateTime.UtcNow)
             .ReceiverScaleId(receiverScaleId)
             .Build();
+
+        requestExchangeScaleEntity = requestExchangeScaleRepositoryImpl.Update(requestExchangeScaleEntity);
 
 
         return RequestExchangeScaleMapper.ToDtoDetails(requestExchangeScaleEntity);

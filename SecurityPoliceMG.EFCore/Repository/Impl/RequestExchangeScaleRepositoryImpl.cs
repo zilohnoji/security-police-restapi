@@ -14,9 +14,7 @@ public class RequestExchangeScaleRepositoryImpl(AppDbContext context) : GenericR
             .Include(p => p.Request)
             .Include(p => p.RequesterScale)
             .Include(p => p.RequesterScale.PersonScales)
-            .ThenInclude(s => s.Scale)
             .Include(p => p.ReceiverScale.PersonScales)
-            .ThenInclude(s => s.Scale)
             .FirstOrDefault(p => p.Id.Equals(id));
     }
 

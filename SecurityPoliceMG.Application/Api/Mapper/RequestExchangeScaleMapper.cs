@@ -29,6 +29,7 @@ public static class RequestExchangeScaleMapper
     {
         return new RequestResponseDetailsDto()
         {
+            Id = requestExchange.Id,
             CreatedAt = requestExchange.Request.CreatedAt,
             Description = requestExchange.Request.Description,
             ReceivedBy = requestExchange.Request.ReceiverId,

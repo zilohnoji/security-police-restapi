@@ -20,6 +20,9 @@ public sealed class UserRepositoryImpl(AppDbContext context) : GenericRepository
     {
         return DataSet
                    .Include(u => u.Person)
+                   .ThenInclude(p => p.ReceiveRequests)
+                   .Include(p => p.Person)
+                   .ThenInclude(p => p.SentRequests)
                    .Include(u => u.RefreshToken)
                    .Include(u => u.EmailCodeConfirmation)
                    .FirstOrDefault(u => u.Id == id) ??

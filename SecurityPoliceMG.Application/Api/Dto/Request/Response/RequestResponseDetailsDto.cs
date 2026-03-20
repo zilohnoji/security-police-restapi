@@ -2,6 +2,7 @@
 
 public sealed class RequestResponseDetailsDto
 {
+    public Guid Id { get; set; }
     public string Status { get; set; }
 
     public Guid RequestedBy { get; set; }
