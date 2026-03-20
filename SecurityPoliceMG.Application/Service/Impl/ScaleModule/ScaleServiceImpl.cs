@@ -6,6 +6,7 @@ using SecurityPoliceMG.Domain.Entity.Model;
 using SecurityPoliceMG.EFCore.Repository.Base;
 using SecurityPoliceMG.EFCore.Repository.Impl;
 using SecurityPoliceMG.Service.Impl.ScaleModule.Report;
+using SecurityPoliceMG.Service.Validator.ScaleValidator.AddOnScaleValidation;
 using SecurityPoliceMG.Util;
 
 namespace SecurityPoliceMG.Service.Impl.ScaleModule;
@@ -13,7 +14,8 @@ namespace SecurityPoliceMG.Service.Impl.ScaleModule;
 public class ScaleServiceImpl(
     ScaleRepositoryImpl scaleRepository,
     PersonRepositoryImpl personRepository,
-    IEmailService emailService)
+    IEmailService emailService,
+    IEnumerable<IScaleAddOnScaleValidator> addOnScaleValidators)
     : IScaleService
 {
     public ScaleDetailsResponseDto AddOnScale(Guid scaleId, Guid personId)
@@ -21,28 +23,9 @@ public class ScaleServiceImpl(
         var personEntity = personRepository.FindById(personId);
         var scaleEntity = scaleRepository.FindById(scaleId);
 
-        if (scaleEntity is null)
+        foreach (var validator in addOnScaleValidators)
         {
-            throw new ArgumentException($"A escala de ID {scaleId} não existe");
-        }
-
-        if (personEntity is null)
-            throw new ArgumentException($"Person de ID {personId} não encontrada!");
-
-        var startDate = scaleEntity.StartsAt;
-        var finishDate = scaleEntity.FinishedAt;
-
-        var t2 = personEntity.PersonScales.FirstOrDefault(s =>
-            (s.Scale.StartsAt <= startDate &&
-             s.Scale.FinishedAt >= finishDate) ||
-            (s.Scale.StartsAt >= startDate &&
-             s.Scale.FinishedAt <= finishDate)
-        );
-
-        if (t2 is not null)
-        {
-            throw new ArgumentException(
-                $"Já existe uma escala nesse período de tempo para o usuário de ID {personId}");
+            validator.Validate(new ScaleAddOnScaleArgs(scaleEntity, personEntity));
         }
 
         scaleEntity.PersonScales.Add(PersonScale.Of(scaleEntity, personEntity, 0));

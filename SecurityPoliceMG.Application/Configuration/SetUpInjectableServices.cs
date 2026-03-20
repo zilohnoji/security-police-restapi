@@ -14,6 +14,8 @@ using SecurityPoliceMG.Service.Impl.EmailModule;
 using SecurityPoliceMG.Service.Impl.PersonModule;
 using SecurityPoliceMG.Service.Impl.RequestModule;
 using SecurityPoliceMG.Service.Impl.ScaleModule;
+using SecurityPoliceMG.Service.Validator.ScaleValidator.AddOnScaleValidation;
+using SecurityPoliceMG.Service.Validator.ScaleValidator.AddOnScaleValidation.Validation;
 
 namespace SecurityPoliceMG.Configuration;
 
@@ -24,6 +26,7 @@ public static class SetUpInjectableServices
     {
         services
             .AddValidatorsFromAssemblyContaining<Program>()
+            .AddValidatorsServices()
             .AddOpenApiServices(configuration)
             .AddRepositoriesServices()
             .AddDatabaseServices(configuration)
@@ -39,6 +42,15 @@ public static class SetUpInjectableServices
         services.ConfigureOpenApi();
         services.ConfigureSwagger();
         services.ConfigureCors(configuration);
+        return services;
+    }
+
+    private static IServiceCollection AddValidatorsServices(this IServiceCollection services)
+    {
+        services.AddScoped<IScaleAddOnScaleValidator, PersonAddOnScaleNotExistsValidation>();
+        services.AddScoped<IScaleAddOnScaleValidator, ScaleAddOnScaleConflictValidation>();
+        services.AddScoped<IScaleAddOnScaleValidator, ScaleAddOnScaleNotExistsValidation>();
+
         return services;
     }
 

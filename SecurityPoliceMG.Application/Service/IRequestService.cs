@@ -6,8 +6,7 @@ namespace SecurityPoliceMG.Service;
 
 public interface IRequestService
 {
-    CreateRequestExchangeScaleResponseDto CreateRequestForExchangeScale(CreateRequestDto requestDto, Guid scaleId,
-        Guid loggedUserId);
+    CreateRequestExchangeScaleResponseDto CreateRequestForExchangeScale(CreateRequestDto requestDto, Guid scaleId, Guid loggedUserId);
 
     Page<RequestResponseDetailsDto> GetMyPendingSentRequests(Pageable pageable, Guid loggedUserId);
 

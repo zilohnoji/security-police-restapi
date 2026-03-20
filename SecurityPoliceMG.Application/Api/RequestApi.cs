@@ -38,7 +38,8 @@ public class RequestApi(IRequestService service) : BaseController
 
     [Authorize(Roles = nameof(UserRole.Agent))]
     [HttpPost("scales/{requestExchangeScaleId:guid}/accept-exchange/{receiverExchangeScaleId:guid}")]
-    public IActionResult AcceptRequestExchangeScale([FromRoute] Guid requestExchangeScaleId, [FromRoute] Guid receiverScaleId)
+    public IActionResult AcceptRequestExchangeScale([FromRoute] Guid requestExchangeScaleId,
+        [FromRoute] Guid receiverScaleId)
     {
         return Ok(service.AcceptRequestExchangeScale(requestExchangeScaleId, receiverScaleId, GetLoggedUserId()));
     }
